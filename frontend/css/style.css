@@ -229,4 +229,116 @@ section p{
     font-size:1.3rem;
 }
 
+/* ==========================
+   Featured Collection
+========================== */
+
+.collection{
+    padding:100px 8%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:60px;
+}
+
+.section-title h2{
+    font-family:'Playfair Display', serif;
+    font-size:2.8rem;
+    color:var(--text-color);
+    margin-bottom:15px;
+}
+
+.section-title p{
+    color:var(--light-gray);
+    font-size:1.05rem;
+}
+
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:35px;
+}
+
+.product-card{
+    background:#111;
+    border:1px solid #2A2A2A;
+    border-radius:18px;
+    padding:25px;
+    text-align:center;
+    transition:.3s;
+}
+
+.product-card:hover{
+    transform:translateY(-10px);
+    border-color:var(--secondary-color);
+    box-shadow:0 15px 35px rgba(212,175,55,.20);
+}
+
+.product-image{
+    height:240px;
+    border:2px dashed var(--secondary-color);
+    border-radius:12px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:var(--secondary-color);
+    margin-bottom:20px;
+}
+
+.product-card h3{
+    font-size:1.4rem;
+    color:var(--text-color);
+    margin-bottom:10px;
+}
+
+.price{
+    font-size:1.3rem;
+    font-weight:600;
+    color:var(--secondary-color);
+    margin-bottom:25px;
+}
+
+.product-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.product-buttons button{
+    flex:1;
+    padding:12px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:.95rem;
+    transition:.3s;
+}
+
+.cart-btn{
+    background:transparent;
+    border:2px solid var(--secondary-color);
+    color:white;
+}
+
+.cart-btn:hover{
+    background:var(--secondary-color);
+    color:black;
+}
+
+.buy-btn{
+    background:var(--secondary-color);
+    border:none;
+    color:black;
+}
+
+.buy-btn:hover{
+    transform:scale(1.05);
+}
+
+.product-image img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:12px;
+}
+
     
