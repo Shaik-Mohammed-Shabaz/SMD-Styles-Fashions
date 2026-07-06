@@ -388,4 +388,56 @@ section p{
     color:var(--light-gray);
     line-height:1.7;
 }
+
+/* ==========================
+   Customer Reviews
+========================== */
+
+.testimonials{
+    padding:100px 8%;
+    background:var(--primary-color);
+}
+
+.testimonial-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+    margin-top:60px;
+}
+
+.testimonial-card{
+    background:#111;
+    border:1px solid #2A2A2A;
+    border-radius:18px;
+    padding:35px 30px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.testimonial-card:hover{
+    transform:translateY(-10px);
+    border-color:var(--secondary-color);
+    box-shadow:0 15px 35px rgba(212,175,55,0.2);
+}
+
+.stars{
+    font-size:1.5rem;
+    color:var(--secondary-color);
+    margin-bottom:20px;
+    letter-spacing:3px;
+}
+
+.testimonial-card p{
+    color:var(--light-gray);
+    font-size:1rem;
+    line-height:1.8;
+    margin-bottom:20px;
+    font-style:italic;
+}
+
+.testimonial-card h4{
+    color:var(--secondary-color);
+    font-size:1.1rem;
+    font-weight:600;
+}
     
