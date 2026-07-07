@@ -19,20 +19,19 @@
 
     <header>
 
-    <nav class="navbar">
+   <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">Shop</a></li>
+    <li><a href="#">About</a></li>
 
-        <div class="logo">
-            <h1>SMD Styles & Fashions</h1>
-        </div>
+    <li>
+        <a href="#">
+            🛒 Cart (<span id="cart-count">0</span>)
+        </a>
+    </li>
 
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul>
-
-    </nav>
+    <li><a href="#">Contact</a></li>
+</ul>
 
    </header>
 
@@ -87,21 +86,53 @@
         <!-- Product 1 -->
         <div class="product-card">
 
-            <div class="product-image">
-                <img src="../assets/images/products/Shirt.png" alt="Premium Shirt">
-            </div>
+    <div class="product-image">
 
-            <h3>Premium Shirt</h3>
+        <span class="discount-badge">40% OFF</span>
 
-            <p class="price">₹499</p>
+        <span class="wishlist">❤</span>
 
-            <div class="product-buttons">
-                <button class="cart-btn">Add to Cart</button>
-                <button class="buy-btn">Buy Now</button>
-            </div>
+        <img src="../assets/images/products/shirt.png" alt="Premium Shirt">
 
-        </div>
+        <div class="image-overlay">
+    <button class="quick-view">
+        Quick View
+    </button>
+</div>
 
+    </div>
+
+    <h3>Premium Oxford Shirt</h3>
+
+    <div class="rating">
+
+        ★★★★★
+
+        <span>(4.8)</span>
+
+    </div>
+
+    <p class="price">
+
+        ₹599
+
+        <span>₹999</span>
+
+    </p>
+
+    <div class="product-buttons">
+
+        <button class="cart-btn">
+            Add to Cart
+        </button>
+
+        <button class="buy-btn">
+            Buy Now
+        </button>
+
+    </div>
+
+</div>
         <!-- Product 2 -->
         <div class="product-card">
 
@@ -218,6 +249,7 @@
 
 </section>
 </main>
+<script src="js/script.js"></script>
 
 </body>
 </html>
