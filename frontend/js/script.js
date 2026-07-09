@@ -49,3 +49,149 @@ window.addEventListener("scroll", () => {
     });
 
 });
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+const cartCounter = document.getElementById("cart-count");
+const cartButtons = document.querySelectorAll(".cart-btn");
+const cartItems = document.getElementById("cartItems");
+const totalText = document.querySelector(".cart-footer h3");
+
+updateCart();
+
+cartButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const name = button.dataset.name;
+        const price = Number(button.dataset.price);
+
+        const existingProduct = cart.find(item => item.name === name);
+
+        if(existingProduct){
+
+            existingProduct.quantity++;
+
+        }else{
+
+            cart.push({
+                name:name,
+                price:price,
+                quantity:1
+            });
+
+        }
+
+        updateCart();
+
+    });
+
+});
+
+function updateCart(){
+
+    cartItems.innerHTML = "";
+
+    let total = 0;
+    let totalItems = 0;
+
+    cart.forEach((product,index)=>{
+
+        total += product.price * product.quantity;
+
+        totalItems += product.quantity;
+
+        const item = document.createElement("div");
+
+        item.className="cart-item";
+
+        item.innerHTML=`
+
+            <div class="cart-info">
+
+                <strong>${product.name}</strong>
+
+                <p>₹${product.price}</p>
+
+            </div>
+
+            <div class="quantity">
+
+                <button class="minus">-</button>
+
+                <span>${product.quantity}</span>
+
+                <button class="plus">+</button>
+
+            </div>
+
+            <button class="remove-item">🗑</button>
+
+        `;
+
+        cartItems.appendChild(item);
+
+        item.querySelector(".plus").onclick=()=>{
+
+            product.quantity++;
+
+            updateCart();
+
+        };
+
+        item.querySelector(".minus").onclick=()=>{
+
+            if(product.quantity>1){
+
+                product.quantity--;
+
+            }else{
+
+                cart.splice(index,1);
+
+            }
+
+            updateCart();
+
+        };
+
+        item.querySelector(".remove-item").onclick=()=>{
+
+            cart.splice(index,1);
+
+            updateCart();
+
+        };
+
+    });
+
+    cartCounter.textContent=totalItems;
+
+    totalText.textContent=`Total: ₹${total}`;
+
+    if(cart.length===0){
+
+        cartItems.innerHTML="<p>Your cart is empty.</p>";
+
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+}
+
+const cartLink = document.getElementById("cart-link");
+const cartSidebar = document.getElementById("cartSidebar");
+const closeCart = document.getElementById("closeCart");
+
+cartLink.addEventListener("click", (e) => {
+
+    e.preventDefault();
+
+    cartSidebar.classList.add("active");
+
+});
+
+closeCart.addEventListener("click", () => {
+
+    cartSidebar.classList.remove("active");
+
+});
