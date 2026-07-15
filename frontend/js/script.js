@@ -195,3 +195,52 @@ closeCart.addEventListener("click", () => {
     cartSidebar.classList.remove("active");
 
 });
+
+// ==========================
+// Quick View Modal
+// ==========================
+
+const quickViewButtons = document.querySelectorAll(".quick-view");
+
+const modal = document.getElementById("quickViewModal");
+const closeModal = document.querySelector(".close-modal");
+
+const modalImage = document.getElementById("modalImage");
+const modalTitle = document.getElementById("modalTitle");
+const modalPrice = document.getElementById("modalPrice");
+const modalDescription = document.getElementById("modalDescription");
+
+if (quickViewButtons.length && modal && closeModal) {
+
+    quickViewButtons.forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            modalImage.src = button.dataset.image;
+            modalTitle.textContent = button.dataset.name;
+            modalPrice.textContent = button.dataset.price;
+            modalDescription.textContent = button.dataset.description;
+
+            modal.classList.add("active");
+
+        });
+
+    });
+
+    closeModal.addEventListener("click", () => {
+
+        modal.classList.remove("active");
+
+    });
+
+    window.addEventListener("click", (e) => {
+
+        if (e.target === modal) {
+
+            modal.classList.remove("active");
+
+        }
+
+    });
+
+}
