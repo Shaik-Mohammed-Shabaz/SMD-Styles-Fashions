@@ -286,3 +286,55 @@ function filterProducts() {
 searchInput.addEventListener("keyup", filterProducts);
 
 categoryFilter.addEventListener("change", filterProducts);
+
+// ==========================
+// Product Sorting
+// ==========================
+
+const sortProducts = document.getElementById("sortProducts");
+const productGrid = document.querySelector(".product-grid");
+
+if (sortProducts && productGrid) {
+
+    sortProducts.addEventListener("change", () => {
+
+        const products = Array.from(productGrid.querySelectorAll(".product-card"));
+
+        products.sort((a, b) => {
+
+            const nameA = a.querySelector("h3").textContent.toLowerCase();
+            const nameB = b.querySelector("h3").textContent.toLowerCase();
+
+            const priceA = Number(a.querySelector(".cart-btn").dataset.price);
+            const priceB = Number(b.querySelector(".cart-btn").dataset.price);
+
+            switch (sortProducts.value) {
+
+                case "low-high":
+                    return priceA - priceB;
+
+                case "high-low":
+                    return priceB - priceA;
+
+                case "az":
+                    return nameA.localeCompare(nameB);
+
+                case "za":
+                    return nameB.localeCompare(nameA);
+
+                default:
+                    return 0;
+
+            }
+
+        });
+
+        products.forEach(product => {
+
+            productGrid.appendChild(product);
+
+        });
+
+    });
+
+}
