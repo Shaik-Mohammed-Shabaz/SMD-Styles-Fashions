@@ -69,10 +69,30 @@
         <p>Browse our latest premium fashion collections.</p>
     </div>
 
+    <!-- Search + Filter -->
+
+    <div class="shop-toolbar">
+
+        <input
+            type="text"
+            id="searchProduct"
+            placeholder="🔍 Search products...">
+
+        <select id="categoryFilter">
+
+            <option value="all">All Categories</option>
+            <option value="shirt">Shirts</option>
+            <option value="hoodie">Hoodies</option>
+            <option value="tshirt">T-Shirts</option>
+
+        </select>
+
+    </div>
+
     <div class="product-grid">
 
         <!-- Product 1 -->
-        <div class="product-card">
+        <div class="product-card" data-category="shirt">
 
     <div class="product-image">
 
@@ -125,7 +145,7 @@
 
 </div>
         <!-- Product 2 -->
-        <div class="product-card">
+        <div class="product-card" data-category="hoodie">
 
             <div class="product-image">
                 <img src="../assets/images/products/hoodie.png" alt="Classic Hoodie">
@@ -148,7 +168,7 @@
         </div>
 
         <!-- Product 3 -->
-        <div class="product-card">
+        <div class="product-card" data-category="tshirt">
 
             <div class="product-image">
                 <img src="../assets/images/products/t-shirt.png" alt="Casual T-Shirt">
