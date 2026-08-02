@@ -10,19 +10,35 @@ wishlistButtons.forEach((heart) => {
 
         heart.classList.toggle("active");
 
+        if (heart.classList.contains("active")) {
+
+            showToast("❤ Added to Wishlist");
+
+        } else {
+
+            showToast("💔 Removed from Wishlist");
+
+        }
+
     });
 
 });
 
 const navbar = document.querySelector(".navbar");
 
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add("scrolled");
-    } else {
-        navbar.classList.remove("scrolled");
-    }
-});
+if (navbar) {
+
+    window.addEventListener("scroll", () => {
+
+        if (window.scrollY > 50) {
+            navbar.classList.add("scrolled");
+        } else {
+            navbar.classList.remove("scrolled");
+        }
+
+    });
+
+}
 
 const sections = document.querySelectorAll("section");
 const navLinks = document.querySelectorAll(".nav-links a");
@@ -53,7 +69,9 @@ window.addEventListener("scroll", () => {
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 const cartCounter = document.getElementById("cart-count");
-const cartButtons = document.querySelectorAll(".cart-btn");
+const cartButtons = document.querySelectorAll(
+    ".cart-btn:not(#modalAddCart)"
+);
 const cartItems = document.getElementById("cartItems");
 const totalText = document.querySelector(".cart-footer h3");
 
@@ -63,39 +81,66 @@ cartButtons.forEach(button => {
 
     button.addEventListener("click", () => {
 
+        console.log("Outer Add to Cart Clicked");
+
         const name = button.dataset.name;
         const price = Number(button.dataset.price);
 
+        console.log(name, price);
+
         const existingProduct = cart.find(item => item.name === name);
 
-        if(existingProduct){
+        if (existingProduct) {
 
             existingProduct.quantity++;
 
-        }else{
+        } else {
 
             cart.push({
-                name:name,
-                price:price,
-                quantity:1
+                name: name,
+                price: price,
+                quantity: 1
             });
 
         }
 
         updateCart();
 
+        showToast("🛒 Product added to cart");
+
     });
 
 });
 
-function updateCart(){
+function updateCart() {
+
+    // Update cart count everywhere
+    if (cartCounter) {
+
+        const totalItems = cart.reduce(
+            (sum, item) => sum + item.quantity,
+            0
+        );
+
+        cartCounter.textContent = totalItems;
+    }
+
+    // Save cart everywhere
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    console.log("Cart:", cart);
+
+    // Stop here if the cart sidebar doesn't exist
+    if (!cartItems || !totalText) {
+        return;
+    }
 
     cartItems.innerHTML = "";
 
     let total = 0;
     let totalItems = 0;
 
-    cart.forEach((product,index)=>{
+    cart.forEach((product, index) => {
 
         total += product.price * product.quantity;
 
@@ -103,13 +148,15 @@ function updateCart(){
 
         const item = document.createElement("div");
 
-        item.className="cart-item";
+        item.className = "cart-item";
 
-        item.innerHTML=`
+        item.innerHTML = `
 
             <div class="cart-info">
 
                 <strong>${product.name}</strong>
+
+                <p>Size : ${product.size || "-"}</p>
 
                 <p>₹${product.price}</p>
 
@@ -131,7 +178,9 @@ function updateCart(){
 
         cartItems.appendChild(item);
 
-        item.querySelector(".plus").onclick=()=>{
+        console.log("Added to sidebar:", product.name);
+
+        item.querySelector(".plus").onclick = () => {
 
             product.quantity++;
 
@@ -139,15 +188,15 @@ function updateCart(){
 
         };
 
-        item.querySelector(".minus").onclick=()=>{
+        item.querySelector(".minus").onclick = () => {
 
-            if(product.quantity>1){
+            if (product.quantity > 1) {
 
                 product.quantity--;
 
-            }else{
+            } else {
 
-                cart.splice(index,1);
+                cart.splice(index, 1);
 
             }
 
@@ -155,9 +204,9 @@ function updateCart(){
 
         };
 
-        item.querySelector(".remove-item").onclick=()=>{
+        item.querySelector(".remove-item").onclick = () => {
 
-            cart.splice(index,1);
+            cart.splice(index, 1);
 
             updateCart();
 
@@ -165,16 +214,15 @@ function updateCart(){
 
     });
 
-    cartCounter.textContent=totalItems;
+    cartCounter.textContent = totalItems;
 
-    totalText.textContent=`Total: ₹${total}`;
+    totalText.textContent = `Total: ₹${total}`;
 
-    if(cart.length===0){
+    if (cart.length === 0) {
 
-        cartItems.innerHTML="<p>Your cart is empty.</p>";
+        cartItems.innerHTML = "<p>Your cart is empty.</p>";
 
     }
-    localStorage.setItem("cart", JSON.stringify(cart));
 
 }
 
@@ -182,26 +230,29 @@ const cartLink = document.getElementById("cart-link");
 const cartSidebar = document.getElementById("cartSidebar");
 const closeCart = document.getElementById("closeCart");
 
-cartLink.addEventListener("click", (e) => {
+if (cartLink && cartSidebar && closeCart) {
 
-    e.preventDefault();
+    cartLink.addEventListener("click", (e) => {
 
-    cartSidebar.classList.add("active");
+        e.preventDefault();
 
-});
+        cartSidebar.classList.add("active");
 
-closeCart.addEventListener("click", () => {
+    });
 
-    cartSidebar.classList.remove("active");
+    closeCart.addEventListener("click", () => {
 
-});
+        cartSidebar.classList.remove("active");
+
+    });
+
+}
 
 // ==========================
 // Quick View Modal
 // ==========================
 
 const quickViewButtons = document.querySelectorAll(".quick-view");
-
 const modal = document.getElementById("quickViewModal");
 const closeModal = document.querySelector(".close-modal");
 
@@ -246,6 +297,29 @@ if (quickViewButtons.length && modal && closeModal) {
 }
 
 // ==========================
+// Quick View Size Selection
+// ==========================
+
+const modalSizes = document.querySelectorAll(".size-btn");
+
+modalSizes.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        modalSizes.forEach(btn => {
+
+            btn.classList.remove("active");
+
+        });
+
+        button.classList.add("active");
+        console.log("Selected size:", button.textContent);
+
+    });
+
+});
+
+// ==========================
 // Product Search + Category Filter
 // ==========================
 
@@ -283,9 +357,13 @@ function filterProducts() {
 
 }
 
-searchInput.addEventListener("keyup", filterProducts);
+if (searchInput && categoryFilter) {
 
-categoryFilter.addEventListener("change", filterProducts);
+    searchInput.addEventListener("keyup", filterProducts);
+
+    categoryFilter.addEventListener("change", filterProducts);
+
+}
 
 // ==========================
 // Product Sorting
@@ -336,5 +414,466 @@ if (sortProducts && productGrid) {
         });
 
     });
+
+}
+
+// ==========================
+// Size Selection
+// ==========================
+
+const sizeButtons = document.querySelectorAll(".size-selector button");
+
+sizeButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        sizeButtons.forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+
+    });
+
+});
+
+// ==========================
+// Product Image Gallery
+// ==========================
+
+const mainImage = document.getElementById("mainImage");
+const thumbnails = document.querySelectorAll(".thumbnail");
+
+if (mainImage && thumbnails.length) {
+
+    thumbnails.forEach(thumbnail => {
+
+        thumbnail.addEventListener("click", () => {
+
+            mainImage.src = thumbnail.src;
+
+            const productName = document.getElementById("productName");
+            const productPrice = document.getElementById("productPrice");
+            const productOldPrice = document.getElementById("productOldPrice");
+            const productDescription = document.getElementById("productDescription");
+
+            if (productName && productPrice && productOldPrice && productDescription) {
+
+                productName.textContent = thumbnail.dataset.name;
+                productPrice.textContent = thumbnail.dataset.price;
+                productOldPrice.textContent = thumbnail.dataset.oldprice;
+                productDescription.textContent = thumbnail.dataset.description;
+
+            }
+
+            thumbnails.forEach(img => {
+                img.classList.remove("active");
+            });
+
+            thumbnail.classList.add("active");
+
+        });
+
+    });
+
+}
+
+// ==========================
+// Product Page Add to Cart
+// ==========================
+
+const addToCartProduct = document.getElementById("addToCartProduct");
+
+if (addToCartProduct) {
+
+    addToCartProduct.addEventListener("click", () => {
+
+        const name = document
+            .getElementById("productName")
+            .textContent
+            .trim();
+
+        const price = Number(
+            document.getElementById("productPrice")
+                .textContent.replace("₹", "")
+        );
+
+        const selectedSize =
+            document.querySelector(".size-selector .active")?.textContent || "M";
+
+        const existingProduct = cart.find(item =>
+            item.name === name && item.size === selectedSize
+        );
+
+        if (existingProduct) {
+
+            existingProduct.quantity++;
+
+        } else {
+
+            cart.push({
+
+                name: name,
+
+                price: price,
+
+                size: selectedSize,
+
+                quantity: 1
+
+            });
+
+        }
+
+        updateCart();
+
+        showToast("✔ Product added to cart");
+
+    });
+
+}
+
+// ==========================
+// Quick View Add to Cart
+// ==========================
+
+const modalAddCart = document.getElementById("modalAddCart");
+console.log("modalAddCart =", modalAddCart);
+
+if (modalAddCart) {
+
+    modalAddCart.addEventListener("click", () => {
+
+        const name = modalTitle.textContent;
+
+        const price = Number(
+            modalPrice.textContent.replace("₹", "")
+        );
+
+        const activeSize = document.querySelector(".sizes .size-btn.active");
+
+        const selectedSize = activeSize
+            ? activeSize.textContent
+            : "M";
+
+        console.log(name, price, selectedSize);
+
+        const existingProduct = cart.find(item =>
+
+            item.name === name &&
+            item.size === selectedSize
+        );
+
+        if (existingProduct) {
+
+            existingProduct.quantity++;
+
+        } else {
+
+            cart.push({
+
+                name: name,
+
+                price: price,
+
+                size: selectedSize,
+
+                quantity: 1
+
+            });
+
+        }
+
+        updateCart();
+
+        modal.classList.remove("active");
+
+        showToast("✔ Product added to cart");
+
+    });
+
+}
+
+// ==========================
+// Checkout Page
+// ==========================
+
+const checkoutItems = document.getElementById("checkoutItems");
+const checkoutTotal = document.getElementById("checkoutTotal");
+
+if (checkoutItems && checkoutTotal) {
+
+    checkoutItems.innerHTML = "";
+
+    let total = 0;
+
+    const checkoutType = localStorage.getItem("checkoutType");
+
+    const buyNowproduct = JSON.parse(
+        localStorage.getItem("buyNowproduct")
+    );
+
+    const products =
+        checkoutType === "buyNow"
+            ? [buyNowproduct]
+            : cart;
+
+    products.forEach(product => {
+
+        total += product.price * product.quantity;
+
+        const item = document.createElement("div");
+
+        item.className = "checkout-item";
+
+        item.innerHTML = `
+
+            <h4>${product.name}</h4>
+
+            <p>Size : ${product.size || "-"}</p>
+
+            <p>Quantity : ${product.quantity}</p>
+
+            <p>₹${product.price}</p>
+
+            <hr>
+
+        `;
+
+        checkoutItems.appendChild(item);
+
+    });
+
+    checkoutTotal.textContent = `Total : ₹${total}`;
+
+    localStorage.removeItem("buyNowproduct");
+
+    if (checkoutType === "buyNow") {
+
+        localStorage.removeItem("buyNowproduct");
+
+        localStorage.removeItem("checkoutType");
+
+    }
+
+}
+
+// ==========================
+// Product Page Buy Now
+// ==========================
+
+const productBuyNow = document.getElementById("buyNowproduct");
+
+if (productBuyNow) {
+
+    productBuyNow.addEventListener("click", () => {
+
+        const name = document
+            .getElementById("productName")
+            .textContent
+            .trim();
+
+        const price = Number(
+            document.getElementById("productPrice")
+                .textContent.replace("₹", "")
+        );
+
+        const size =
+            document.querySelector(".size-selector .active")?.textContent || "M";
+
+        const buyNowproduct = {
+
+            name: name,
+
+            price: price,
+
+            size: size,
+
+            quantity: 1
+
+        };
+
+        localStorage.setItem(
+            "buyNowproduct",
+            JSON.stringify(buyNowproduct)
+        );
+
+        localStorage.setItem("checkoutType", "buyNow");
+
+        window.location.href = "../checkout.html";
+
+    });
+
+}
+
+// ==========================
+// Quick View Buy Now
+// ==========================
+
+const modalBuyNow = document.getElementById("modalBuyNow");
+
+if (modalBuyNow) {
+
+    modalBuyNow.addEventListener("click", () => {
+
+        const buyNowProduct = {
+
+            name: modalTitle.textContent,
+
+            price: Number(
+                modalPrice.textContent.replace("₹", "")
+            ),
+
+            size: document.querySelector(".size-btn.active").textContent,
+
+            quantity: 1
+
+        };
+
+        localStorage.setItem(
+            "buyNowproduct",
+            JSON.stringify(buyNowProduct)
+        );
+
+        localStorage.setItem(
+            "checkoutType",
+            "buyNow"
+        );
+
+        modal.classList.remove("active");
+
+        if (window.location.pathname.includes("/pages/")) {
+
+            window.location.href = "../checkout.html";
+
+        } else {
+
+            window.location.href = "checkout.html";
+
+        }
+
+    });
+
+}
+
+// ==========================
+// Card Buy Now
+// ==========================
+
+const cardBuyNowButtons = document.querySelectorAll(".card-buy-now");
+
+cardBuyNowButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+        const buyNowProduct = {
+
+            name: button.dataset.name,
+            price: Number(button.dataset.price),
+            size: "M",
+            quantity: 1
+
+        };
+
+        localStorage.setItem(
+            "buyNowproduct",
+            JSON.stringify(buyNowProduct)
+        );
+
+        localStorage.setItem("checkoutType", "buyNow");
+
+        if (window.location.pathname.includes("/pages/")) {
+
+            window.location.href = "../checkout.html";
+
+        } else {
+
+            window.location.href = "checkout.html";
+
+        }
+
+    });
+
+});
+
+// ==========================
+// Proceed To Checkout
+// ==========================
+
+const checkoutBtn = document.querySelector(".checkout-btn");
+
+if (checkoutBtn) {
+
+    checkoutBtn.addEventListener("click", () => {
+
+        if (window.location.pathname.includes("/pages/")) {
+
+            window.location.href = "../checkout.html";
+
+        } else {
+
+            window.location.href = "checkout.html";
+
+        }
+
+    });
+
+}
+
+// ==========================
+// Place Order
+// ==========================
+
+const placeOrderBtn = document.getElementById("placeOrderBtn");
+
+if (placeOrderBtn) {
+
+    placeOrderBtn.addEventListener("click", () => {
+
+        const form = document.getElementById("checkoutForm");
+
+        if (!form.checkValidity()) {
+
+            form.reportValidity();
+
+            return;
+
+        }
+
+        showToast("🎉 Order placed successfully");
+
+        localStorage.removeItem("cart");
+        localStorage.removeItem("buyNowproduct");
+        localStorage.removeItem("checkoutType");
+
+        setTimeout(() => {
+
+            window.location.href="success.html";
+
+        }, 1500);
+
+    });
+
+}
+
+/* ==========================
+   Toast Notification
+========================== */
+
+const toast = document.getElementById("toast");
+
+function showToast(message) {
+
+    if (!toast) return;
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2000);
 
 }
