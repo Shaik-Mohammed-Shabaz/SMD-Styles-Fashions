@@ -1796,3 +1796,91 @@ section p {
     margin: 20px 0;
 
 }
+
+/* ==========================
+   Page Loader
+========================== */
+
+.loader{
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    width:100%;
+
+    height:100%;
+
+    background:#111;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    flex-direction:column;
+
+    z-index:99999;
+
+    transition:.6s;
+
+}
+
+.loader.hide{
+
+    opacity:0;
+
+    visibility:hidden;
+
+}
+
+.loader h1{
+
+    color:#D4AF37;
+
+    font-size:48px;
+
+    letter-spacing:3px;
+
+}
+
+.loader p{
+
+    color:#fff;
+
+    margin-top:10px;
+
+    font-size:18px;
+
+}
+
+.loader-spinner{
+
+    width:60px;
+
+    height:60px;
+
+    border:5px solid rgba(255,255,255,.2);
+
+    border-top:5px solid #D4AF37;
+
+    border-radius:50%;
+
+    animation:spin 1s linear infinite;
+
+    margin-bottom:20px;
+
+}
+
+@keyframes spin{
+
+    to{
+
+        transform:rotate(360deg);
+
+    }
+
+}
