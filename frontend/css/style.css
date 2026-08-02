@@ -1884,3 +1884,45 @@ section p {
     }
 
 }
+
+/* ==========================
+   Product Search
+========================== */
+
+.search-box{
+
+    margin:30px auto;
+
+    text-align:center;
+
+}
+
+.search-box input{
+
+    width:320px;
+
+    max-width:90%;
+
+    padding:14px 18px;
+
+    border:none;
+
+    border-radius:30px;
+
+    outline:none;
+
+    font-size:16px;
+
+    background:#222;
+
+    color:#fff;
+
+    border:1px solid rgba(212,175,55,.3);
+
+}
+
+.search-box input:focus{
+
+    border-color:#D4AF37;
+
+}

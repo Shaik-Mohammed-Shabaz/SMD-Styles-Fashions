@@ -936,3 +936,35 @@ window.addEventListener("load", () => {
     }
 
 });
+
+// ==========================
+// Product Search
+// ==========================
+
+const productSearch = document.getElementById("productSearch");
+
+if(productSearch){
+
+    productSearch.addEventListener("keyup", () => {
+
+        const value = productSearch.value.toLowerCase();
+
+        document.querySelectorAll(".product-card").forEach(card => {
+
+            const title = card.querySelector("h3").textContent.toLowerCase();
+
+            if(title.includes(value)){
+
+                card.style.display = "block";
+
+            }else{
+
+                card.style.display = "none";
+
+            }
+
+        });
+
+    });
+
+}
