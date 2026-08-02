@@ -1714,3 +1714,31 @@ section p {
     transform: translateX(0);
 
 }
+
+/* ==========================
+   Product Features
+========================== */
+
+.product-features{
+
+    margin:25px 0;
+
+    padding:20px;
+
+    background:#181818;
+
+    border-radius:15px;
+
+    border:1px solid rgba(212,175,55,.25);
+
+}
+
+.product-features p{
+
+    margin:12px 0;
+
+    color:#ddd;
+
+    font-size:16px;
+
+}
