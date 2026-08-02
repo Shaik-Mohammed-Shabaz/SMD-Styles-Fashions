@@ -99,6 +99,7 @@ cartButtons.forEach(button => {
             cart.push({
                 name: name,
                 price: price,
+                image: button.closest(".product-card").querySelector("img").src,
                 quantity: 1
             });
 
@@ -152,29 +153,31 @@ function updateCart() {
 
         item.innerHTML = `
 
-            <div class="cart-info">
+<img class="cart-product-image" src="${product.image}" alt="${product.name}">
 
-                <strong>${product.name}</strong>
+<div class="cart-info">
 
-                <p>Size : ${product.size || "-"}</p>
+    <strong>${product.name}</strong>
 
-                <p>₹${product.price}</p>
+    <p>Size : ${product.size || "-"}</p>
 
-            </div>
+    <p>₹${product.price}</p>
 
-            <div class="quantity">
+</div>
 
-                <button class="minus">-</button>
+<div class="quantity">
 
-                <span>${product.quantity}</span>
+    <button class="minus">-</button>
 
-                <button class="plus">+</button>
+    <span>${product.quantity}</span>
 
-            </div>
+    <button class="plus">+</button>
 
-            <button class="remove-item">🗑</button>
+</div>
 
-        `;
+<button class="remove-item">🗑</button>
+
+`;
 
         cartItems.appendChild(item);
 
@@ -512,15 +515,11 @@ if (addToCartProduct) {
         } else {
 
             cart.push({
-
                 name: name,
-
                 price: price,
-
+                image: document.getElementById("mainImage").src,
                 size: selectedSize,
-
                 quantity: 1
-
             });
 
         }
@@ -575,6 +574,8 @@ if (modalAddCart) {
                 name: name,
 
                 price: price,
+
+                image: modalImage.src,
 
                 size: selectedSize,
 
@@ -848,7 +849,7 @@ if (placeOrderBtn) {
 
         setTimeout(() => {
 
-            window.location.href="success.html";
+            window.location.href = "success.html";
 
         }, 1500);
 
