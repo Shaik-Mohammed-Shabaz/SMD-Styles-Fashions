@@ -645,6 +645,22 @@ if (checkoutItems && checkoutTotal) {
 
     });
 
+    const subtotal = total;
+    const discount = Math.floor(total * 0.10);
+
+    const subtotalPrice = document.getElementById("subtotalPrice");
+    const discountPrice = document.getElementById("discountPrice");
+
+    if (subtotalPrice) {
+        subtotalPrice.textContent = `₹${subtotal}`;
+    }
+
+    if (discountPrice) {
+        discountPrice.textContent = `-₹${discount}`;
+    }
+
+    total = subtotal - discount;
+
     checkoutTotal.textContent = `Total : ₹${total}`;
 
     localStorage.removeItem("buyNowproduct");

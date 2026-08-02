@@ -1760,3 +1760,35 @@ section p {
     border:1px solid rgba(212,175,55,.3);
 
 }
+
+/* ==========================
+   Bill Summary
+========================== */
+
+.bill-summary{
+
+    margin:25px 0;
+
+}
+
+.bill-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:15px 0;
+
+    font-size:17px;
+
+}
+
+.bill-summary hr{
+
+    border:none;
+
+    border-top:1px solid rgba(255,255,255,.15);
+
+    margin:20px 0;
+
+}

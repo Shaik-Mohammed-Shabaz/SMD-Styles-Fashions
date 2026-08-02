@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Checkout | SMD Styles & Fashions</title>
 
@@ -18,108 +17,118 @@
 
 <body>
 
-<header>
+    <header>
 
-<nav class="navbar">
+        <nav class="navbar">
 
-<div class="logo">
+            <div class="logo">
 
-<a href="index.html">
+                <a href="index.html">
 
-<h1>SMD Styles & Fashions</h1>
+                    <h1>SMD Styles & Fashions</h1>
 
-</a>
-
-</div>
-
-<ul class="nav-links">
-
-<li><a href="index.html">Home</a></li>
-
-<li><a href="shop.html">Shop</a></li>
-
-<li><a href="pages/about.html">About</a></li>
-
-<li><a href="pages/contact.html">Contact</a></li>
-
-</ul>
-
-</nav>
-
-</header>
-
-<main>
-
-<section class="checkout-page">
-
-    <div class="checkout-container">
-
-        <!-- Customer Details -->
-
-        <div class="checkout-left">
-
-            <h2>Customer Information</h2>
-
-            <form id="checkoutForm">
-
-                <input
-                    type="text"
-                    placeholder="Full Name"
-                    required>
-
-                <input
-                    type="tel"
-                    placeholder="Mobile Number"
-                    required>
-
-                <input
-                    type="email"
-                    placeholder="Email Address">
-
-                <textarea
-                    placeholder="Delivery Address"
-                    rows="5"
-                    required></textarea>
-
-            </form>
-
-        </div>
-
-        <!-- Order Summary -->
-
-        <div class="checkout-right">
-
-            <h2>Order Summary</h2>
-
-            <div id="checkoutItems">
-
-                <p>Your cart items will appear here.</p>
+                </a>
 
             </div>
 
-            <h3 id="checkoutTotal">
+            <ul class="nav-links">
 
-                Total : ₹0
+                <li><a href="index.html">Home</a></li>
 
-            </h3>
+                <li><a href="shop.html">Shop</a></li>
 
-            <button id="placeOrderBtn" class="buy-btn">
+                <li><a href="pages/about.html">About</a></li>
 
-                Place Order
+                <li><a href="pages/contact.html">Contact</a></li>
 
-            </button>
+            </ul>
 
-        </div>
+        </nav>
 
-    </div>
+    </header>
 
-</section>
+    <main>
 
-</main>
+        <section class="checkout-page">
 
-<div id="toast" class="toast"></div>
+            <div class="checkout-container">
 
-<script src="js/script.js"></script>
+                <!-- Customer Details -->
+
+                <div class="checkout-left">
+
+                    <h2>Customer Information</h2>
+
+                    <form id="checkoutForm">
+
+                        <input type="text" placeholder="Full Name" required>
+
+                        <input type="tel" placeholder="Mobile Number" required>
+
+                        <input type="email" placeholder="Email Address">
+
+                        <textarea placeholder="Delivery Address" rows="5" required></textarea>
+
+                    </form>
+
+                </div>
+
+                <!-- Order Summary -->
+
+                <div class="checkout-right">
+
+                    <h2>Order Summary</h2>
+
+                    <div class="bill-summary">
+
+                        <div class="bill-row">
+                            <span>Subtotal</span>
+                            <span id="subtotalPrice">₹0</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>Delivery</span>
+                            <span style="color:lime;">FREE</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>Discount</span>
+                            <span id="discountPrice">-₹0</span>
+                        </div>
+
+                        <hr>
+
+                    </div>
+
+                    <div id="checkoutItems">
+
+                        <p>Your cart items will appear here.</p>
+
+                    </div>
+
+                    <h3 id="checkoutTotal">
+
+                        Total : ₹0
+
+                    </h3>
+
+                    <button id="placeOrderBtn" class="buy-btn">
+
+                        Place Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="js/script.js"></script>
 
 </body>
 
