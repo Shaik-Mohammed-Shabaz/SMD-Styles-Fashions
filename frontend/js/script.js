@@ -968,3 +968,26 @@ if(productSearch){
     });
 
 }
+
+// ==========================
+// Mobile Menu
+// ==========================
+
+const menuToggle = document.querySelector(".menu-toggle");
+
+const navMenu = document.querySelector(".nav-links");
+
+if(menuToggle && navMenu){
+
+    menuToggle.addEventListener("click",()=>{
+
+        navMenu.classList.toggle("active");
+
+        menuToggle.textContent =
+        navMenu.classList.contains("active")
+        ? "✖"
+        : "☰";
+
+    });
+
+}
