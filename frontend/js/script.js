@@ -894,3 +894,25 @@ function showToast(message) {
     }, 2000);
 
 }
+
+// ==========================
+// Product Image Zoom
+// ==========================
+
+const productImage = document.getElementById("mainImage");
+
+if (productImage) {
+
+    productImage.addEventListener("mousemove", (e) => {
+
+        const rect = productImage.getBoundingClientRect();
+
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+        productImage.style.transformOrigin = `${x}% ${y}%`;
+
+    });
+
+}
