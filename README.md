@@ -72,4 +72,4 @@ git clone <repository-url>
 
 ## 👨‍💻 Developed By
 
-**Mohammed Shabaz**
+**Shaik Mohammed Shabaz**
