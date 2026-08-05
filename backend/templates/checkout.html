@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | SMD Styles & Fashions</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="css/animations.css">
+
+</head>
+
+<body>
+
+    <div class="loader" id="loader">
+
+        <div class="loader-spinner"></div>
+
+        <h1>SMD</h1>
+
+        <p>Styles & Fashions</p>
+
+    </div>
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+
+                <a href="index.html">
+
+                    <h1>SMD Styles & Fashions</h1>
+
+                </a>
+
+            </div>
+
+            <ul class="nav-links">
+
+                <li><a href="index.html">Home</a></li>
+
+                <li><a href="shop.html">Shop</a></li>
+
+                <li><a href="pages/about.html">About</a></li>
+
+                <li><a href="pages/contact.html">Contact</a></li>
+
+            </ul>
+
+            <div class="menu-toggle">
+
+                ☰
+
+            </div>
+
+        </nav>
+
+    </header>
+
+    <main>
+
+        <section class="checkout-page">
+
+            <div class="checkout-container">
+
+                <!-- Customer Details -->
+
+                <div class="checkout-left">
+
+                    <h2>Customer Information</h2>
+
+                    <form id="checkoutForm">
+
+                        <input type="text" placeholder="Full Name" required>
+
+                        <input type="tel" placeholder="Mobile Number" required>
+
+                        <input type="email" placeholder="Email Address">
+
+                        <textarea placeholder="Delivery Address" rows="5" required></textarea>
+
+                    </form>
+
+                </div>
+
+                <!-- Order Summary -->
+
+                <div class="checkout-right">
+
+                    <h2>Order Summary</h2>
+
+                    <div class="bill-summary">
+
+                        <div class="bill-row">
+                            <span>Subtotal</span>
+                            <span id="subtotalPrice">₹0</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>Delivery</span>
+                            <span style="color:lime;">FREE</span>
+                        </div>
+
+                        <div class="bill-row">
+                            <span>Discount</span>
+                            <span id="discountPrice">-₹0</span>
+                        </div>
+
+                        <hr>
+
+                    </div>
+
+                    <div id="checkoutItems">
+
+                        <p>Your cart items will appear here.</p>
+
+                    </div>
+
+                    <h3 id="checkoutTotal">
+
+                        Total : ₹0
+
+                    </h3>
+
+                    <button id="placeOrderBtn" class="buy-btn">
+
+                        Place Order
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <button id="backToTop">
+
+        ↑
+
+    </button>
+
+    <footer class="footer">
+
+        <div class="footer-container">
+
+            <div class="footer-section">
+
+                <h3>SMD Styles & Fashions</h3>
+
+                <p>Premium Men's Fashion Store</p>
+
+            </div>
+
+            <div class="footer-section">
+
+                <h3>Quick Links</h3>
+
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="#">Contact</a>
+
+            </div>
+
+            <div class="footer-section">
+
+                <h3>Customer Support</h3>
+
+                <p>Email: smd.stylesfashions@gmail.com</p>
+
+                <p>Phone: +91 90147 38616</p>
+
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p class="copyright">
+
+            © 2026 SMD Styles & Fashions. All Rights Reserved.
+
+        </p>
+
+    </footer>
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
