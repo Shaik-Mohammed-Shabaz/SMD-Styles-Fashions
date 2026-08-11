@@ -8,7 +8,7 @@
 
     <title>Order Successful | SMD Styles & Fashions</title>
 
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 
@@ -50,7 +50,7 @@
 
                 <br>
 
-                <button class="buy-btn" onclick="window.location.href='index.html'">
+                <button class="buy-btn" onclick="window.location.href='/'">
 
                     Continue Shopping
 
@@ -72,7 +72,7 @@
 
     </script>
 
-    <script src="js/script.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 

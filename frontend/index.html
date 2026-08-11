@@ -1,338 +1,378 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SMD Styles & Fashions</title>
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/animations.css">
-</head>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+  </head>
 
-<body>
+  <body>
     <div class="loader" id="loader">
+      <div class="loader-spinner"></div>
 
-        <div class="loader-spinner"></div>
+      <h1>SMD</h1>
 
-        <h1>SMD</h1>
-
-        <p>Styles & Fashions</p>
-
+      <p>Styles & Fashions</p>
     </div>
     <header>
-        <nav class="navbar">
-            <div class="logo">
-                <a href="index.html">
-                    <h1>SMD Styles & Fashions</h1>
-                </a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#shop">Shop</a></li>
-                <li><a href="#about">About</a></li>
-                <li>
-                    <a href="#" id="cart-link">🛒 Cart (<span id="cart-count">0</span>)</a>
-                </li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-            <div class="menu-toggle">
-
-                ☰
-
-            </div>
-        </nav>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="index.html">
+            <h1>SMD Styles & Fashions</h1>
+          </a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#shop">Shop</a></li>
+          <li><a href="#about">About</a></li>
+          <li>
+            <a href="#" id="cart-link"
+              >🛒 Cart (<span id="cart-count">0</span>)</a
+            >
+          </li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="menu-toggle">☰</div>
+      </nav>
     </header>
 
     <main>
-        <section id="home" class="hero">
-            <div class="hero-left">
-                <h2>Wear Confidence.<br>Wear Elegance.</h2>
-                <p>Discover premium men's fashion crafted for style, comfort, and confidence. From casual wear to
-                    festive collections, SMD Styles & Fashions brings the latest trends at affordable prices.</p>
-                <div class="hero-buttons">
-                    <a href="shop.html">
-                        <button class="explore-btn">Shop Collection</button>
-                    </a>
-                    <a href="https://wa.me/9014738616" target="_blank">
-                        <button class="whatsapp-btn">Chat on WhatsApp</button>
-                    </a>
-                </div>
-                <div class="scroll-down">↓ Scroll to Explore</div>
-            </div>
-        </section>
+      <section id="home" class="hero">
+        <div class="hero-left">
+          <h2>Wear Confidence.<br />Wear Elegance.</h2>
+          <p>
+            Discover premium men's fashion crafted for style, comfort, and
+            confidence. From casual wear to festive collections, SMD Styles &
+            Fashions brings the latest trends at affordable prices.
+          </p>
+          <div class="hero-buttons">
+            <a href="shop.html">
+              <button class="explore-btn">Shop Collection</button>
+            </a>
+            <a href="https://wa.me/9014738616" target="_blank">
+              <button class="whatsapp-btn">Chat on WhatsApp</button>
+            </a>
+          </div>
+          <div class="scroll-down">↓ Scroll to Explore</div>
+        </div>
+      </section>
 
-        <!-- ==========================
+      <!-- ==========================
              Featured Collection
         =========================== -->
-        <section id="shop" class="collection">
-            <div class="section-title">
-                <h2>Featured Collection</h2>
-                <div class="search-box">
-
-                    <input type="text" id="productSearch" placeholder="Search products...">
-
-                </div>
-                <p>Premium men's fashion designed for every occasion.</p>
+      <section id="shop" class="collection">
+        <div class="section-title">
+          <h2>Featured Collection</h2>
+          <div class="search-box">
+            <input
+              type="text"
+              id="productSearch"
+              placeholder="Search products..."
+            />
+          </div>
+          <p>Premium men's fashion designed for every occasion.</p>
+        </div>
+        <div class="product-grid">
+          <div class="product-card">
+            <div class="product-image">
+              <span class="discount-badge">40% OFF</span>
+              <span class="wishlist">❤</span>
+              <img
+                src="../assets/images/products/Shirt.png"
+                alt="Premium Shirt"
+              />
+              <div class="image-overlay">
+                <button
+                  class="quick-view"
+                  data-name="Premium Oxford Shirt"
+                  data-price="₹599"
+                  data-image="../assets/images/products/Shirt.png"
+                  data-description="Premium cotton fabric with modern slim fit. Perfect for office and casual wear."
+                >
+                  Quick View
+                </button>
+              </div>
             </div>
-            <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-image">
-                        <span class="discount-badge">40% OFF</span>
-                        <span class="wishlist">❤</span>
-                        <img src="../assets/images/products/Shirt.png" alt="Premium Shirt">
-                        <div class="image-overlay">
-                            <button class="quick-view" data-name="Premium Oxford Shirt" data-price="₹599"
-                                data-image="../assets/images/products/Shirt.png"
-                                data-description="Premium cotton fabric with modern slim fit. Perfect for office and casual wear.">Quick
-                                View</button>
-                        </div>
-                    </div>
-                    <h3>Premium Oxford Shirt</h3>
-                    <div class="rating">★★★★★ <span>(4.8)</span></div>
-                    <p class="price">₹599 <span>₹999</span></p>
-                    <div class="product-buttons">
-                        <button class="cart-btn" data-name="Premium Oxford Shirt" data-price="599">Add to Cart</button>
-                        <button class="buy-btn card-buy-now" data-name="Premium Oxford Shirt" data-price="599">Buy
-                            Now</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-
-                        <span class="discount-badge">25% OFF</span>
-
-                        <span class="wishlist">❤</span>
-
-                        <img src="../assets/images/products/Hoodie.png" alt="Classic Hoodie">
-
-                        <div class="image-overlay">
-
-                            <button class="quick-view" data-name="Classic Hoodie" data-price="₹799"
-                                data-image="../assets/images/products/Hoodie.png"
-                                data-description="Soft fleece hoodie designed for everyday comfort and warmth.">
-
-                                Quick View
-
-                            </button>
-
-                        </div>
-
-                    </div>
-                    <h3>Classic Hoodie</h3>
-                    <div class="rating">
-
-                        ★★★★★
-
-                        <span>(4.7)</span>
-
-                    </div>
-
-                    <p class="price">
-
-                        ₹799
-
-                        <span>₹1099</span>
-
-                    </p>
-                    <div class="product-buttons">
-                        <button class="cart-btn" data-name="Classic Hoodie" data-price="799">Add to Cart</button>
-                        <button class="buy-btn card-buy-now" data-name="Classic Hoodie" data-price="799">Buy
-                            Now</button>
-                    </div>
-                </div>
-                <div class="product-card">
-                    <div class="product-image">
-
-                        <span class="discount-badge">30% OFF</span>
-
-                        <span class="wishlist">❤</span>
-                        <img src="../assets/images/products/T-Shirt.png" alt="Casual T-Shirt">
-                        <div class="image-overlay">
-                            <button class="quick-view" data-name="Casual T-Shirt" data-price="₹349"
-                                data-image="../assets/images/products/T-Shirt.png"
-                                data-description="Premium cotton round-neck T-Shirt with modern fit.">Quick
-                                View</button>
-                        </div>
-                    </div>
-                    <h3>Casual T-Shirt</h3>
-                    <div class="rating">
-
-                        ★★★★★
-
-                        <span>(4.6)</span>
-
-                    </div>
-
-                    <p class="price">
-
-                        ₹349
-
-                        <span>₹499</span>
-
-                    </p>
-                    <div class="product-buttons">
-                        <button class="cart-btn" data-name="Casual T-Shirt" data-price="349">Add to Cart</button>
-                        <button class="buy-btn card-buy-now" data-name="Casual T-Shirt" data-price="349">Buy
-                            Now</button>
-                    </div>
-                </div>
+            <h3>Premium Oxford Shirt</h3>
+            <div class="rating">★★★★★ <span>(4.8)</span></div>
+            <p class="price">₹599 <span>₹999</span></p>
+            <div class="product-buttons">
+              <button
+                class="cart-btn"
+                data-name="Premium Oxford Shirt"
+                data-price="599"
+              >
+                Add to Cart
+              </button>
+              <button
+                class="buy-btn card-buy-now"
+                data-name="Premium Oxford Shirt"
+                data-price="599"
+              >
+                Buy Now
+              </button>
             </div>
-        </section>
+          </div>
+          <div class="product-card">
+            <div class="product-image">
+              <span class="discount-badge">25% OFF</span>
 
-        <!-- ==========================
+              <span class="wishlist">❤</span>
+
+              <img
+                src="../assets/images/products/Hoodie.png"
+                alt="Classic Hoodie"
+              />
+
+              <div class="image-overlay">
+                <button
+                  class="quick-view"
+                  data-name="Classic Hoodie"
+                  data-price="₹799"
+                  data-image="../assets/images/products/Hoodie.png"
+                  data-description="Soft fleece hoodie designed for everyday comfort and warmth."
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+            <h3>Classic Hoodie</h3>
+            <div class="rating">
+              ★★★★★
+
+              <span>(4.7)</span>
+            </div>
+
+            <p class="price">
+              ₹799
+
+              <span>₹1099</span>
+            </p>
+            <div class="product-buttons">
+              <button
+                class="cart-btn"
+                data-name="Classic Hoodie"
+                data-price="799"
+              >
+                Add to Cart
+              </button>
+              <button
+                class="buy-btn card-buy-now"
+                data-name="Classic Hoodie"
+                data-price="799"
+              >
+                Buy Now
+              </button>
+            </div>
+          </div>
+          <div class="product-card">
+            <div class="product-image">
+              <span class="discount-badge">30% OFF</span>
+
+              <span class="wishlist">❤</span>
+              <img
+                src="../assets/images/products/T-Shirt.png"
+                alt="Casual T-Shirt"
+              />
+              <div class="image-overlay">
+                <button
+                  class="quick-view"
+                  data-name="Casual T-Shirt"
+                  data-price="₹349"
+                  data-image="../assets/images/products/T-Shirt.png"
+                  data-description="Premium cotton round-neck T-Shirt with modern fit."
+                >
+                  Quick View
+                </button>
+              </div>
+            </div>
+            <h3>Casual T-Shirt</h3>
+            <div class="rating">
+              ★★★★★
+
+              <span>(4.6)</span>
+            </div>
+
+            <p class="price">
+              ₹349
+
+              <span>₹499</span>
+            </p>
+            <div class="product-buttons">
+              <button
+                class="cart-btn"
+                data-name="Casual T-Shirt"
+                data-price="349"
+              >
+                Add to Cart
+              </button>
+              <button
+                class="buy-btn card-buy-now"
+                data-name="Casual T-Shirt"
+                data-price="349"
+              >
+                Buy Now
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================
              Why Choose SMD
         =========================== -->
-        <section id="about" class="why-us">
-            <div class="section-title">
-                <h2>Why Choose SMD?</h2>
-                <p>We provide premium quality fashion with unmatched customer service.</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">⭐</div>
-                    <h3>Premium Quality</h3>
-                    <p>Carefully selected fabrics for long-lasting comfort and style.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🚚</div>
-                    <h3>Fast Delivery</h3>
-                    <p>Quick and reliable delivery to your doorstep.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Affordable Prices</h3>
-                    <p>Premium fashion at prices everyone can afford.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">❤️</div>
-                    <h3>Customer Satisfaction</h3>
-                    <p>Your satisfaction is our top priority.</p>
-                </div>
-            </div>
-        </section>
+      <section id="about" class="why-us">
+        <div class="section-title">
+          <h2>Why Choose SMD?</h2>
+          <p>
+            We provide premium quality fashion with unmatched customer service.
+          </p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⭐</div>
+            <h3>Premium Quality</h3>
+            <p>
+              Carefully selected fabrics for long-lasting comfort and style.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚚</div>
+            <h3>Fast Delivery</h3>
+            <p>Quick and reliable delivery to your doorstep.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💰</div>
+            <h3>Affordable Prices</h3>
+            <p>Premium fashion at prices everyone can afford.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">❤️</div>
+            <h3>Customer Satisfaction</h3>
+            <p>Your satisfaction is our top priority.</p>
+          </div>
+        </div>
+      </section>
 
-        <!-- ==========================
+      <!-- ==========================
              Customer Reviews
         =========================== -->
-        <section id="contact" class="testimonials">
-            <div class="section-title">
-                <h2>Customer Reviews</h2>
-                <p>What our happy customers say about SMD Styles & Fashions.</p>
-            </div>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Excellent quality shirts. Highly recommended!"</p>
-                    <h4>- Arshad</h4>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Fast delivery and premium fabric. Loved the service."</p>
-                    <h4>- Masood</h4>
-                </div>
-                <div class="testimonial-card">
-                    <div class="stars">★★★★★</div>
-                    <p>"Affordable prices with amazing designs. Will shop again."</p>
-                    <h4>- Shabaz</h4>
-                </div>
-            </div>
-        </section>
+      <section id="contact" class="testimonials">
+        <div class="section-title">
+          <h2>Customer Reviews</h2>
+          <p>What our happy customers say about SMD Styles & Fashions.</p>
+        </div>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Excellent quality shirts. Highly recommended!"</p>
+            <h4>- Arshad</h4>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Fast delivery and premium fabric. Loved the service."</p>
+            <h4>- Masood</h4>
+          </div>
+          <div class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"Affordable prices with amazing designs. Will shop again."</p>
+            <h4>- Shabaz</h4>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- ==========================
          Shopping Cart Sidebar
     =========================== -->
     <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h2>Shopping Cart</h2>
-            <span id="closeCart">&times;</span>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <p id="emptyCart">Your cart is empty.</p>
-        </div>
-        <div class="cart-footer">
-            <h3>Total: ₹0</h3>
-            <button class="checkout-btn">Proceed to Checkout</button>
-        </div>
+      <div class="cart-header">
+        <h2>Shopping Cart</h2>
+        <span id="closeCart">&times;</span>
+      </div>
+      <div class="cart-items" id="cartItems">
+        <p id="emptyCart">Your cart is empty.</p>
+      </div>
+      <div class="cart-footer">
+        <h3>Total: ₹0</h3>
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
     </div>
 
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-column">
-                <h2>SMD Styles & Fashions</h2>
-                <p>Premium men's fashion designed for confidence, comfort and elegance.</p>
-            </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <a href="index.html">Home</a>
-                <a href="shop.html">Shop</a>
-                <a href="pages/about.html">About</a>
-                <a href="pages/contact.html">Contact</a>
-            </div>
-            <div class="footer-column">
-                <h3>Contact</h3>
-                <p>📍 Nallacheruvu, Sri Sathya Sai District, AP, India</p>
-                <p>📞 +91 90147 38616</p>
-                <p>✉ smd.stylesfashions@gmail.com</p>
-            </div>
+      <div class="footer-container">
+        <div class="footer-column">
+          <h2>SMD Styles & Fashions</h2>
+          <p>
+            Premium men's fashion designed for confidence, comfort and elegance.
+          </p>
         </div>
-        <div class="footer-bottom">© 2026 SMD Styles & Fashions. All Rights Reserved.</div>
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <a href="{{ url_for('main.home') }}">Home</a>
+          <a href="{{ url_for('main.shop') }}">Shop</a>
+          <a href="{{ url_for('main.about') }}">About</a>
+          <a href="{{ url_for('main.contact') }}">Contact</a>
+        </div>
+        <div class="footer-column">
+          <h3>Contact</h3>
+          <p>📍 Nallacheruvu, Sri Sathya Sai District, AP, India</p>
+          <p>📞 +91 90147 38616</p>
+          <p>✉ smd.stylesfashions@gmail.com</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        © 2026 SMD Styles & Fashions. All Rights Reserved.
+      </div>
     </footer>
 
     <!-- ==========================
          Quick View Modal
     =========================== -->
     <div class="modal" id="quickViewModal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <img id="modalImage" src="../assets/images/products/Shirt.png" alt="Product">
-            <h2 id="modalTitle">Premium Oxford Shirt</h2>
-            <div class="rating">★★★★★ <span>(4.8)</span></div>
-            <h3 id="modalPrice">₹599</h3>
-            <p id="modalDescription">Premium cotton fabric with a modern slim fit. Perfect for casual and formal
-                occasions.</p>
-            <div class="sizes">
-                <button class="size-btn active">S</button>
-                <button class="size-btn">M</button>
-                <button class="size-btn">L</button>
-                <button class="size-btn">XL</button>
-            </div>
-            <div class="product-buttons">
-
-                <button class="cart-btn" id="modalAddCart">
-                    Add to Cart
-                </button>
-
-                <button class="buy-btn" id="modalBuyNow">
-                    Buy Now
-                </button>
-
-            </div>
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <img
+          id="modalImage"
+          src="../assets/images/products/Shirt.png"
+          alt="Product"
+        />
+        <h2 id="modalTitle">Premium Oxford Shirt</h2>
+        <div class="rating">★★★★★ <span>(4.8)</span></div>
+        <h3 id="modalPrice">₹599</h3>
+        <p id="modalDescription">
+          Premium cotton fabric with a modern slim fit. Perfect for casual and
+          formal occasions.
+        </p>
+        <div class="sizes">
+          <button class="size-btn active">S</button>
+          <button class="size-btn">M</button>
+          <button class="size-btn">L</button>
+          <button class="size-btn">XL</button>
         </div>
+        <div class="product-buttons">
+          <button class="cart-btn" id="modalAddCart">Add to Cart</button>
+
+          <button class="buy-btn" id="modalBuyNow">Buy Now</button>
+        </div>
+      </div>
     </div>
 
-    <div class="toast" id="toast">
+    <div class="toast" id="toast">✔ Product added to cart</div>
 
-        ✔ Product added to cart
-
-    </div>
-
-    <button id="backToTop">
-
-        ↑
-
-    </button>
-
+    <button id="backToTop">↑</button>
 
     <script src="js/script.js"></script>
-</body>
-
+  </body>
 </html>

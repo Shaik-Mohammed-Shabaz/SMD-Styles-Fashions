@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | SMD Styles & Fashions</title>
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        .admin-login-page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #080808;
+            padding: 30px;
+        }
+
+        .admin-login-box {
+            width: 100%;
+            max-width: 420px;
+            background: #111;
+            border: 1px solid var(--secondary-color);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .admin-login-box h1 {
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .admin-login-box p {
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-login-box input {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 18px;
+            background: #181818;
+            color: white;
+            border: 1px solid #333;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .admin-login-box input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+        }
+
+        .admin-login-box button {
+            width: 100%;
+        }
+
+        .admin-error {
+            background: rgba(211, 47, 47, 0.15);
+            border: 1px solid #d32f2f;
+            color: #ff6b6b;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="admin-login-page">
+
+        <div class="admin-login-box">
+
+            <h1>Admin Login</h1>
+
+            <p>SMD Styles & Fashions</p>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="admin-error">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <input
+                    type="text"
+                    name="username"
+                    placeholder="Admin Username"
+                    required
+                >
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Admin Password"
+                    required
+                >
+
+                <button type="submit" class="buy-btn">
+                    Login
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

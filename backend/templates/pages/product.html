@@ -14,9 +14,9 @@
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/responsive.css">
-    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
 
 </head>
 
@@ -81,20 +81,20 @@
                 <!-- Left Side -->
                 <div class="product-gallery">
 
-                    <img id="mainImage" src="../../assets/images/products/shirt.png" alt="Premium Oxford Shirt"
+                    <img id="mainImage" src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Premium Oxford Shirt">
                         class="main-product-image">
 
                     <div class="thumbnail-gallery">
 
-                        <img class="thumbnail active" src="../../assets/images/products/shirt.png" alt="Premium Shirt"
+                        <img class="thumbnail active" src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Premium Shirt"
                             data-name="Premium Oxford Shirt" data-price="₹599" data-oldprice="₹999"
                             data-description="Premium cotton fabric with modern slim fit. Perfect for office and casual wear.">
 
-                        <img class="thumbnail" src="../../assets/images/products/hoodie.png" alt="Classic Hoodie"
+                        <img class="thumbnail" src="{{ url_for('static', filename='images/products/Hoodie.png') }}" alt="Classic Hoodie"
                             data-name="Classic Hoodie" data-price="₹799" data-oldprice="₹1099"
                             data-description="Warm fleece hoodie designed for winter comfort and stylish everyday wear.">
 
-                        <img class="thumbnail" src="../../assets/images/products/t-shirt.png" alt="Casual T-Shirt"
+                        <img class="thumbnail" src="{{ url_for('static', filename='images/products/T-Shirt.png') }}" alt="Casual T-Shirt"
                             data-name="Casual T-Shirt" data-price="₹349" data-oldprice="₹499"
                             data-description="Soft breathable cotton t-shirt suitable for daily casual fashion.">
 
@@ -252,7 +252,7 @@
 
     </footer>
 
-    <script src="../js/script.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 

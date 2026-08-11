@@ -1,0 +1,141 @@
+/* ========================================
+   SMD Styles & Fashions Animations
+======================================== */
+
+/* Fade Up Animation */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(40px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* Fade In */
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+/* Zoom In */
+
+@keyframes zoomIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(.9);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* Hero */
+
+.hero-left {
+
+    animation: fadeUp 1s ease;
+
+}
+
+/* Section Titles */
+
+.section-title {
+
+    animation: fadeUp .8s ease;
+
+}
+
+/* Product Cards */
+
+.product-card {
+
+    animation: fadeUp .8s ease;
+
+}
+
+/* Feature Cards */
+
+.feature-card {
+
+    animation: fadeUp .9s ease;
+
+}
+
+/* Testimonial Cards */
+
+.testimonial-card {
+
+    animation: fadeUp 1s ease;
+
+}
+
+/* Product Details */
+
+.product-gallery {
+
+    animation: zoomIn .8s ease;
+
+}
+
+.product-info {
+
+    animation: fadeUp .9s ease;
+
+}
+
+/* Checkout */
+
+.checkout-left {
+
+    animation: fadeUp .8s ease;
+
+}
+
+.checkout-right {
+
+    animation: zoomIn .8s ease;
+
+}
+
+/* Footer */
+
+.footer {
+
+    animation: fadeIn 1s ease;
+
+}

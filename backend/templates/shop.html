@@ -13,9 +13,9 @@
         rel="stylesheet">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/responsive.css">
-    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
 </head>
 
 <body>
@@ -136,10 +136,11 @@
 
                         <span class="wishlist">❤</span>
 
-                        <img src="../assets/images/products/shirt.png" alt="Premium Shirt">
+                        <img src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Premium Shirt">
 
                         <div class="image-overlay">
-                            <button class="quick-view" data-image="../assets/images/products/shirt.png"
+                            <button class="quick-view" 
+                                data-image="{{ url_for('static', filename='images/products/Shirt.png') }}"
                                 data-name="Premium Oxford Shirt" data-price="₹599"
                                 data-description="Premium cotton fabric with modern slim fit. Perfect for office and casual wear.">
 
@@ -194,11 +195,12 @@
 
                         <span class="wishlist">❤</span>
 
-                        <img src="../assets/images/products/hoodie.png" alt="Classic Hoodie">
+                        <img src="{{ url_for('static', filename='images/products/Hoodie.png') }}" alt="Classic Hoodie">
 
                         <div class="image-overlay">
 
-                            <button class="quick-view" data-image="../assets/images/products/hoodie.png"
+                            <button class="quick-view" 
+                                data-image="{{ url_for('static', filename='images/products/Hoodie.png') }}"
                                 data-name="Classic Hoodie" data-price="₹799"
                                 data-description="Warm fleece hoodie designed for winter comfort and stylish everyday wear.">
 
@@ -252,11 +254,12 @@
 
                         <span class="wishlist">❤</span>
 
-                        <img src="../assets/images/products/t-shirt.png" alt="Casual T-Shirt">
+                        <img src="{{ url_for('static', filename='images/products/T-Shirt.png') }}" alt="Casual T-Shirt">
 
                         <div class="image-overlay">
 
-                            <button class="quick-view" data-image="../assets/images/products/t-shirt.png"
+                            <button class="quick-view" 
+                                data-image="{{ url_for('static', filename='images/products/T-Shirt.png') }}"
                                 data-name="Casual T-Shirt" data-price="₹349"
                                 data-description="Soft breathable cotton t-shirt suitable for daily casual fashion.">
 
@@ -356,10 +359,10 @@
 
                     <h3>Quick Links</h3>
 
-                    <a href="index.html">Home</a>
-                    <a href="shop.html">Shop</a>
-                    <a href="pages/about.html">About</a>
-                    <a href="pages/contact.html">Contact</a>
+                    <a href="{{ url_for('main.home') }}">Home</a>
+                    <a href="{{ url_for('main.shop') }}">Shop</a>
+                    <a href="{{ url_for('main.about') }}">About</a>
+                    <a href="{{ url_for('main.contact') }}">Contact</a>
 
                 </div>
 
@@ -393,7 +396,7 @@
 
                 <span class="close-modal">&times;</span>
 
-                <img id="modalImage" src="../assets/images/products/shirt.png" alt="Product">
+                <img id="modalImage" src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Product">
 
                 <h2 id="modalTitle">
                     Premium Oxford Shirt
@@ -457,7 +460,7 @@
 
         </button>
 
-        <script src="js/script.js"></script>
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 
