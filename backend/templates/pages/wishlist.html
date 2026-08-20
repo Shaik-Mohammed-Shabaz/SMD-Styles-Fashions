@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Wishlist | SMD Styles & Fashions</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Existing CSS -->
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/responsive.css') }}">
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/animations.css') }}">
+</head>
+
+<body>
+
+    <!-- ==========================
+         Flash Messages
+    =========================== -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <!-- ==========================
+         Navigation
+    =========================== -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+                <a href="{{ url_for('main.home') }}">
+                    <h1>SMD Styles & Fashions</h1>
+                </a>
+            </div>
+
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="{{ url_for('main.home') }}">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.shop') }}">
+                        Shop
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.about') }}">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.wishlist') }}" class="active">
+                        ♡ Wishlist
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.contact') }}">
+                        Contact
+                    </a>
+                </li>
+
+                {% if session.get("user_id") %}
+
+                    <li>
+                        <a href="{{ url_for('main.logout') }}">
+                            Logout
+                        </a>
+                    </li>
+
+                {% else %}
+
+                    <li>
+                        <a href="{{ url_for('main.login') }}">
+                            Login
+                        </a>
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+            <div class="menu-toggle">
+                ☰
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- ==========================
+         Wishlist
+    =========================== -->
+
+    <main>
+
+        <section class="wishlist-page">
+
+            <div class="wishlist-container">
+
+                <div class="wishlist-header">
+
+                    <h1>My Wishlist</h1>
+
+                    <p>
+                        Your favorite styles, saved in one place.
+                    </p>
+
+                </div>
+
+
+                {% if wishlist_items %}
+
+                    <div class="product-grid">
+
+                        {% for item in wishlist_items %}
+
+                            <div class="product-card">
+
+                                <div class="product-image">
+
+                                    <span class="wishlist active">
+                                        ♥
+                                    </span>
+
+                                    <img
+                                        src="{{ url_for('static', filename=item.product.image) }}"
+                                        alt="{{ item.product.name }}"
+                                    >
+
+                                </div>
+
+
+                                <h3>
+                                    {{ item.product.name }}
+                                </h3>
+
+
+                                <p class="price">
+                                    ₹{{ "%.0f"|format(item.product.price) }}
+                                </p>
+
+
+                                <div class="product-buttons">
+
+                                    <button
+                                        class="cart-btn"
+                                        data-name="{{ item.product.name }}"
+                                        data-price="{{ item.product.price }}"
+                                    >
+                                        Add to Cart
+                                    </button>
+
+
+                                    <button
+                                        class="remove-wishlist-btn"
+                                        data-product-id="{{ item.product.id }}"
+                                    >
+                                        Remove
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                {% else %}
+
+                    <div class="empty-wishlist">
+
+                        <div class="empty-wishlist-icon">
+                            ♡
+                        </div>
+
+                        <h2>
+                            Your Wishlist is Empty
+                        </h2>
+
+                        <p>
+                            Save your favorite products here and find them easily later.
+                        </p>
+
+                        <a
+                            href="{{ url_for('main.shop') }}"
+                            class="buy-btn"
+                        >
+                            Continue Shopping
+                        </a>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+
+    <!-- Existing JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+    <!-- Wishlist Remove -->
+    <script>
+
+        document.querySelectorAll(".remove-wishlist-btn").forEach(button => {
+
+            button.addEventListener("click", async () => {
+
+                const productId = button.dataset.productId;
+
+                const formData = new FormData();
+
+                formData.append("product_id", productId);
+
+
+                try {
+
+                    const response = await fetch(
+                        "{{ url_for('main.toggle_wishlist') }}",
+                        {
+                            method: "POST",
+                            body: formData
+                        }
+                    );
+
+
+                    const data = await response.json();
+
+
+                    if (data.success && data.added === false) {
+
+                        button.closest(".product-card").remove();
+
+                        showWishlistToast("💔 Removed from Wishlist");
+
+
+                        if (
+                            document.querySelectorAll(".product-card").length === 0
+                        ) {
+
+                            setTimeout(() => {
+                                location.reload();
+                            }, 500);
+
+                        }
+
+                    } else {
+
+                        showWishlistToast(
+                            data.message || "Something went wrong."
+                        );
+
+                    }
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    showWishlistToast(
+                        "Something went wrong. Please try again."
+                    );
+
+                }
+
+            });
+
+        });
+
+
+        function showWishlistToast(message) {
+
+            const toast = document.getElementById("toast");
+
+            if (!toast) return;
+
+            toast.textContent = message;
+            
+            toast.classList.add("show");
+
+
+            setTimeout(() => {
+
+                toast.classList.remove("show");
+
+            }, 2000);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

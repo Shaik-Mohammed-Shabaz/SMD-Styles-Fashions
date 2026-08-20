@@ -1,8 +1,25 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from backend.models.contact import Contact
+from backend.models.user import User
+from backend.models.product import Product
+from backend.models.wishlist import Wishlist
 from backend.database import db
+from functools import wraps
+
+from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint("main", __name__)
+
+def login_required(view):
+    @wraps(view)
+    def wrapped_view(*args, **kwargs):
+        if "user_id" not in session:
+            flash("Please login to continue.", "error")
+            return redirect(url_for("main.login"))
+
+        return view(*args, **kwargs)
+
+    return wrapped_view
 
 # ==========================
 # Prevent Admin Page Caching
@@ -28,8 +45,69 @@ def home():
 def shop():
     return render_template("shop.html")
 
+# ==========================
+# Wishlist
+# ==========================
+
+@main.route("/wishlist/toggle", methods=["POST"])
+@login_required
+def toggle_wishlist():
+
+    product_id = request.form.get("product_id", type=int)
+
+    if not product_id:
+        return {"success": False, "message": "Invalid product."}, 400
+
+    product = Product.query.get(product_id)
+
+    if not product:
+        return {"success": False, "message": "Product not found."}, 404
+
+    existing_item = Wishlist.query.filter_by(
+        user_id=session["user_id"],
+        product_id=product_id
+    ).first()
+
+    if existing_item:
+        db.session.delete(existing_item)
+        db.session.commit()
+
+        return {
+            "success": True,
+            "added": False,
+            "message": "Removed from Wishlist"
+        }
+
+    wishlist_item = Wishlist(
+        user_id=session["user_id"],
+        product_id=product_id
+    )
+
+    db.session.add(wishlist_item)
+    db.session.commit()
+
+    return {
+        "success": True,
+        "added": True,
+        "message": "Added to Wishlist"
+    }
+
+
+@main.route("/wishlist")
+@login_required
+def wishlist():
+
+    wishlist_items = Wishlist.query.filter_by(
+        user_id=session["user_id"]
+    ).order_by(Wishlist.created_at.desc()).all()
+
+    return render_template(
+        "pages/wishlist.html",
+        wishlist_items=wishlist_items
+    )
 
 @main.route("/checkout")
+@login_required
 def checkout():
     return render_template("checkout.html")
 
@@ -76,9 +154,92 @@ def contact():
     return render_template("pages/contact.html")
 
 
-@main.route("/login")
+@main.route("/login", methods=["GET", "POST"])
 def login():
+
+    if request.method == "POST":
+
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+
+        if not email or not password:
+            flash("Please enter your email and password.", "error")
+            return redirect(url_for("main.login"))
+
+        user = User.query.filter_by(email=email).first()
+
+        if not user:
+            flash("Invalid email or password.", "error")
+            return redirect(url_for("main.login"))
+
+        if not check_password_hash(user.password_hash, password):
+            flash("Invalid email or password.", "error")
+            return redirect(url_for("main.login"))
+
+        session["user_id"] = user.id
+        session["user_name"] = user.name
+        session["user_email"] = user.email
+
+        flash("Login successful!", "success")
+
+        return redirect(url_for("main.home"))
+
     return render_template("pages/login.html")
+
+# ==========================
+# Customer Registration
+# ==========================
+
+@main.route("/register", methods=["GET", "POST"])
+def register():
+
+    if request.method == "POST":
+
+        name = request.form.get("name", "").strip()
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "")
+
+        # Basic validation
+        if not name or not email or not password:
+            flash("Please fill in all fields.", "error")
+            return redirect(url_for("main.register"))
+
+        if len(password) < 6:
+            flash("Password must be at least 6 characters.", "error")
+            return redirect(url_for("main.register"))
+
+        # Check whether email already exists
+        existing_user = User.query.filter_by(email=email).first()
+
+        if existing_user:
+            flash("An account with this email already exists.", "error")
+            return redirect(url_for("main.register"))
+
+        # Create new customer
+        new_user = User(
+            name=name,
+            email=email,
+            password_hash=generate_password_hash(password)
+        )
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        flash("Account created successfully! Please login.", "success")
+
+        return redirect(url_for("main.login"))
+
+    return render_template("pages/register.html")
+
+@main.route("/logout")
+def logout():
+    session.pop("user_id", None)
+    session.pop("user_name", None)
+    session.pop("user_email", None)
+
+    flash("You have been logged out.", "success")
+
+    return redirect(url_for("main.home"))
 
 # ==========================
 # Admin Dashboard

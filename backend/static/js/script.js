@@ -5,27 +5,120 @@
 const wishlistButtons = document.querySelectorAll(".wishlist");
 
 wishlistButtons.forEach((heart) => {
-  heart.addEventListener("click", () => {
-    heart.classList.toggle("active");
+  heart.addEventListener("click", async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
 
-    if (heart.classList.contains("active")) {
-      showToast("❤ Added to Wishlist");
-    } else {
-      showToast("💔 Removed from Wishlist");
+    const productId = heart.dataset.productId;
+
+    if (!productId) {
+      console.error("Wishlist: Product ID missing.");
+      showToast("Product ID missing.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/wishlist/toggle", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Requested-With": "XMLHttpRequest",
+        },
+        body: new URLSearchParams({
+          product_id: productId,
+        }),
+      });
+
+      console.log("Wishlist response status:", response.status);
+
+      const responseText = await response.text();
+
+      console.log("Wishlist response:", responseText);
+
+      if (!response.ok) {
+        showToast("Unable to update Wishlist.");
+        return;
+      }
+
+      let data;
+
+      try {
+        data = JSON.parse(responseText);
+      } catch (error) {
+        console.error("Invalid JSON response:", responseText);
+        showToast("Invalid Wishlist response.");
+        return;
+      }
+
+      if (!data.success) {
+        showToast(data.message || "Unable to update Wishlist.");
+        return;
+      }
+
+      // ==========================
+      // Wishlist Added
+      // ==========================
+
+      if (data.added) {
+        heart.classList.add("active");
+
+        heart.textContent = "♥";
+
+        showToast("❤️ Added to Wishlist");
+      }
+
+      // ==========================
+      // Wishlist Removed
+      // ==========================
+      else {
+        heart.classList.remove("active");
+
+        heart.textContent = "♡";
+
+        showToast("💔 Removed from Wishlist");
+      }
+    } catch (error) {
+      console.error("Wishlist request failed:", error);
+
+      showToast("Unable to update Wishlist.");
     }
   });
 });
 
 const navbar = document.querySelector(".navbar");
 
+let lastScrollY = window.scrollY;
+
 if (navbar) {
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add("scrolled");
-    } else {
-      navbar.classList.remove("scrolled");
-    }
-  });
+  window.addEventListener(
+    "scroll",
+    () => {
+      const currentScrollY = window.scrollY;
+
+      // At the very top
+      if (currentScrollY <= 10) {
+        navbar.classList.remove("nav-hidden");
+        navbar.classList.remove("scrolled");
+        lastScrollY = currentScrollY;
+        return;
+      }
+
+      // Scrolling DOWN → hide navbar
+      if (currentScrollY > lastScrollY) {
+        navbar.classList.add("nav-hidden");
+        navbar.classList.add("scrolled");
+      }
+
+      // Scrolling UP → immediately show navbar
+      else if (currentScrollY < lastScrollY) {
+        navbar.classList.remove("nav-hidden");
+        navbar.classList.add("scrolled");
+      }
+
+      lastScrollY = currentScrollY;
+    },
+    { passive: true },
+  );
 }
 
 const sections = document.querySelectorAll("section");
@@ -79,6 +172,7 @@ cartButtons.forEach((button) => {
         name: name,
         price: price,
         image: button.closest(".product-card").querySelector("img").src,
+        size: "M",
         quantity: 1,
       });
     }
@@ -542,14 +636,6 @@ if (checkoutItems && checkoutTotal) {
   total = subtotal - discount;
 
   checkoutTotal.textContent = `Total : ₹${total}`;
-
-  localStorage.removeItem("buyNowproduct");
-
-  if (checkoutType === "buyNow") {
-    localStorage.removeItem("buyNowproduct");
-
-    localStorage.removeItem("checkoutType");
-  }
 }
 
 // ==========================
@@ -767,9 +853,17 @@ if (placeOrderBtn) {
 
     showToast("🎉 Order placed successfully");
 
-    localStorage.removeItem("cart");
-    localStorage.removeItem("buyNowproduct");
-    localStorage.removeItem("checkoutType");
+    const currentCheckoutType = localStorage.getItem("checkoutType");
+
+    if (currentCheckoutType === "buyNow") {
+      // Buy Now purchase should NOT affect the normal cart
+      localStorage.removeItem("buyNowproduct");
+      localStorage.removeItem("checkoutType");
+    } else {
+      // Normal cart checkout: clear the cart after successful order
+      localStorage.removeItem("cart");
+      localStorage.removeItem("checkoutType");
+    }
 
     setTimeout(() => {
       window.location.href = "/success";

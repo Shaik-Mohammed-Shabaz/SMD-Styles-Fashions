@@ -27,6 +27,11 @@
   </head>
 
   <body>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-message {{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+
     <div class="loader" id="loader">
       <div class="loader-spinner"></div>
 
@@ -42,15 +47,41 @@
           </a>
         </div>
         <ul class="nav-links">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#shop">Shop</a></li>
-          <li><a href="#about">About</a></li>
           <li>
-            <a href="#" id="cart-link"
-              >🛒 Cart (<span id="cart-count">0</span>)</a
-            >
+            <a href="{{ url_for('main.home') }}" class="active"> Home </a>
           </li>
-          <li><a href="#contact">Contact</a></li>
+
+          <li>
+            <a href="{{ url_for('main.shop') }}"> Shop </a>
+          </li>
+
+          <li>
+            <a href="{{ url_for('main.about') }}"> About </a>
+          </li>
+
+          <li>
+            <a href="#" id="cart-link">
+              🛒 Cart (<span id="cart-count">0</span>)
+            </a>
+          </li>
+
+          <li>
+            <a href="{{ url_for('main.wishlist') }}"> ♡ Wishlist </a>
+          </li>
+
+          <li>
+            <a href="{{ url_for('main.contact') }}"> Contact </a>
+          </li>
+
+          {% if session.get("user_id") %}
+          <li>
+            <a href="{{ url_for('main.logout') }}"> Logout </a>
+          </li>
+          {% else %}
+          <li>
+            <a href="{{ url_for('main.login') }}"> Login </a>
+          </li>
+          {% endif %}
         </ul>
         <div class="menu-toggle">☰</div>
       </nav>
@@ -96,7 +127,7 @@
           <div class="product-card">
             <div class="product-image">
               <span class="discount-badge">40% OFF</span>
-              <span class="wishlist">❤</span>
+              <span class="wishlist" data-product-id="1">♡</span>
               <img
                 src="{{ url_for('static', filename='images/products/Shirt.png') }}"
                 alt="Premium Shirt"
@@ -137,7 +168,7 @@
             <div class="product-image">
               <span class="discount-badge">25% OFF</span>
 
-              <span class="wishlist">❤</span>
+              <span class="wishlist" data-product-id="2">♡</span>
 
               <img
                 src="{{ url_for('static', filename='images/products/Hoodie.png') }}"
@@ -189,7 +220,7 @@
             <div class="product-image">
               <span class="discount-badge">30% OFF</span>
 
-              <span class="wishlist">❤</span>
+              <span class="wishlist" data-product-id="3">♡</span>
               <img
                 src="{{ url_for('static', filename='images/products/T-Shirt.png') }}"
                 alt="Casual T-Shirt"
@@ -332,6 +363,7 @@
           <a href="{{ url_for('main.home') }}">Home</a>
           <a href="{{ url_for('main.shop') }}">Shop</a>
           <a href="{{ url_for('main.about') }}">About</a>
+          <a href="{{ url_for('main.wishlist') }}">♡ Wishlist</a>
           <a href="{{ url_for('main.contact') }}">Contact</a>
         </div>
         <div class="footer-column">

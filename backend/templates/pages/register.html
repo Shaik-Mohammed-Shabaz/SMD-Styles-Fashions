@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Login | SMD Styles & Fashions</title>
+    <title>Create Account | SMD Styles & Fashions</title>
 
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap">
@@ -70,7 +70,7 @@
 
 
     <!-- ==========================
-         Login
+         Register
     =========================== -->
 
     <section class="auth-page">
@@ -79,10 +79,10 @@
 
             <div class="auth-card">
 
-                <h1>Welcome Back</h1>
+                <h1>Create Account</h1>
 
                 <p class="auth-subtitle">
-                    Login to SMD Styles & Fashions
+                    Join SMD Styles & Fashions
                 </p>
 
 
@@ -106,7 +106,24 @@
 
 
                 <form method="POST"
-                      action="{{ url_for('main.login') }}">
+                      action="{{ url_for('main.register') }}">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            placeholder="Enter your name"
+                            required
+                        >
+
+                    </div>
+
 
                     <div class="form-group">
 
@@ -135,7 +152,8 @@
                             type="password"
                             id="password"
                             name="password"
-                            placeholder="Enter your password"
+                            placeholder="Minimum 6 characters"
+                            minlength="6"
                             required
                         >
 
@@ -143,7 +161,7 @@
 
 
                     <button type="submit" class="buy-btn auth-button">
-                        Login
+                        Create Account
                     </button>
 
                 </form>
@@ -151,10 +169,10 @@
 
                 <p class="auth-footer">
 
-                    Don't have an account?
+                    Already have an account?
 
-                    <a href="{{ url_for('main.register') }}">
-                        Create Account
+                    <a href="{{ url_for('main.login') }}">
+                        Login
                     </a>
 
                 </p>
