@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Account | SMD Styles & Fashions</title>
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Existing CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+
+</head>
+
+<body>
+
+    <!-- Flash Messages -->
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash-message {{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+
+    <!-- Header -->
+
+    <header>
+
+        <nav class="navbar">
+
+            <div class="logo">
+                <a href="{{ url_for('main.home') }}">
+                    <h1>SMD Styles & Fashions</h1>
+                </a>
+            </div>
+
+
+            <ul class="nav-links">
+
+                <li>
+                    <a href="{{ url_for('main.home') }}">
+                        Home
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.shop') }}">
+                        Shop
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.about') }}">
+                        About
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#" id="cart-link">
+                        🛒 Cart (<span id="cart-count">0</span>)
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.wishlist') }}">
+                        ♡ Wishlist
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ url_for('main.contact') }}">
+                        Contact
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="menu-toggle">☰</div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- Account -->
+
+    <main class="account-page">
+
+        <div class="account-container">
+
+            <div class="account-header">
+
+                <h1>My Account</h1>
+
+                <p>
+                    Welcome back, {{ user.name }}
+                </p>
+
+            </div>
+
+
+            <div class="account-card">
+
+                <div class="account-avatar">
+                    {{ user.name[0]|upper }}
+                </div>
+
+
+                <div class="account-details">
+
+                    <h2>{{ user.name }}</h2>
+
+                    <p>
+                        <strong>Email:</strong>
+                        {{ user.email }}
+                    </p>
+
+                    <p>
+                        <strong>Wishlist:</strong>
+                        {{ wishlist_count }} item{% if wishlist_count != 1 %}s{% endif %}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="account-actions">
+
+                <a href="{{ url_for('main.wishlist') }}" class="account-action-btn">
+                    ♡ My Wishlist
+                </a>
+
+                <a href="{{ url_for('main.shop') }}" class="account-action-btn">
+                    🛍 Continue Shopping
+                </a>
+
+                <a href="{{ url_for('main.logout') }}" class="account-action-btn logout-btn">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- Existing JavaScript -->
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

@@ -2955,3 +2955,194 @@ a.logo:hover {
     font-size: 2rem;
   }
 }
+
+/* =========================================================
+   CUSTOMER ACCOUNT PAGE
+   ========================================================= */
+
+.account-page {
+    min-height: calc(100vh - 100px);
+    padding: 80px 20px;
+    background: var(--primary-color);
+}
+
+.account-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.account-header h1 {
+    font-family: "Playfair Display", serif;
+    font-size: 3rem;
+    color: var(--secondary-color);
+    margin-bottom: 10px;
+}
+
+.account-header p {
+    color: #cccccc;
+    font-size: 1rem;
+}
+
+
+/* Account Information Card */
+
+.account-card {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+
+    padding: 35px;
+
+    background: #111111;
+    border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 12px;
+
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+
+    margin-bottom: 35px;
+}
+
+
+/* Avatar */
+
+.account-avatar {
+    width: 90px;
+    height: 90px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--secondary-color);
+    color: #111111;
+
+    font-family: "Playfair Display", serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+
+/* Customer Details */
+
+.account-details h2 {
+    color: #ffffff;
+    font-family: "Playfair Display", serif;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.account-details p {
+    color: #cccccc;
+    font-size: 0.95rem;
+    margin: 8px 0;
+}
+
+.account-details strong {
+    color: var(--secondary-color);
+}
+
+
+/* Account Action Buttons */
+
+.account-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.account-action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 55px;
+    padding: 15px 20px;
+
+    border: 1px solid var(--secondary-color);
+    border-radius: 6px;
+
+    color: var(--secondary-color);
+    text-decoration: none;
+
+    font-weight: 500;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        transform 0.3s ease;
+}
+
+.account-action-btn:hover {
+    background: var(--secondary-color);
+    color: #111111;
+    transform: translateY(-3px);
+}
+
+
+/* Logout Button */
+
+.account-action-btn.logout-btn {
+    border-color: #b84a4a;
+    color: #ff8a8a;
+}
+
+.account-action-btn.logout-btn:hover {
+    background: #b84a4a;
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   ACCOUNT PAGE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .account-page {
+        padding: 60px 20px;
+    }
+
+    .account-header h1 {
+        font-size: 2.3rem;
+    }
+
+    .account-card {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .account-actions {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .account-header h1 {
+        font-size: 2rem;
+    }
+
+    .account-avatar {
+        width: 75px;
+        height: 75px;
+        font-size: 2rem;
+    }
+
+    .account-details h2 {
+        font-size: 1.5rem;
+    }
+
+}

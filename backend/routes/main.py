@@ -187,6 +187,26 @@ def login():
     return render_template("pages/login.html")
 
 # ==========================
+# Customer Account
+# ==========================
+
+@main.route("/account")
+@login_required
+def account():
+
+    user = User.query.get_or_404(session["user_id"])
+
+    wishlist_count = Wishlist.query.filter_by(
+        user_id=session["user_id"]
+    ).count()
+
+    return render_template(
+        "pages/account.html",
+        user=user,
+        wishlist_count=wishlist_count
+    )
+
+# ==========================
 # Customer Registration
 # ==========================
 

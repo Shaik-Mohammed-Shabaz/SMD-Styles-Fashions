@@ -76,31 +76,41 @@
         </a>
     </li>
 
-    <li>
+    {% if session.get("user_id") %}
+
+<li>
     <a href="{{ url_for('main.wishlist') }}">
         ♡ Wishlist
     </a>
-    </li>
+</li>
+
+<li>
+    <a href="{{ url_for('main.account') }}">
+        Account
+    </a>
+</li>
+
+{% endif %}
 
     <li>
     <a href="{{ url_for('main.contact') }}">
         Contact
     </a>
-</li>
+    </li>
 
-{% if session.get("user_id") %}
-<li>
+    {% if session.get("user_id") %}
+    <li>
     <a href="{{ url_for('main.logout') }}">
         Logout
     </a>
-</li>
-{% else %}
-<li>
+    </li>
+    {% else %}
+    <li>
     <a href="{{ url_for('main.login') }}">
         Login
     </a>
-</li>
-{% endif %}
+    </li>
+    {% endif %}
 
 </ul>
             <div class="menu-toggle">
@@ -115,8 +125,8 @@
     <main>
 
         <!-- ==========================
-     Featured Collection
-=========================== -->
+            Featured Collection
+        =========================== -->
 
         <section id="shop" class="shop-banner">
 
@@ -358,8 +368,8 @@
         </section>
 
         <!-- ==========================
-     Shopping Cart Sidebar
-========================== -->
+             Shopping Cart Sidebar
+        ========================== -->
 
         <div class="cart-sidebar" id="cartSidebar">
 
@@ -436,9 +446,9 @@
 
         </footer>
 
-        <!-- ==========================
-     Quick View Modal
-========================== -->
+       <!-- ==========================
+              Quick View Modal
+         ========================== -->
 
         <div class="modal" id="quickViewModal">
 
