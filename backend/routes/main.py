@@ -38,12 +38,42 @@ def prevent_admin_cache(response):
 
 @main.route("/")
 def home():
-    return render_template("index.html")
+
+    wishlist_product_ids = set()
+
+    if session.get("user_id"):
+
+        wishlist_product_ids = {
+            item.product_id
+            for item in Wishlist.query.filter_by(
+                user_id=session["user_id"]
+            ).all()
+        }
+
+    return render_template(
+        "index.html",
+        wishlist_product_ids=wishlist_product_ids
+    )
 
 
 @main.route("/shop")
 def shop():
-    return render_template("shop.html")
+
+    wishlist_product_ids = set()
+
+    if session.get("user_id"):
+
+        wishlist_product_ids = {
+            item.product_id
+            for item in Wishlist.query.filter_by(
+                user_id=session["user_id"]
+            ).all()
+        }
+
+    return render_template(
+        "shop.html",
+        wishlist_product_ids=wishlist_product_ids
+    )
 
 # ==========================
 # Wishlist
@@ -117,9 +147,15 @@ def success():
     return render_template("success.html")
 
 
-@main.route("/product")
-def product():
-    return render_template("pages/product.html")
+@main.route("/product/<int:product_id>")
+def product(product_id):
+
+    product = Product.query.get_or_404(product_id)
+
+    return render_template(
+        "pages/product.html",
+        product=product
+    )
 
 
 @main.route("/about")

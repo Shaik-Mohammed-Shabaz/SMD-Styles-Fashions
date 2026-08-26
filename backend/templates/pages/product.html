@@ -1,259 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Product Details | SMD Styles & Fashions</title>
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/animations.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/responsive.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/animations.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <div class="loader" id="loader">
+      <div class="loader-spinner"></div>
 
-        <div class="loader-spinner"></div>
+      <h1>SMD</h1>
 
-        <h1>SMD</h1>
-
-        <p>Styles & Fashions</p>
-
+      <p>Styles & Fashions</p>
     </div>
 
     <header>
+      <nav class="navbar">
 
-        <nav class="navbar">
+    <div class="logo">
+        <a href="{{ url_for('main.home') }}">
+            <h1>SMD Styles & Fashions</h1>
+        </a>
+    </div>
 
-            <div class="logo">
+    <ul class="nav-links">
 
-                <a href="../index.html">
-                    <h1>SMD Styles & Fashions</h1>
-                </a>
+        <li>
+            <a href="{{ url_for('main.home') }}">Home</a>
+        </li>
 
-            </div>
+        <li>
+            <a href="{{ url_for('main.shop') }}">Shop</a>
+        </li>
 
-            <ul class="nav-links">
+        <li>
+            <a href="{{ url_for('main.about') }}">About</a>
+        </li>
 
-                <li><a href="../index.html">Home</a></li>
-                <li><a href="../shop.html">Shop</a></li>
-                <li><a href="about.html">About</a></li>
+        <li>
+            <a href="#" id="cart-link">
+                🛒 Cart (<span id="cart-count">0</span>)
+            </a>
+        </li>
 
-                <li>
+        <li>
+            <a href="{{ url_for('main.contact') }}">Contact</a>
+        </li>
 
-                    <a href="#" id="cart-link">
-                        🛒 Cart (<span id="cart-count">0</span>)
-                    </a>
+    </ul>
 
-                </li>
+    <div class="menu-toggle">
+        ☰
+    </div>
 
-                <li><a href="contact.html">Contact</a></li>
-
-            </ul>
-
-            <div class="menu-toggle">
-
-                ☰
-
-            </div>
-
-        </nav>
-
+</nav>
     </header>
 
     <main>
+      <section class="product-details">
+        <div class="product-container">
+          <!-- Left Side -->
+          <div class="product-gallery">
+            <img
+              id="mainImage"
+              src="{{ url_for('static', filename=product.image) }}"
+              alt="{{ product.name }}"
+              class="main-product-image"
+            />
+                
 
-        <section class="product-details">
+            <div class="thumbnail-gallery">
 
-            <div class="product-container">
-
-                <!-- Left Side -->
-                <div class="product-gallery">
-
-                    <img id="mainImage" src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Premium Oxford Shirt">
-                        class="main-product-image">
-
-                    <div class="thumbnail-gallery">
-
-                        <img class="thumbnail active" src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Premium Shirt"
-                            data-name="Premium Oxford Shirt" data-price="₹599" data-oldprice="₹999"
-                            data-description="Premium cotton fabric with modern slim fit. Perfect for office and casual wear.">
-
-                        <img class="thumbnail" src="{{ url_for('static', filename='images/products/Hoodie.png') }}" alt="Classic Hoodie"
-                            data-name="Classic Hoodie" data-price="₹799" data-oldprice="₹1099"
-                            data-description="Warm fleece hoodie designed for winter comfort and stylish everyday wear.">
-
-                        <img class="thumbnail" src="{{ url_for('static', filename='images/products/T-Shirt.png') }}" alt="Casual T-Shirt"
-                            data-name="Casual T-Shirt" data-price="₹349" data-oldprice="₹499"
-                            data-description="Soft breathable cotton t-shirt suitable for daily casual fashion.">
-
-                    </div>
-
-                </div>
-
-                <!-- Right Side -->
-                <div class="product-info">
-                    <h1 class="product-title" id="productName">
-                        Premium Oxford Shirt
-                    </h1>
-
-                    <p class="product-price">
-                        <span id="productPrice">₹599</span>
-
-                        <del id="productOldPrice">
-                            ₹999
-                        </del>
-                    </p>
-
-                    <p class="product-description" id="productDescription">
-                        Premium cotton fabric with modern slim fit.
-                        Perfect for office and casual wear.
-                    </p>
-
-                    <div class="product-features">
-
-                        <p>✅ In Stock</p>
-
-                        <p>🚚 Free Delivery</p>
-
-                        <p>↩️ 7 Days Easy Return</p>
-
-                        <p>🔒 Secure Checkout</p>
-
-                        <p>⭐ Premium Quality Guaranteed</p>
-
-                    </div>
-
-                    <div class="size-selector">
-
-                        <h3>Select Size</h3>
-
-                        <button>S</button>
-                        <button>M</button>
-                        <button>L</button>
-                        <button>XL</button>
-
-                    </div>
-
-                    <div class="product-actions">
-
-                        <button class="explore-btn" id="addToCartProduct">
-                            Add to Cart
-                        </button>
-
-                        <button id="buyNowproduct" class="buy-btn">
-
-                            Buy Now
-
-                        </button>
-
-                    </div>
-
-                </div>
+               <img
+                   class="thumbnail active"
+                   src="{{ url_for('static', filename=product.image) }}"
+                   alt="{{ product.name }}"
+                >
 
             </div>
+          </div>
 
-        </section>
+          <!-- Right Side -->
+          <div class="product-info">
+            <h1 class="product-title" id="productName">{{ product.name }}</h1>
 
+            <p class="product-price">
+              <span id="productPrice">₹{{ product.price|int }}</span>
+            </p>
+
+            <p class="product-description" id="productDescription">
+              {{ product.description }}
+            </p>
+
+            {% if product.stock > 0 %}
+    <p>✅ In Stock ({{ product.stock }} available)</p>
+{% else %}
+    <p>❌ Out of Stock</p>
+{% endif %}
+
+              <p>🚚 Free Delivery</p>
+
+              <p>↩️ 7 Days Easy Return</p>
+
+              <p>🔒 Secure Checkout</p>
+
+              <p>⭐ Premium Quality Guaranteed</p>
+            </div>
+
+            <div class="size-selector">
+  <h3>Select Size</h3>
+
+  <button type="button" class="product-size-btn">S</button>
+  <button type="button" class="product-size-btn active">M</button>
+  <button type="button" class="product-size-btn">L</button>
+  <button type="button" class="product-size-btn">XL</button>
+</div>
+
+            <div class="product-actions">
+              <button class="explore-btn" id="addToCartProduct">
+                Add to Cart
+              </button>
+
+              <button id="buyNowproduct" class="buy-btn">Buy Now</button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <h2>Shopping Cart</h2>
 
-        <div class="cart-header">
-            <h2>Shopping Cart</h2>
+        <span id="closeCart">&times;</span>
+      </div>
 
-            <span id="closeCart">&times;</span>
-        </div>
+      <div class="cart-items" id="cartItems">
+        <p id="emptyCart">Your cart is empty.</p>
+      </div>
 
-        <div class="cart-items" id="cartItems">
+      <div class="cart-footer">
+        <h3>Total: ₹0</h3>
 
-            <p id="emptyCart">
-                Your cart is empty.
-            </p>
-
-        </div>
-
-        <div class="cart-footer">
-
-            <h3>Total: ₹0</h3>
-
-            <button class="checkout-btn">
-                Proceed to Checkout
-            </button>
-
-        </div>
-
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
     </div>
 
-    <div class="toast" id="toast">
+    <div class="toast" id="toast">✔ Product added to cart</div>
 
-        ✔ Product added to cart
-
-    </div>
-
-    <button id="backToTop">
-
-        ↑
-
-    </button>
+    <button id="backToTop">↑</button>
 
     <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3>SMD Styles & Fashions</h3>
 
-        <div class="footer-container">
-
-            <div class="footer-section">
-
-                <h3>SMD Styles & Fashions</h3>
-
-                <p>Premium Men's Fashion Store</p>
-
-            </div>
-
-            <div class="footer-section">
-
-                <h3>Quick Links</h3>
-
-                <a href="index.html">Home</a>
-                <a href="shop.html">Shop</a>
-                <a href="#">Contact</a>
-
-            </div>
-
-            <div class="footer-section">
-
-                <h3>Customer Support</h3>
-
-                <p>Email: smd.stylesfashions@gmail.com</p>
-
-                <p>Phone: +91 90147 38616</p>
-
-            </div>
-
+          <p>Premium Men's Fashion Store</p>
         </div>
 
-        <hr>
+        <div class="footer-section">
+          <h3>Quick Links</h3>
 
-        <p class="copyright">
+          <a href="{{ url_for('main.home') }}">Home</a>
+          <a href="{{ url_for('main.shop') }}">Shop</a>
+          <a href="{{ url_for('main.contact') }}">Contact</a>
+        </div>
 
-            © 2026 SMD Styles & Fashions. All Rights Reserved.
+        <div class="footer-section">
+          <h3>Customer Support</h3>
 
-        </p>
+          <p>Email: smd.stylesfashions@gmail.com</p>
 
+          <p>Phone: +91 90147 38616</p>
+        </div>
+      </div>
+
+      <hr />
+
+      <p class="copyright">
+        © 2026 SMD Styles & Fashions. All Rights Reserved.
+      </p>
     </footer>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-</body>
-
+  </body>
 </html>

@@ -193,7 +193,12 @@
 
                         <span class="discount-badge">40% OFF</span>
 
-                        <span class="wishlist" data-product-id="1">♡</span>
+                        <span
+  class="wishlist {% if 1 in wishlist_product_ids %}active{% endif %}"
+  data-product-id="1"
+>
+  {% if 1 in wishlist_product_ids %}♥{% else %}♡{% endif %}
+</span>
 
                         <img src="{{ url_for('static', filename='images/products/Shirt.png') }}" alt="Premium Shirt">
 
@@ -211,6 +216,10 @@
                     </div>
 
                     <h3>Premium Oxford Shirt</h3>
+
+                    <a href="{{ url_for('main.product', product_id=1) }}" class="view-details-btn">
+    View Details
+</a>
 
                     <div class="rating">
 
@@ -252,7 +261,12 @@
 
                         <span class="discount-badge">25% OFF</span>
 
-                        <span class="wishlist" data-product-id="2">♡</span>
+                        <span
+  class="wishlist {% if 2 in wishlist_product_ids %}active{% endif %}"
+  data-product-id="2"
+>
+  {% if 2 in wishlist_product_ids %}♥{% else %}♡{% endif %}
+</span>
 
                         <img src="{{ url_for('static', filename='images/products/Hoodie.png') }}" alt="Classic Hoodie">
 
@@ -272,6 +286,10 @@
                     </div>
 
                     <h3>Classic Hoodie</h3>
+
+                    <a href="{{ url_for('main.product', product_id=2) }}" class="view-details-btn">
+    View Details
+</a>
 
                     <div class="rating">
                         ★★★★★
@@ -311,7 +329,12 @@
 
                         <span class="discount-badge">15% OFF</span>
 
-                        <span class="wishlist" data-product-id="3">♡</span>
+                        <span
+  class="wishlist {% if 3 in wishlist_product_ids %}active{% endif %}"
+  data-product-id="3"
+>
+  {% if 3 in wishlist_product_ids %}♥{% else %}♡{% endif %}
+</span>
 
                         <img src="{{ url_for('static', filename='images/products/T-Shirt.png') }}" alt="Casual T-Shirt">
 
@@ -331,6 +354,10 @@
                     </div>
 
                     <h3>Casual T-Shirt</h3>
+
+                    <a href="{{ url_for('main.product', product_id=3) }}" class="view-details-btn">
+    View Details
+</a>
 
                     <div class="rating">
                         ★★★★★

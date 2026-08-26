@@ -1,331 +1,347 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>My Wishlist | SMD Styles & Fashions</title>
 
     <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
-        rel="stylesheet">
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Existing CSS -->
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
 
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/responsive.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/responsive.css') }}"
+    />
 
-    <link rel="stylesheet"
-        href="{{ url_for('static', filename='css/animations.css') }}">
-</head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/animations.css') }}"
+    />
+  </head>
 
-<body>
-
+  <body>
     <!-- ==========================
          Flash Messages
     =========================== -->
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash-message {{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="flash-message {{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
 
     <!-- ==========================
          Navigation
     =========================== -->
 
     <header>
+      <nav class="navbar">
+        <div class="logo">
+          <a href="{{ url_for('main.home') }}">
+            <h1>SMD Styles & Fashions</h1>
+          </a>
+        </div>
 
-        <nav class="navbar">
+        <ul class="nav-links">
+          <li>
+            <a href="{{ url_for('main.home') }}"> Home </a>
+          </li>
 
-            <div class="logo">
-                <a href="{{ url_for('main.home') }}">
-                    <h1>SMD Styles & Fashions</h1>
-                </a>
-            </div>
+          <li>
+            <a href="{{ url_for('main.shop') }}"> Shop </a>
+          </li>
 
+          <li>
+            <a href="{{ url_for('main.about') }}"> About </a>
+          </li>
 
-            <ul class="nav-links">
+          <li>
+            <a href="#" id="cart-link">
+              🛒 Cart (<span id="cart-count">0</span>)
+            </a>
+          </li>
 
-                <li>
-                    <a href="{{ url_for('main.home') }}">
-                        Home
-                    </a>
-                </li>
+          <li>
+            <a href="{{ url_for('main.wishlist') }}" class="active">
+              ♡ Wishlist
+            </a>
+          </li>
 
-                <li>
-                    <a href="{{ url_for('main.shop') }}">
-                        Shop
-                    </a>
-                </li>
+          <li>
+            <a href="{{ url_for('main.contact') }}"> Contact </a>
+          </li>
 
-                <li>
-                    <a href="{{ url_for('main.about') }}">
-                        About
-                    </a>
-                </li>
+          {% if session.get("user_id") %}
 
-                <li>
-                    <a href="{{ url_for('main.wishlist') }}" class="active">
-                        ♡ Wishlist
-                    </a>
-                </li>
+          <li>
+            <a href="{{ url_for('main.logout') }}"> Logout </a>
+          </li>
 
-                <li>
-                    <a href="{{ url_for('main.contact') }}">
-                        Contact
-                    </a>
-                </li>
+          {% else %}
 
-                {% if session.get("user_id") %}
+          <li>
+            <a href="{{ url_for('main.login') }}"> Login </a>
+          </li>
 
-                    <li>
-                        <a href="{{ url_for('main.logout') }}">
-                            Logout
-                        </a>
-                    </li>
+          {% endif %}
+        </ul>
 
-                {% else %}
-
-                    <li>
-                        <a href="{{ url_for('main.login') }}">
-                            Login
-                        </a>
-                    </li>
-
-                {% endif %}
-
-            </ul>
-
-            <div class="menu-toggle">
-                ☰
-            </div>
-
-        </nav>
-
+        <div class="menu-toggle">☰</div>
+      </nav>
     </header>
-
 
     <!-- ==========================
          Wishlist
     =========================== -->
 
     <main>
+      <section class="wishlist-page">
+        <div class="wishlist-container">
+          <div class="wishlist-header">
+            <h1>My Wishlist</h1>
 
-        <section class="wishlist-page">
+            <p>Your favorite styles, saved in one place.</p>
+          </div>
 
-            <div class="wishlist-container">
+          {% if wishlist_items %}
 
-                <div class="wishlist-header">
+          <div class="product-grid">
+            {% for item in wishlist_items %}
 
-                    <h1>My Wishlist</h1>
+            <div class="product-card">
+              <div class="product-image">
+                <span
+                  class="wishlist active"
+                  data-product-id="{{ item.product.id }}"
+                >
+                  ♥
+                </span>
 
-                    <p>
-                        Your favorite styles, saved in one place.
-                    </p>
+                <img
+                  src="{{ url_for('static', filename=item.product.image) }}"
+                  alt="{{ item.product.name }}"
+                />
+              </div>
 
-                </div>
+              <h3>{{ item.product.name }}</h3>
 
+              <p class="price">₹{{ "%.0f"|format(item.product.price) }}</p>
 
-                {% if wishlist_items %}
+              <div class="wishlist-size-selector">
+                <h4>Select Size</h4>
 
-                    <div class="product-grid">
+                <button type="button" class="wishlist-size-btn">S</button>
+                <button type="button" class="wishlist-size-btn active">
+                  M
+                </button>
+                <button type="button" class="wishlist-size-btn">L</button>
+                <button type="button" class="wishlist-size-btn">XL</button>
+              </div>
 
-                        {% for item in wishlist_items %}
+              <div class="product-buttons">
+                <button
+                  class="cart-btn wishlist-cart-btn"
+                  data-name="{{ item.product.name }}"
+                  data-price="{{ item.product.price }}"
+                  data-image="{{ url_for('static', filename=item.product.image) }}"
+                >
+                  Add to Cart
+                </button>
 
-                            <div class="product-card">
-
-                                <div class="product-image">
-
-                                    <span class="wishlist active">
-                                        ♥
-                                    </span>
-
-                                    <img
-                                        src="{{ url_for('static', filename=item.product.image) }}"
-                                        alt="{{ item.product.name }}"
-                                    >
-
-                                </div>
-
-
-                                <h3>
-                                    {{ item.product.name }}
-                                </h3>
-
-
-                                <p class="price">
-                                    ₹{{ "%.0f"|format(item.product.price) }}
-                                </p>
-
-
-                                <div class="product-buttons">
-
-                                    <button
-                                        class="cart-btn"
-                                        data-name="{{ item.product.name }}"
-                                        data-price="{{ item.product.price }}"
-                                    >
-                                        Add to Cart
-                                    </button>
-
-
-                                    <button
-                                        class="remove-wishlist-btn"
-                                        data-product-id="{{ item.product.id }}"
-                                    >
-                                        Remove
-                                    </button>
-
-                                </div>
-
-                            </div>
-
-                        {% endfor %}
-
-                    </div>
-
-                {% else %}
-
-                    <div class="empty-wishlist">
-
-                        <div class="empty-wishlist-icon">
-                            ♡
-                        </div>
-
-                        <h2>
-                            Your Wishlist is Empty
-                        </h2>
-
-                        <p>
-                            Save your favorite products here and find them easily later.
-                        </p>
-
-                        <a
-                            href="{{ url_for('main.shop') }}"
-                            class="buy-btn"
-                        >
-                            Continue Shopping
-                        </a>
-
-                    </div>
-
-                {% endif %}
-
+                <button
+                  class="remove-wishlist-btn"
+                  data-product-id="{{ item.product.id }}"
+                >
+                  Remove
+                </button>
+              </div>
             </div>
 
-        </section>
+            {% endfor %}
+          </div>
 
+          {% else %}
+
+          <div class="empty-wishlist">
+            <div class="empty-wishlist-icon">♡</div>
+
+            <h2>Your Wishlist is Empty</h2>
+
+            <p>Save your favorite products here and find them easily later.</p>
+
+            <a href="{{ url_for('main.shop') }}" class="buy-btn">
+              Continue Shopping
+            </a>
+          </div>
+
+          {% endif %}
+        </div>
+      </section>
     </main>
 
+    <!-- ==========================
+     Cart Sidebar
+========================== -->
+
+    <div class="cart-sidebar" id="cartSidebar">
+      <div class="cart-header">
+        <h2>Shopping Cart</h2>
+
+        <span id="closeCart">&times;</span>
+      </div>
+
+      <div class="cart-items" id="cartItems">
+        <p id="emptyCart">Your cart is empty.</p>
+      </div>
+
+      <div class="cart-footer">
+        <h3>Total: ₹0</h3>
+
+        <button class="checkout-btn">Proceed to Checkout</button>
+      </div>
+    </div>
 
     <!-- Toast -->
+
     <div id="toast" class="toast"></div>
 
-
     <!-- Existing JavaScript -->
+
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-
     <!-- Wishlist Remove -->
     <script>
+      document.querySelectorAll(".remove-wishlist-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const productId = button.dataset.productId;
 
-        document.querySelectorAll(".remove-wishlist-btn").forEach(button => {
+          const formData = new FormData();
 
-            button.addEventListener("click", async () => {
+          formData.append("product_id", productId);
 
-                const productId = button.dataset.productId;
+          try {
+            const response = await fetch(
+              "{{ url_for('main.toggle_wishlist') }}",
+              {
+                method: "POST",
+                body: formData,
+              },
+            );
 
-                const formData = new FormData();
+            const data = await response.json();
 
-                formData.append("product_id", productId);
+            if (data.success && data.added === false) {
+              button.closest(".product-card").remove();
 
+              showWishlistToast("💔 Removed from Wishlist");
 
-                try {
+              if (document.querySelectorAll(".product-card").length === 0) {
+                setTimeout(() => {
+                  location.reload();
+                }, 500);
+              }
+            } else {
+              showWishlistToast(data.message || "Something went wrong.");
+            }
+          } catch (error) {
+            console.error(error);
 
-                    const response = await fetch(
-                        "{{ url_for('main.toggle_wishlist') }}",
-                        {
-                            method: "POST",
-                            body: formData
-                        }
-                    );
-
-
-                    const data = await response.json();
-
-
-                    if (data.success && data.added === false) {
-
-                        button.closest(".product-card").remove();
-
-                        showWishlistToast("💔 Removed from Wishlist");
-
-
-                        if (
-                            document.querySelectorAll(".product-card").length === 0
-                        ) {
-
-                            setTimeout(() => {
-                                location.reload();
-                            }, 500);
-
-                        }
-
-                    } else {
-
-                        showWishlistToast(
-                            data.message || "Something went wrong."
-                        );
-
-                    }
-
-                } catch (error) {
-
-                    console.error(error);
-
-                    showWishlistToast(
-                        "Something went wrong. Please try again."
-                    );
-
-                }
-
-            });
-
+            showWishlistToast("Something went wrong. Please try again.");
+          }
         });
+      });
 
+      function showWishlistToast(message) {
+        const toast = document.getElementById("toast");
 
-        function showWishlistToast(message) {
+        if (!toast) return;
 
-            const toast = document.getElementById("toast");
+        toast.textContent = message;
 
-            if (!toast) return;
+        toast.classList.add("show");
 
-            toast.textContent = message;
-            
-            toast.classList.add("show");
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 2000);
+      }
 
+      // ==========================
+      // Wishlist Size Selection
+      // ==========================
 
-            setTimeout(() => {
+      document.addEventListener("click", function (event) {
+        const button = event.target.closest(".wishlist-size-btn");
 
-                toast.classList.remove("show");
-
-            }, 2000);
-
+        if (!button) {
+          return;
         }
 
+        const selector = button.closest(".wishlist-size-selector");
+
+        if (!selector) {
+          return;
+        }
+
+        selector.querySelectorAll(".wishlist-size-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+      });
+
+      // ==========================
+      // Wishlist Add To Cart
+      // ==========================
+
+      document.querySelectorAll(".wishlist-cart-btn").forEach((button) => {
+        button.addEventListener("click", () => {
+          const productCard = button.closest(".product-card");
+
+          const activeSize = productCard.querySelector(
+            ".wishlist-size-btn.active",
+          );
+
+          const selectedSize = activeSize ? activeSize.textContent.trim() : "M";
+
+          const name = button.dataset.name;
+          const price = Number(button.dataset.price);
+          const image = button.dataset.image;
+
+          let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+          const existingProduct = cart.find(
+            (item) => item.name === name && item.size === selectedSize,
+          );
+
+          if (existingProduct) {
+            existingProduct.quantity++;
+          } else {
+            cart.push({
+              name: name,
+              price: price,
+              image: image,
+              size: selectedSize,
+              quantity: 1,
+            });
+          }
+
+          localStorage.setItem("cart", JSON.stringify(cart));
+
+          if (typeof updateCart === "function") {
+            updateCart();
+          }
+
+          showWishlistToast("✓ Added to Cart — Size " + selectedSize);
+        });
+      });
     </script>
-
-</body>
-
+  </body>
 </html>

@@ -156,14 +156,24 @@ updateCart();
 
 cartButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    console.log("Outer Add to Cart Clicked");
-
     const name = button.dataset.name;
     const price = Number(button.dataset.price);
 
-    console.log(name, price);
+    const productCard = button.closest(".product-card");
 
-    const existingProduct = cart.find((item) => item.name === name);
+    const selectedSize =
+      productCard
+        ?.querySelector(".wishlist-size-btn.active")
+        ?.textContent.trim() || "M";
+
+    const image = productCard?.querySelector("img")?.src || "";
+
+    console.log("Adding to cart:", name, price, selectedSize);
+
+    // Product + Size are treated as separate cart items
+    const existingProduct = cart.find(
+      (item) => item.name === name && item.size === selectedSize,
+    );
 
     if (existingProduct) {
       existingProduct.quantity++;
@@ -171,12 +181,13 @@ cartButtons.forEach((button) => {
       cart.push({
         name: name,
         price: price,
-        image: button.closest(".product-card").querySelector("img").src,
-        size: "M",
+        image: image,
+        size: selectedSize,
         quantity: 1,
       });
     }
 
+    // Save immediately
     updateCart();
 
     showToast("🛒 Product added to cart");
@@ -463,25 +474,10 @@ const thumbnails = document.querySelectorAll(".thumbnail");
 if (mainImage && thumbnails.length) {
   thumbnails.forEach((thumbnail) => {
     thumbnail.addEventListener("click", () => {
+      // Change only the main product image
       mainImage.src = thumbnail.src;
 
-      const productName = document.getElementById("productName");
-      const productPrice = document.getElementById("productPrice");
-      const productOldPrice = document.getElementById("productOldPrice");
-      const productDescription = document.getElementById("productDescription");
-
-      if (
-        productName &&
-        productPrice &&
-        productOldPrice &&
-        productDescription
-      ) {
-        productName.textContent = thumbnail.dataset.name;
-        productPrice.textContent = thumbnail.dataset.price;
-        productOldPrice.textContent = thumbnail.dataset.oldprice;
-        productDescription.textContent = thumbnail.dataset.description;
-      }
-
+      // Update active thumbnail
       thumbnails.forEach((img) => {
         img.classList.remove("active");
       });
@@ -490,7 +486,6 @@ if (mainImage && thumbnails.length) {
     });
   });
 }
-
 // ==========================
 // Product Page Add to Cart
 // ==========================
