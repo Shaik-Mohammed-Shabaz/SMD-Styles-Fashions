@@ -372,6 +372,24 @@ modalSizes.forEach((button) => {
 });
 
 // ==========================
+// Product Page Size Selection
+// ==========================
+
+const productSizeButtons = document.querySelectorAll(".product-size-btn");
+
+productSizeButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    productSizeButtons.forEach((btn) => {
+      btn.classList.remove("active");
+    });
+
+    button.classList.add("active");
+
+    console.log("Selected product size:", button.textContent.trim());
+  });
+});
+
+// ==========================
 // Product Search + Category Filter
 // ==========================
 

@@ -33,19 +33,19 @@
     <header>
       <nav class="navbar">
         <div class="logo">
-          <a href="index.html">
+          <a href="{{ url_for('main.home') }}">
             <h1>SMD Styles & Fashions</h1>
           </a>
         </div>
 
         <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
+          <li><a href="{{ url_for('main.home') }}">Home</a></li>
 
-          <li><a href="shop.html">Shop</a></li>
+          <li><a href="{{ url_for('main.shop') }}">Shop</a></li>
 
-          <li><a href="pages/about.html">About</a></li>
+          <li><a href="{{ url_for('main.about') }}">About</a></li>
 
-          <li><a href="pages/contact.html">Contact</a></li>
+          <li><a href="{{ url_for('main.contact') }}">Contact</a></li>
         </ul>
 
         <div class="menu-toggle">☰</div>
