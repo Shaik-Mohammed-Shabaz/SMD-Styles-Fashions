@@ -46,7 +46,7 @@ wishlistButtons.forEach((heart) => {
         data = JSON.parse(responseText);
       } catch (error) {
         console.error("Invalid JSON response:", responseText);
-        showToast("Invalid Wishlist response.");
+        showToast("Invalid wishlist response! Kindly login & try again.");
         return;
       }
 

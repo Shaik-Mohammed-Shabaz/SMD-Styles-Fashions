@@ -39,6 +39,10 @@ def prevent_admin_cache(response):
 @main.route("/")
 def home():
 
+    # Get featured products from database
+    products = Product.query.filter_by(is_featured=True).all()
+
+    # Get user's wishlist product IDs
     wishlist_product_ids = set()
 
     if session.get("user_id"):
@@ -52,9 +56,9 @@ def home():
 
     return render_template(
         "index.html",
+        products=products,
         wishlist_product_ids=wishlist_product_ids
     )
-
 
 @main.route("/shop")
 def shop():

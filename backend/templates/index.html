@@ -132,164 +132,82 @@
           <p>Premium men's fashion designed for every occasion.</p>
         </div>
         <div class="product-grid">
-          <div class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">40% OFF</span>
-              <span
-                class="wishlist {% if 1 in wishlist_product_ids %}active{% endif %}"
-                data-product-id="1"
-              >
-                {% if 1 in wishlist_product_ids %}♥{% else %}♡{% endif %}
-              </span>
-              <img
-                src="{{ url_for('static', filename='images/products/Shirt.png') }}"
-                alt="Premium Shirt"
-              />
-              <div class="image-overlay">
-                <button
-                  class="quick-view"
-                  data-name="Premium Oxford Shirt"
-                  data-price="₹599"
-                  data-image="{{ url_for('static', filename='images/products/Shirt.png') }}"
-                  data-description="Premium cotton fabric with modern slim fit. Perfect for office and casual wear."
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-            <h3>Premium Oxford Shirt</h3>
-            <div class="rating">★★★★★ <span>(4.8)</span></div>
-            <p class="price">₹599 <span>₹999</span></p>
-            <div class="product-buttons">
-              <button
-                class="cart-btn"
-                data-name="Premium Oxford Shirt"
-                data-price="599"
-              >
-                Add to Cart
-              </button>
-              <button
-                class="buy-btn card-buy-now"
-                data-name="Premium Oxford Shirt"
-                data-price="599"
-              >
-                Buy Now
-              </button>
-            </div>
-          </div>
-          <div class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">25% OFF</span>
+          {% for product in products %}
 
-              <span
-                class="wishlist {% if 2 in wishlist_product_ids %}active{% endif %}"
-                data-product-id="2"
-              >
-                {% if 2 in wishlist_product_ids %}♥{% else %}♡{% endif %}
-              </span>
+<div class="product-card">
 
-              <img
-                src="{{ url_for('static', filename='images/products/Hoodie.png') }}"
-                alt="Classic Hoodie"
-              />
+    <div class="product-image">
 
-              <div class="image-overlay">
-                <button
-                  class="quick-view"
-                  data-name="Classic Hoodie"
-                  data-price="₹799"
-                  data-image="{{ url_for('static', filename='images/products/Hoodie.png') }}"
-                  data-description="Soft fleece hoodie designed for everyday comfort and warmth."
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-            <h3>Classic Hoodie</h3>
-            <div class="rating">
-              ★★★★★
+        <span class="wishlist {% if product.id in wishlist_product_ids %}active{% endif %}"
+              data-product-id="{{ product.id }}">
 
-              <span>(4.7)</span>
-            </div>
+            {% if product.id in wishlist_product_ids %}
+                ♥
+            {% else %}
+                ♡
+            {% endif %}
 
-            <p class="price">
-              ₹799
+        </span>
 
-              <span>₹1099</span>
-            </p>
-            <div class="product-buttons">
-              <button
-                class="cart-btn"
-                data-name="Classic Hoodie"
-                data-price="799"
-              >
-                Add to Cart
-              </button>
-              <button
-                class="buy-btn card-buy-now"
-                data-name="Classic Hoodie"
-                data-price="799"
-              >
-                Buy Now
-              </button>
-            </div>
-          </div>
-          <div class="product-card">
-            <div class="product-image">
-              <span class="discount-badge">30% OFF</span>
+        <img
+            src="{{ url_for('static', filename=product.image) }}"
+            alt="{{ product.name }}"
+        >
 
-              <span
-                class="wishlist {% if 3 in wishlist_product_ids %}active{% endif %}"
-                data-product-id="3"
-              >
-                {% if 3 in wishlist_product_ids %}♥{% else %}♡{% endif %}
-              </span>
-              <img
-                src="{{ url_for('static', filename='images/products/T-Shirt.png') }}"
-                alt="Casual T-Shirt"
-              />
-              <div class="image-overlay">
-                <button
-                  class="quick-view"
-                  data-name="Casual T-Shirt"
-                  data-price="₹349"
-                  data-image="{{ url_for('static', filename='images/products/T-Shirt.png') }}"
-                  data-description="Premium cotton round-neck T-Shirt with modern fit."
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-            <h3>Casual T-Shirt</h3>
-            <div class="rating">
-              ★★★★★
+        <div class="image-overlay">
 
-              <span>(4.6)</span>
-            </div>
+            <button
+                class="quick-view"
+                data-name="{{ product.name }}"
+                data-price="₹{{ '%.0f'|format(product.price) }}"
+                data-image="{{ url_for('static', filename=product.image) }}"
+                data-description="{{ product.description }}"
+            >
+                View Details
+            </button>
 
-            <p class="price">
-              ₹349
-
-              <span>₹499</span>
-            </p>
-            <div class="product-buttons">
-              <button
-                class="cart-btn"
-                data-name="Casual T-Shirt"
-                data-price="349"
-              >
-                Add to Cart
-              </button>
-              <button
-                class="buy-btn card-buy-now"
-                data-name="Casual T-Shirt"
-                data-price="349"
-              >
-                Buy Now
-              </button>
-            </div>
-          </div>
         </div>
+
+    </div>
+
+
+    <h3>{{ product.name }}</h3>
+
+
+    <div class="rating">
+        ★★★★★
+    </div>
+
+
+    <p class="price">
+        ₹{{ "%.0f"|format(product.price) }}
+    </p>
+
+
+    <div class="product-buttons">
+
+        <button
+            class="cart-btn"
+            data-name="{{ product.name }}"
+            data-price="{{ product.price }}"
+        >
+            Add to Cart
+        </button>
+
+
+        <button
+            class="buy-btn card-buy-now"
+            data-name="{{ product.name }}"
+            data-price="{{ product.price }}"
+        >
+            Buy Now
+        </button>
+
+    </div>
+
+</div>
+
+{% endfor %}
       </section>
 
       <!-- ==========================
