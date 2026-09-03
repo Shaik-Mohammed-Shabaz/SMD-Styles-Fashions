@@ -317,10 +317,29 @@ def admin_dashboard():
         return redirect(url_for("main.admin_login"))
 
     message_count = Contact.query.count()
+    product_count = Product.query.count()
 
     return render_template(
         "admin/dashboard.html",
-        message_count=message_count
+        message_count=message_count,
+        product_count=product_count
+    )
+
+# ==========================
+# Admin Product Management
+# ==========================
+
+@main.route("/admin/products")
+def admin_products():
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("main.admin_login"))
+
+    products = Product.query.order_by(Product.id.desc()).all()
+
+    return render_template(
+        "admin/products.html",
+        products=products
     )
 
 # ==========================
