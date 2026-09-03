@@ -151,6 +151,11 @@ def success():
     return render_template("success.html")
 
 
+@main.route("/cart")
+def cart():
+    return render_template("pages/cart.html")
+
+
 @main.route("/product/<int:product_id>")
 def product(product_id):
 

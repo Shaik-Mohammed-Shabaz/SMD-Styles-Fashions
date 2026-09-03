@@ -195,98 +195,221 @@ cartButtons.forEach((button) => {
 });
 
 function updateCart() {
+  // ==========================
+  // Common Cart Data
+  // ==========================
+
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
   // Update cart count everywhere
   if (cartCounter) {
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
     cartCounter.textContent = totalItems;
   }
 
-  // Save cart everywhere
+  // Save cart
   localStorage.setItem("cart", JSON.stringify(cart));
 
   console.log("Cart:", cart);
 
-  // Stop here if the cart sidebar doesn't exist
-  if (!cartItems || !totalText) {
-    return;
+  // ==========================
+  // Cart Sidebar
+  // ==========================
+
+  if (cartItems && totalText) {
+    cartItems.innerHTML = "";
+
+    cart.forEach((product, index) => {
+      const item = document.createElement("div");
+
+      item.className = "cart-item";
+
+      item.innerHTML = `
+
+        <img
+          class="cart-product-image"
+          src="${product.image}"
+          alt="${product.name}"
+        >
+
+        <div class="cart-info">
+
+          <strong>${product.name}</strong>
+
+          <p>Size : ${product.size || "-"}</p>
+
+          <p>₹${product.price}</p>
+
+        </div>
+
+        <div class="quantity">
+
+          <button class="minus">-</button>
+
+          <span>${product.quantity}</span>
+
+          <button class="plus">+</button>
+
+        </div>
+
+        <button class="remove-item">🗑</button>
+
+      `;
+
+      cartItems.appendChild(item);
+
+      // Increase quantity
+      item.querySelector(".plus").onclick = () => {
+        product.quantity++;
+
+        updateCart();
+      };
+
+      // Decrease quantity
+      item.querySelector(".minus").onclick = () => {
+        if (product.quantity > 1) {
+          product.quantity--;
+        } else {
+          cart.splice(index, 1);
+        }
+
+        updateCart();
+      };
+
+      // Remove product
+      item.querySelector(".remove-item").onclick = () => {
+        cart.splice(index, 1);
+
+        updateCart();
+      };
+    });
+
+    if (cart.length === 0) {
+      cartItems.innerHTML = "<p>Your cart is empty.</p>";
+    }
+
+    totalText.textContent = `Total: ₹${total}`;
   }
 
-  cartItems.innerHTML = "";
+  // ==========================
+  // Full Cart Page
+  // ==========================
 
-  let total = 0;
-  let totalItems = 0;
+  const cartPageItems = document.getElementById("cartPageItems");
+  const cartPageEmpty = document.getElementById("cartPageEmpty");
+  const cartPageSummary = document.getElementById("cartPageSummary");
+  const cartPageSubtotal = document.getElementById("cartPageSubtotal");
+  const cartPageTotal = document.getElementById("cartPageTotal");
 
-  cart.forEach((product, index) => {
-    total += product.price * product.quantity;
+  // Only run this section on cart.html
+  if (
+    cartPageItems &&
+    cartPageEmpty &&
+    cartPageSummary &&
+    cartPageSubtotal &&
+    cartPageTotal
+  ) {
+    cartPageItems.innerHTML = "";
 
-    totalItems += product.quantity;
+    // Empty cart
+    if (cart.length === 0) {
+      cartPageEmpty.style.display = "block";
+      cartPageSummary.style.display = "none";
+    }
 
-    const item = document.createElement("div");
+    // Cart has products
+    else {
+      cartPageEmpty.style.display = "none";
+      cartPageSummary.style.display = "block";
 
-    item.className = "cart-item";
+      cart.forEach((product, index) => {
+        const item = document.createElement("div");
 
-    item.innerHTML = `
+        item.className = "cart-page-item";
 
-<img class="cart-product-image" src="${product.image}" alt="${product.name}">
+        item.innerHTML = `
 
-<div class="cart-info">
+          <div class="cart-page-product">
 
-    <strong>${product.name}</strong>
+            <img
+              src="${product.image}"
+              alt="${product.name}"
+              class="cart-page-product-image"
+            >
 
-    <p>Size : ${product.size || "-"}</p>
+            <div class="cart-page-product-info">
 
-    <p>₹${product.price}</p>
+              <h3>${product.name}</h3>
 
-</div>
+              <p>Size: ${product.size || "-"}</p>
 
-<div class="quantity">
+              <p>₹${product.price}</p>
 
-    <button class="minus">-</button>
+            </div>
 
-    <span>${product.quantity}</span>
+          </div>
 
-    <button class="plus">+</button>
 
-</div>
+          <div class="cart-page-quantity">
 
-<button class="remove-item">🗑</button>
+            <button class="cart-page-minus">−</button>
 
-`;
+            <span>${product.quantity}</span>
 
-    cartItems.appendChild(item);
+            <button class="cart-page-plus">+</button>
 
-    console.log("Added to sidebar:", product.name);
+          </div>
 
-    item.querySelector(".plus").onclick = () => {
-      product.quantity++;
 
-      updateCart();
-    };
+          <div class="cart-page-item-total">
 
-    item.querySelector(".minus").onclick = () => {
-      if (product.quantity > 1) {
-        product.quantity--;
-      } else {
-        cart.splice(index, 1);
-      }
+            ₹${product.price * product.quantity}
 
-      updateCart();
-    };
+          </div>
 
-    item.querySelector(".remove-item").onclick = () => {
-      cart.splice(index, 1);
 
-      updateCart();
-    };
-  });
+          <button
+            class="cart-page-remove"
+            type="button"
+          >
+            Remove
+          </button>
 
-  cartCounter.textContent = totalItems;
+        `;
 
-  totalText.textContent = `Total: ₹${total}`;
+        cartPageItems.appendChild(item);
 
-  if (cart.length === 0) {
-    cartItems.innerHTML = "<p>Your cart is empty.</p>";
+        // Increase quantity
+        item.querySelector(".cart-page-plus").onclick = () => {
+          product.quantity++;
+
+          updateCart();
+        };
+
+        // Decrease quantity
+        item.querySelector(".cart-page-minus").onclick = () => {
+          if (product.quantity > 1) {
+            product.quantity--;
+          } else {
+            cart.splice(index, 1);
+          }
+
+          updateCart();
+        };
+
+        // Remove product
+        item.querySelector(".cart-page-remove").onclick = () => {
+          cart.splice(index, 1);
+
+          updateCart();
+        };
+      });
+
+      // Update summary
+      cartPageSubtotal.textContent = `₹${total}`;
+      cartPageTotal.textContent = `₹${total}`;
+    }
   }
 }
 
