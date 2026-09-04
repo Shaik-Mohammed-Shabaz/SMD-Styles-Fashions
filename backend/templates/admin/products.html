@@ -132,24 +132,6 @@
         }
       }
 
-      .admin-add-product-btn {
-        display: inline-block;
-        margin-bottom: 25px;
-        padding: 12px 20px;
-        background: #d4af37;
-        color: #000;
-        text-decoration: none;
-        border: 1px solid #d4af37;
-        border-radius: 6px;
-        font-weight: 600;
-        transition: 0.25s ease;
-      }
-
-      .admin-add-product-btn:hover {
-        background: transparent;
-        color: #d4af37;
-      }
-
       .admin-edit-btn {
         display: inline-block;
         padding: 7px 14px;
@@ -166,6 +148,48 @@
         background: #d4af37;
         color: #000;
       }
+
+      .admin-action-buttons {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .admin-delete-btn {
+        display: inline-block;
+        padding: 7px 14px;
+        border: 1px solid #a33;
+        border-radius: 5px;
+        background: transparent;
+        color: #ff7777;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s ease;
+      }
+
+      .admin-delete-btn:hover {
+        background: #a33;
+        color: white;
+      }
+
+      .admin-top-btn {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #000;
+        background: #d4af37;
+        border: 1px solid #d4af37;
+        font-weight: 600;
+        transition: 0.25s ease;
+      }
+
+      .admin-top-btn:hover {
+        background: transparent;
+        color: #d4af37;
+      }
     </style>
   </head>
 
@@ -179,20 +203,25 @@
         </div>
 
         <div class="admin-buttons">
-          <a href="{{ url_for('main.admin_dashboard') }}" class="admin-btn">
-            Dashboard
-          </a>
+          <div class="admin-buttons">
+            <a
+              href="{{ url_for('main.admin_dashboard') }}"
+              class="admin-top-btn"
+            >
+              Dashboard
+            </a>
 
-          <a href="{{ url_for('main.admin_logout') }}" class="admin-btn">
-            Logout
-          </a>
+            <a href="{{ url_for('main.admin_logout') }}" class="admin-top-btn">
+              Logout
+            </a>
 
-          <a
-            href="{{ url_for('main.admin_add_product') }}"
-            class="admin-add-product-btn"
-          >
-            + Add New Product
-          </a>
+            <a
+              href="{{ url_for('main.admin_add_product') }}"
+              class="admin-top-btn"
+            >
+              + Add New Product
+            </a>
+          </div>
         </div>
       </div>
 
@@ -241,12 +270,25 @@
               </td>
 
               <td>
-                <a
-                  href="{{ url_for('main.admin_edit_product', product_id=product.id) }}"
-                  class="admin-edit-btn"
-                >
-                  Edit
-                </a>
+                <div class="admin-action-buttons">
+                  <a
+                    href="{{ url_for('main.admin_edit_product', product_id=product.id) }}"
+                    class="admin-edit-btn"
+                  >
+                    Edit
+                  </a>
+
+                  <form
+                    method="POST"
+                    action="{{ url_for('main.admin_delete_product', product_id=product.id) }}"
+                    onsubmit="return confirm('Are you sure you want to delete {{ product.name }}?');"
+                    style="display: inline"
+                  >
+                    <button type="submit" class="admin-delete-btn">
+                      Delete
+                    </button>
+                  </form>
+                </div>
               </td>
             </tr>
 

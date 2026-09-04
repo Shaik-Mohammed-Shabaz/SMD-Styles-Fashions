@@ -420,6 +420,25 @@ def admin_edit_product(product_id):
     ) 
 
 # ==========================
+# Admin Delete Product
+# ==========================
+
+@main.route("/admin/products/delete/<int:product_id>", methods=["POST"])
+def admin_delete_product(product_id):
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("main.admin_login"))
+
+    product = Product.query.get_or_404(product_id)
+
+    db.session.delete(product)
+    db.session.commit()
+
+    flash("Product deleted successfully.", "success")
+
+    return redirect(url_for("main.admin_products"))
+
+# ==========================
 # Admin Login
 # ==========================
 
