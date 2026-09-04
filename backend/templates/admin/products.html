@@ -1,255 +1,265 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
 
-<head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Manage Products | SMD Styles & Fashions</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
 
     <style>
+      body {
+        background: #080808;
+        color: white;
+        font-family: Poppins, sans-serif;
+        margin: 0;
+      }
 
-        body {
-            background: #080808;
-            color: white;
-            font-family: Poppins, sans-serif;
-            margin: 0;
-        }
+      .admin-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 40px 20px;
+      }
 
-        .admin-container {
-            max-width: 1200px;
-            margin: auto;
-            padding: 40px 20px;
-        }
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
 
+      .admin-header h1 {
+        color: var(--secondary-color);
+        margin: 0;
+      }
+
+      .admin-header p {
+        color: #aaa;
+        margin-top: 8px;
+      }
+
+      .admin-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .admin-btn {
+        padding: 10px 18px;
+        border-radius: 5px;
+        text-decoration: none;
+        color: white;
+        border: 1px solid #333;
+        background: #111;
+      }
+
+      .admin-btn:hover {
+        border-color: var(--secondary-color);
+        color: var(--secondary-color);
+      }
+
+      .product-table-wrapper {
+        overflow-x: auto;
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 8px;
+      }
+
+      .product-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 800px;
+      }
+
+      .product-table th {
+        background: #181818;
+        color: var(--secondary-color);
+        text-align: left;
+        padding: 15px;
+      }
+
+      .product-table td {
+        padding: 15px;
+        border-top: 1px solid #333;
+        color: #ddd;
+      }
+
+      .product-image {
+        width: 70px;
+        height: 70px;
+        object-fit: cover;
+        border-radius: 5px;
+      }
+
+      .product-name {
+        color: white;
+        font-weight: 600;
+      }
+
+      .product-price {
+        color: var(--secondary-color);
+        font-weight: 600;
+      }
+
+      .product-stock {
+        color: #9ff0b5;
+      }
+
+      .featured {
+        color: var(--secondary-color);
+        font-weight: 600;
+      }
+
+      .not-featured {
+        color: #888;
+      }
+
+      .empty-products {
+        text-align: center;
+        color: #999;
+        padding: 50px;
+      }
+
+      @media (max-width: 700px) {
         .admin-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 30px;
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
         }
+      }
 
-        .admin-header h1 {
-            color: var(--secondary-color);
-            margin: 0;
-        }
+      .admin-add-product-btn {
+        display: inline-block;
+        margin-bottom: 25px;
+        padding: 12px 20px;
+        background: #d4af37;
+        color: #000;
+        text-decoration: none;
+        border: 1px solid #d4af37;
+        border-radius: 6px;
+        font-weight: 600;
+        transition: 0.25s ease;
+      }
 
-        .admin-header p {
-            color: #aaa;
-            margin-top: 8px;
-        }
+      .admin-add-product-btn:hover {
+        background: transparent;
+        color: #d4af37;
+      }
 
-        .admin-buttons {
-            display: flex;
-            gap: 10px;
-        }
+      .admin-edit-btn {
+        display: inline-block;
+        padding: 7px 14px;
+        border: 1px solid #d4af37;
+        border-radius: 5px;
+        color: #d4af37;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: 0.25s ease;
+      }
 
-        .admin-btn {
-            padding: 10px 18px;
-            border-radius: 5px;
-            text-decoration: none;
-            color: white;
-            border: 1px solid #333;
-            background: #111;
-        }
-
-        .admin-btn:hover {
-            border-color: var(--secondary-color);
-            color: var(--secondary-color);
-        }
-
-        .product-table-wrapper {
-            overflow-x: auto;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-        }
-
-        .product-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-
-        .product-table th {
-            background: #181818;
-            color: var(--secondary-color);
-            text-align: left;
-            padding: 15px;
-        }
-
-        .product-table td {
-            padding: 15px;
-            border-top: 1px solid #333;
-            color: #ddd;
-        }
-
-        .product-image {
-            width: 70px;
-            height: 70px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-
-        .product-name {
-            color: white;
-            font-weight: 600;
-        }
-
-        .product-price {
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-
-        .product-stock {
-            color: #9ff0b5;
-        }
-
-        .featured {
-            color: var(--secondary-color);
-            font-weight: 600;
-        }
-
-        .not-featured {
-            color: #888;
-        }
-
-        .empty-products {
-            text-align: center;
-            color: #999;
-            padding: 50px;
-        }
-
-        @media (max-width: 700px) {
-
-            .admin-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-
-        }
-
+      .admin-edit-btn:hover {
+        background: #d4af37;
+        color: #000;
+      }
     </style>
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <div class="admin-container">
+      <div class="admin-header">
+        <div>
+          <h1>Manage Products</h1>
 
-        <div class="admin-header">
+          <p>View and manage products in your store.</p>
+        </div>
 
-            <div>
+        <div class="admin-buttons">
+          <a href="{{ url_for('main.admin_dashboard') }}" class="admin-btn">
+            Dashboard
+          </a>
 
-                <h1>Manage Products</h1>
+          <a href="{{ url_for('main.admin_logout') }}" class="admin-btn">
+            Logout
+          </a>
 
-                <p>
-                    View and manage products in your store.
-                </p>
+          <a
+            href="{{ url_for('main.admin_add_product') }}"
+            class="admin-add-product-btn"
+          >
+            + Add New Product
+          </a>
+        </div>
+      </div>
 
-            </div>
+      {% if products %}
 
-            <div class="admin-buttons">
+      <div class="product-table-wrapper">
+        <table class="product-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Product</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Featured</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-                <a href="{{ url_for('main.admin_dashboard') }}"
-                   class="admin-btn">
-                    Dashboard
+          <tbody>
+            {% for product in products %}
+
+            <tr>
+              <td>
+                <img
+                  src="{{ url_for('static', filename=product.image) }}"
+                  alt="{{ product.name }}"
+                  class="product-image"
+                />
+              </td>
+
+              <td class="product-name">{{ product.name }}</td>
+
+              <td>{{ product.category }}</td>
+
+              <td class="product-price">₹{{ product.price }}</td>
+
+              <td class="product-stock">{{ product.stock }}</td>
+
+              <td>
+                {% if product.is_featured %}
+                <span class="featured">Yes</span>
+                {% else %}
+                <span class="not-featured">No</span>
+                {% endif %}
+              </td>
+
+              <td>
+                <a
+                  href="{{ url_for('main.admin_edit_product', product_id=product.id) }}"
+                  class="admin-edit-btn"
+                >
+                  Edit
                 </a>
+              </td>
+            </tr>
 
-                <a href="{{ url_for('main.admin_logout') }}"
-                   class="admin-btn">
-                    Logout
-                </a>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
 
-            </div>
+      {% else %}
 
-        </div>
+      <div class="empty-products">No products found.</div>
 
-
-        {% if products %}
-
-        <div class="product-table-wrapper">
-
-            <table class="product-table">
-
-                <thead>
-
-                    <tr>
-                        <th>Image</th>
-                        <th>Product</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Featured</th>
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    {% for product in products %}
-
-                    <tr>
-
-                        <td>
-                            <img
-                                src="{{ url_for('static', filename=product.image) }}"
-                                alt="{{ product.name }}"
-                                class="product-image"
-                            >
-                        </td>
-
-                        <td class="product-name">
-                            {{ product.name }}
-                        </td>
-
-                        <td>
-                            {{ product.category }}
-                        </td>
-
-                        <td class="product-price">
-                            ₹{{ product.price }}
-                        </td>
-
-                        <td class="product-stock">
-                            {{ product.stock }}
-                        </td>
-
-                        <td>
-
-                            {% if product.is_featured %}
-                                <span class="featured">Yes</span>
-                            {% else %}
-                                <span class="not-featured">No</span>
-                            {% endif %}
-
-                        </td>
-
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-        {% else %}
-
-        <div class="empty-products">
-            No products found.
-        </div>
-
-        {% endif %}
-
+      {% endif %}
     </div>
-
-</body>
-
+  </body>
 </html>

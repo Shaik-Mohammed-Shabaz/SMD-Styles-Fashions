@@ -63,6 +63,10 @@ def home():
 @main.route("/shop")
 def shop():
 
+    # Get all products from database
+    products = Product.query.order_by(Product.id.desc()).all()
+
+    # Get user's wishlist product IDs
     wishlist_product_ids = set()
 
     if session.get("user_id"):
@@ -76,6 +80,7 @@ def shop():
 
     return render_template(
         "shop.html",
+        products=products,
         wishlist_product_ids=wishlist_product_ids
     )
 
@@ -341,6 +346,78 @@ def admin_products():
         "admin/products.html",
         products=products
     )
+
+# ==========================
+# Admin Add Product
+# ==========================
+
+@main.route("/admin/products/add", methods=["GET", "POST"])
+def admin_add_product():
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("main.admin_login"))
+
+    if request.method == "POST":
+
+        name = request.form.get("name")
+        description = request.form.get("description")
+        price = request.form.get("price")
+        category = request.form.get("category")
+        stock = request.form.get("stock")
+        image = request.form.get("image")
+        is_featured = bool(request.form.get("is_featured"))
+
+        product = Product(
+            name=name,
+            description=description,
+            price=float(price),
+            category=category,
+            image=image,
+            stock=int(stock),
+            is_featured=is_featured
+        )
+
+        db.session.add(product)
+        db.session.commit()
+
+        flash("Product added successfully.", "success")
+
+        return redirect(url_for("main.admin_products"))
+
+    return render_template("admin/add_product.html")   
+
+# ==========================
+# Admin Edit Product
+# ==========================
+
+@main.route("/admin/products/edit/<int:product_id>", methods=["GET", "POST"])
+def admin_edit_product(product_id):
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("main.admin_login"))
+
+    product = Product.query.get_or_404(product_id)
+
+    if request.method == "POST":
+
+        product.name = request.form.get("name")
+        product.description = request.form.get("description")
+        product.price = float(request.form.get("price"))
+        product.category = request.form.get("category")
+        product.stock = int(request.form.get("stock"))
+        product.image = request.form.get("image")
+        product.is_featured = bool(request.form.get("is_featured"))
+
+        db.session.commit()
+
+        flash("Product updated successfully.", "success")
+
+        return redirect(url_for("main.admin_products"))
+
+    return render_template(
+        "admin/edit_product.html",
+        product=product
+    ) 
 
 # ==========================
 # Admin Login
