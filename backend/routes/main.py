@@ -5,10 +5,32 @@ from backend.models.product import Product
 from backend.models.wishlist import Wishlist
 from backend.database import db
 from functools import wraps
+import os
+import uuid
+from werkzeug.utils import secure_filename
+from werkzeug.exceptions import RequestEntityTooLarge
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 main = Blueprint("main", __name__)
+@main.errorhandler(RequestEntityTooLarge)
+def handle_file_too_large(error):
+    flash("Image is too large. Maximum file size is 5 MB.", "error")
+    return redirect(url_for("main.admin_products"))
+
+# ==========================
+# Product Image Upload Settings
+# ==========================
+
+ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png", "webp"}
+
+
+def allowed_image(filename):
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower()
+        in ALLOWED_IMAGE_EXTENSIONS
+    )
 
 def login_required(view):
     @wraps(view)
@@ -364,15 +386,49 @@ def admin_add_product():
         price = request.form.get("price")
         category = request.form.get("category")
         stock = request.form.get("stock")
-        image = request.form.get("image")
         is_featured = bool(request.form.get("is_featured"))
+
+        # ==========================
+        # Handle Product Image Upload
+        # ==========================
+
+        image_file = request.files.get("image")
+        image_path = ""
+
+        if image_file and image_file.filename:
+
+            if not allowed_image(image_file.filename):
+                flash(
+                    "Invalid image format. Please upload JPG, JPEG, PNG, or WEBP.",
+                    "error"
+                )
+                return redirect(url_for("main.admin_add_product"))
+
+            original_filename = secure_filename(image_file.filename)
+            extension = original_filename.rsplit(".", 1)[1].lower()
+            filename = f"{uuid.uuid4().hex}.{extension}"
+
+            upload_folder = os.path.join(
+                os.path.dirname(os.path.dirname(__file__)),
+                "static",
+                "images",
+                "products"
+            )
+
+            os.makedirs(upload_folder, exist_ok=True)
+
+            image_file.save(
+                os.path.join(upload_folder, filename)
+            )
+
+            image_path = f"images/products/{filename}"
 
         product = Product(
             name=name,
             description=description,
             price=float(price),
             category=category,
-            image=image,
+            image=image_path,
             stock=int(stock),
             is_featured=is_featured
         )
@@ -384,7 +440,8 @@ def admin_add_product():
 
         return redirect(url_for("main.admin_products"))
 
-    return render_template("admin/add_product.html")   
+    return render_template("admin/add_product.html")
+
 
 # ==========================
 # Admin Edit Product
@@ -405,8 +462,49 @@ def admin_edit_product(product_id):
         product.price = float(request.form.get("price"))
         product.category = request.form.get("category")
         product.stock = int(request.form.get("stock"))
-        product.image = request.form.get("image")
         product.is_featured = bool(request.form.get("is_featured"))
+
+        # ==========================
+        # Handle New Product Image
+        # ==========================
+
+        image_file = request.files.get("image")
+
+        if image_file and image_file.filename:
+
+            if not allowed_image(image_file.filename):
+                flash(
+                    "Invalid image format. Please upload JPG, JPEG, PNG, or WEBP.",
+                    "error"
+                )
+                return redirect(
+                    url_for(
+                        "main.admin_edit_product",
+                        product_id=product.id
+                    )
+                )
+
+            original_filename = secure_filename(image_file.filename)
+            extension = original_filename.rsplit(".", 1)[1].lower()
+            filename = f"{uuid.uuid4().hex}.{extension}"
+
+            upload_folder = os.path.join(
+                os.path.dirname(os.path.dirname(__file__)),
+                "static",
+                "images",
+                "products"
+            )
+
+            os.makedirs(upload_folder, exist_ok=True)
+
+            image_file.save(
+                os.path.join(upload_folder, filename)
+            )
+
+            product.image = f"images/products/{filename}"
+
+        # If no new image is selected,
+        # the existing product.image remains unchanged.
 
         db.session.commit()
 
@@ -417,7 +515,7 @@ def admin_edit_product(product_id):
     return render_template(
         "admin/edit_product.html",
         product=product
-    ) 
+    )
 
 # ==========================
 # Admin Delete Product

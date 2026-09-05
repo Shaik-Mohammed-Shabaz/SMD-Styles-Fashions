@@ -116,7 +116,7 @@
 
         <h1>Add New Product</h1>
 
-        <form method="POST">
+        <form method="POST" enctype="multipart/form-data">
 
             <div class="admin-form-group">
                 <label for="name">Product Name</label>
@@ -180,13 +180,13 @@
 
             <div class="admin-form-group">
 
-                <label for="image">Image Path</label>
+                <label for="image">Product Image</label>
 
                 <input
-                    type="text"
+                    type="file"
                     id="image"
                     name="image"
-                    placeholder="images/products/product-name.jpg"
+                    accept=".jpg,.jpeg,.png,.webp"
                     required>
 
             </div>

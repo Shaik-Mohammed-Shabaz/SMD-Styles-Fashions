@@ -148,7 +148,6 @@
 
   <body>
     <div class="admin-container">
-
       <div class="admin-header">
         <h1>Edit Product</h1>
 
@@ -157,10 +156,10 @@
 
       <form
         method="POST"
+        enctype="multipart/form-data"
         action="{{ url_for('main.admin_edit_product', product_id=product.id) }}"
         class="product-form"
       >
-
         <div class="form-group">
           <label for="name">Product Name</label>
 
@@ -196,7 +195,6 @@
             required
           />
         </div>
-
         <div class="form-group">
           <label for="category">Category</label>
 
@@ -243,22 +241,22 @@
         </div>
 
         <div class="form-group">
-          <label for="image">Image Path</label>
+          <label for="image">Product Image</label>
 
           <input
-            type="text"
+            type="file"
             id="image"
             name="image"
-            value="{{ product.image }}"
-            required
+            accept=".jpg,.jpeg,.png,.webp"
           />
 
-          <div class="current-image">
-            Current image: {{ product.image }}
-          </div>
-        </div>
+          <div class="current-image">Current image: {{ product.image }}</div>
 
-        <div class="form-group featured-group">
+          <small style="display: block; margin-top: 8px; color: #aaa">
+            Leave empty to keep the current image. Supported formats: JPG, JPEG,
+            PNG, WEBP
+          </small>
+        </div>        <div class="form-group featured-group">
           <input
             type="checkbox"
             id="is_featured"
@@ -270,23 +268,14 @@
         </div>
 
         <div class="form-actions">
-
-          <a
-            href="{{ url_for('main.admin_products') }}"
-            class="admin-btn"
-          >
-            ← Cancel
+          <a href="{{ url_for('main.admin_products') }}" class="admin-btn">
+            â† Cancel
           </a>
 
-          <button
-            type="submit"
-            class="admin-btn update-btn"
-          >
+          <button type="submit" class="admin-btn update-btn">
             Update Product
           </button>
-
         </div>
-
       </form>
     </div>
   </body>
