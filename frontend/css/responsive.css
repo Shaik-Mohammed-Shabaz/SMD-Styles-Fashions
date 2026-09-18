@@ -174,3 +174,47 @@
     }
 
 }
+
+/* =========================================
+   CHANGE PASSWORD - MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .change-password-page {
+        padding: 45px 16px 60px;
+    }
+
+    .change-password-header {
+        margin-bottom: 25px;
+    }
+
+    .change-password-header h1 {
+        font-size: 30px;
+    }
+
+    .change-password-header p {
+        font-size: 13px;
+    }
+
+    .change-password-card {
+        padding: 25px 20px;
+    }
+
+    .change-password-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .password-back-btn,
+    .password-submit-btn {
+        width: 100%;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    .password-security-note {
+        align-items: flex-start;
+    }
+
+}

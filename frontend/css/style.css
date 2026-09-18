@@ -2094,3 +2094,332 @@ section p {
     color: #aaa;
 
 }
+
+/* =========================================
+   CHANGE PASSWORD PAGE
+========================================= */
+
+.change-password-page {
+    min-height: calc(100vh - 90px);
+    display: flex;
+    justify-content: center;
+    padding: 70px 20px 80px;
+    background: #fafafa;
+}
+
+.change-password-container {
+    width: 100%;
+    max-width: 620px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.change-password-header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.security-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #c9a227;
+    border-radius: 50%;
+
+    background: #ffffff;
+
+    font-size: 26px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.change-password-header h1 {
+    margin: 0 0 10px;
+
+    font-family: "Playfair Display", serif;
+
+    font-size: 38px;
+    font-weight: 600;
+
+    color: #111111;
+}
+
+.change-password-header p {
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    color: #777777;
+}
+
+
+/* =========================================
+   PASSWORD CARD
+========================================= */
+
+.change-password-card {
+    background: #ffffff;
+
+    border: 1px solid #e6e6e6;
+
+    border-radius: 4px;
+
+    padding: 40px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.change-password-form {
+    width: 100%;
+}
+
+.password-field {
+    margin-bottom: 24px;
+}
+
+.password-field label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    color: #222222;
+}
+
+
+/* =========================================
+   PASSWORD INPUT
+========================================= */
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-input-wrapper input {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 14px 48px 14px 15px;
+
+    border: 1px solid #d8d8d8;
+
+    border-radius: 3px;
+
+    background: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 14px;
+
+    color: #222222;
+
+    outline: none;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.password-input-wrapper input::placeholder {
+    color: #aaaaaa;
+}
+
+.password-input-wrapper input:focus {
+    border-color: #c9a227;
+
+    box-shadow:
+        0 0 0 3px rgba(201, 162, 39, 0.10);
+}
+
+
+/* =========================================
+   SHOW / HIDE PASSWORD
+========================================= */
+
+.password-toggle {
+    position: absolute;
+
+    right: 10px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 17px;
+
+    padding: 5px;
+
+    opacity: 0.65;
+
+    transition: opacity 0.2s ease;
+}
+
+.password-toggle:hover {
+    opacity: 1;
+}
+
+
+/* =========================================
+   PASSWORD HINT
+========================================= */
+
+.password-hint {
+    margin-top: 7px;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 11px;
+
+    color: #888888;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+========================================= */
+
+.change-password-actions {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-top: 32px;
+
+    padding-top: 25px;
+
+    border-top: 1px solid #eeeeee;
+}
+
+
+/* Back button */
+
+.password-back-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 13px 20px;
+
+    border: 1px solid #d4d4d4;
+
+    border-radius: 3px;
+
+    background: #ffffff;
+
+    color: #333333;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    text-decoration: none;
+
+    transition: all 0.25s ease;
+}
+
+.password-back-btn:hover {
+    border-color: #111111;
+
+    background: #111111;
+
+    color: #ffffff;
+}
+
+
+/* Submit button */
+
+.password-submit-btn {
+    border: 1px solid #111111;
+
+    border-radius: 3px;
+
+    padding: 13px 24px;
+
+    background: #111111;
+
+    color: #ffffff;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+}
+
+.password-submit-btn:hover {
+    background: #c9a227;
+
+    border-color: #c9a227;
+
+    color: #ffffff;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================
+   SECURITY NOTE
+========================================= */
+
+.password-security-note {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 22px;
+
+    text-align: center;
+}
+
+.password-security-note span {
+    font-size: 14px;
+}
+
+.password-security-note p {
+    margin: 0;
+
+    font-family: "Poppins", sans-serif;
+
+    font-size: 11px;
+
+    color: #888888;
+}

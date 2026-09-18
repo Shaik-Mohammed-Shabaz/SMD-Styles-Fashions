@@ -3,10 +3,14 @@ from backend.models.contact import Contact
 from backend.models.user import User
 from backend.models.product import Product
 from backend.models.wishlist import Wishlist
+from backend.models.password_reset_token import PasswordResetToken
 from backend.database import db
 from functools import wraps
 import os
 import uuid
+import hashlib
+import secrets
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from werkzeug.exceptions import RequestEntityTooLarge
 
@@ -257,6 +261,161 @@ def login():
         return redirect(url_for("main.home"))
 
     return render_template("pages/login.html")
+
+# ==========================
+# Forgot Password
+# ==========================
+
+@main.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+
+    reset_url = None
+
+    if request.method == "POST":
+
+        email = request.form.get("email", "").strip().lower()
+
+        if not email:
+            flash("Please enter your email address.", "error")
+            return render_template(
+                "pages/forgot_password.html",
+                reset_url=None
+            )
+
+        user = User.query.filter_by(email=email).first()
+
+        # Always show the same message so we don't reveal
+        # whether an email exists in the database.
+        if not user:
+            flash(
+                "If an account exists with that email, a password reset link has been generated.",
+                "success"
+            )
+
+            return render_template(
+                "pages/forgot_password.html",
+                reset_url=None
+            )
+
+        # Invalidate previous unused tokens for this user.
+        PasswordResetToken.query.filter_by(
+            user_id=user.id,
+            used=False
+        ).update({"used": True})
+
+        # Generate a secure random token.
+        raw_token = secrets.token_urlsafe(32)
+
+        # Store only the SHA-256 hash in the database.
+        token_hash = hashlib.sha256(
+            raw_token.encode("utf-8")
+        ).hexdigest()
+
+        reset_token = PasswordResetToken(
+            user_id=user.id,
+            token_hash=token_hash,
+            expires_at=datetime.utcnow() + timedelta(minutes=30),
+            used=False
+        )
+
+        db.session.add(reset_token)
+        db.session.commit()
+
+        reset_url = url_for(
+            "main.reset_password",
+            token=raw_token,
+            _external=True
+        )
+
+        # Free development mode:
+        # Print the reset link in the Flask terminal.
+        print("\n" + "=" * 70)
+        print("PASSWORD RESET LINK")
+        print(reset_url)
+        print("=" * 70 + "\n")
+
+        flash(
+            "Password reset link generated successfully.",
+            "success"
+        )
+
+        return render_template(
+            "pages/forgot_password.html",
+            reset_url=reset_url
+        )
+
+    return render_template(
+        "pages/forgot_password.html",
+        reset_url=None
+    )
+
+# ==========================
+# Reset Password
+# ==========================
+
+@main.route("/reset-password/<token>", methods=["GET", "POST"])
+def reset_password(token):
+
+    token_hash = hashlib.sha256(
+        token.encode("utf-8")
+    ).hexdigest()
+
+    reset_token = PasswordResetToken.query.filter_by(
+        token_hash=token_hash,
+        used=False
+    ).first()
+
+    if not reset_token:
+        flash("This password reset link is invalid or has already been used.", "error")
+        return redirect(url_for("main.forgot_password"))
+
+    if reset_token.expires_at < datetime.utcnow():
+        reset_token.used = True
+        db.session.commit()
+
+        flash("This password reset link has expired. Please request a new one.", "error")
+        return redirect(url_for("main.forgot_password"))
+
+    if request.method == "POST":
+
+        new_password = request.form.get("new_password", "")
+        confirm_password = request.form.get("confirm_password", "")
+
+        if not new_password or not confirm_password:
+            flash("Please fill in all password fields.", "error")
+            return redirect(url_for("main.reset_password", token=token))
+
+        if len(new_password) < 6:
+            flash("Password must be at least 6 characters.", "error")
+            return redirect(url_for("main.reset_password", token=token))
+
+        if new_password != confirm_password:
+            flash("New passwords do not match.", "error")
+            return redirect(url_for("main.reset_password", token=token))
+
+        user = User.query.get_or_404(reset_token.user_id)
+
+        if check_password_hash(user.password_hash, new_password):
+            flash(
+                "New password must be different from your current password.",
+                "error"
+            )
+            return redirect(url_for("main.reset_password", token=token))
+
+        user.password_hash = generate_password_hash(new_password)
+
+        reset_token.used = True
+
+        db.session.commit()
+
+        flash("Password reset successfully. Please login.", "success")
+
+        return redirect(url_for("main.login"))
+
+    return render_template(
+        "pages/reset_password.html",
+        token=token
+    )
 
 # ==========================
 # Customer Account
