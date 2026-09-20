@@ -1,79 +1,69 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Order Successful | SMD Styles & Fashions</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
 
-</head>
-
-<body>
-
+  <body>
     <div class="loader" id="loader">
+      <div class="loader-spinner"></div>
 
-        <div class="loader-spinner"></div>
+      <h1>SMD</h1>
 
-        <h1>SMD</h1>
-
-        <p>Styles & Fashions</p>
-
+      <p>Styles & Fashions</p>
     </div>
 
     <section class="checkout-page">
+      <div class="checkout-container">
+        <div
+          class="checkout-left"
+          style="text-align: center; grid-column: 1/-1"
+        >
+          <h1 style="color: #d4af37; font-size: 60px">✅</h1>
 
-        <div class="checkout-container">
+          <h2>Order Placed Successfully</h2>
 
-            <div class="checkout-left" style="text-align:center;grid-column:1/-1;">
+          <p>
+            Thank you for shopping with
 
-                <h1 style="color:#D4AF37;font-size:60px;">
-                    ✅
-                </h1>
+            <strong>SMD Styles & Fashions</strong>
+          </p>
 
-                <h2>Order Placed Successfully</h2>
+          <br />
 
-                <p>
+          <h3 id="orderNumber"></h3>
 
-                    Thank you for shopping with
+          <br />
 
-                    <strong>SMD Styles & Fashions</strong>
-
-                </p>
-
-                <br>
-
-                <h3 id="orderNumber"></h3>
-
-                <br>
-
-                <button class="buy-btn" onclick="window.location.href='/'">
-
-                    Continue Shopping
-
-                </button>
-
-            </div>
-
+          <button class="buy-btn" onclick="window.location.href = '/'">
+            Continue Shopping
+          </button>
         </div>
-
+      </div>
     </section>
 
     <script>
+      const orderNumber = sessionStorage.getItem("lastOrderNumber");
 
-        const orderID =
-            "SMD" + Math.floor(Math.random() * 1000000);
+      const orderNumberElement = document.getElementById("orderNumber");
 
-        document.getElementById("orderNumber").textContent =
-            "Order ID : " + orderID;
+      if (orderNumber) {
+        orderNumberElement.textContent = "Order ID : " + orderNumber;
 
+        sessionStorage.removeItem("lastOrderNumber");
+      } else {
+        orderNumberElement.textContent = "Order details unavailable";
+      }
     </script>
 
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-
-</body>
-
+  </body>
 </html>

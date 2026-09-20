@@ -179,6 +179,7 @@ cartButtons.forEach((button) => {
       existingProduct.quantity++;
     } else {
       cart.push({
+        id: button.dataset.productId,
         name: name,
         price: price,
         image: image,
@@ -442,9 +443,13 @@ const modalTitle = document.getElementById("modalTitle");
 const modalPrice = document.getElementById("modalPrice");
 const modalDescription = document.getElementById("modalDescription");
 
+let selectedQuickViewProductId = null;
+
 if (quickViewButtons.length && modal && closeModal) {
   quickViewButtons.forEach((button) => {
     button.addEventListener("click", () => {
+      selectedQuickViewProductId = button.dataset.productId;
+
       modalImage.src = button.dataset.image;
       modalTitle.textContent = button.dataset.name;
       modalPrice.textContent = button.dataset.price;
@@ -652,6 +657,7 @@ if (addToCartProduct) {
       existingProduct.quantity++;
     } else {
       cart.push({
+        id: document.getElementById("addToCartProduct").dataset.productId,
         name: name,
         price: price,
         image: document.getElementById("mainImage").src,
@@ -693,14 +699,11 @@ if (modalAddCart) {
       existingProduct.quantity++;
     } else {
       cart.push({
+        id: selectedQuickViewProductId,
         name: name,
-
         price: price,
-
         image: modalImage.src,
-
         size: selectedSize,
-
         quantity: 1,
       });
     }
@@ -792,12 +795,10 @@ if (productBuyNow) {
       document.querySelector(".size-selector .active")?.textContent || "M";
 
     const buyNowproduct = {
+      id: productBuyNow.dataset.productId,
       name: name,
-
       price: price,
-
       size: size,
-
       quantity: 1,
     };
 
@@ -818,12 +819,10 @@ const modalBuyNow = document.getElementById("modalBuyNow");
 if (modalBuyNow) {
   modalBuyNow.addEventListener("click", () => {
     const buyNowProduct = {
+      id: selectedQuickViewProductId,
       name: modalTitle.textContent,
-
       price: Number(modalPrice.textContent.replace("₹", "")),
-
       size: document.querySelector(".size-btn.active").textContent,
-
       quantity: 1,
     };
 
@@ -871,6 +870,7 @@ cardBuyNowButtons.forEach((button) => {
     const quickViewButton = productCard.querySelector(".quick-view");
 
     selectedBuyNowProduct = {
+      id: button.dataset.productId,
       name: button.dataset.name,
       price: Number(button.dataset.price),
       image: quickViewButton
@@ -933,14 +933,11 @@ if (confirmBuyNow) {
     }
 
     const buyNowProduct = {
+      id: selectedBuyNowProduct.id,
       name: selectedBuyNowProduct.name,
-
       price: selectedBuyNowProduct.price,
-
       image: selectedBuyNowProduct.image,
-
       size: selectedBuyNowSize,
-
       quantity: 1,
     };
 
@@ -974,36 +971,100 @@ if (checkoutBtn) {
 // ==========================
 // Place Order
 // ==========================
-
 const placeOrderBtn = document.getElementById("placeOrderBtn");
 
 if (placeOrderBtn) {
-  placeOrderBtn.addEventListener("click", () => {
+  placeOrderBtn.addEventListener("click", async () => {
     const form = document.getElementById("checkoutForm");
 
     if (!form.checkValidity()) {
       form.reportValidity();
-
       return;
     }
 
-    showToast("🎉 Order placed successfully");
-
     const currentCheckoutType = localStorage.getItem("checkoutType");
 
-    if (currentCheckoutType === "buyNow") {
-      // Buy Now purchase should NOT affect the normal cart
-      localStorage.removeItem("buyNowproduct");
-      localStorage.removeItem("checkoutType");
-    } else {
-      // Normal cart checkout: clear the cart after successful order
-      localStorage.removeItem("cart");
-      localStorage.removeItem("checkoutType");
+    const buyNowProduct = JSON.parse(localStorage.getItem("buyNowproduct"));
+
+    const products = currentCheckoutType === "buyNow" ? [buyNowProduct] : cart;
+
+    if (!products || products.length === 0) {
+      showToast("Your cart is empty.");
+      return;
     }
 
-    setTimeout(() => {
-      window.location.href = "/success";
-    }, 300);
+    // Get customer details
+    const inputs = form.querySelectorAll("input, textarea");
+
+    const customerName = inputs[0].value.trim();
+    const customerPhone = inputs[1].value.trim();
+    const customerEmail = inputs[2].value.trim();
+    const deliveryAddress = inputs[3].value.trim();
+
+    const orderData = {
+      customer_name: customerName,
+      customer_phone: customerPhone,
+      customer_email: customerEmail,
+      delivery_address: deliveryAddress,
+      items: products.map((product) => ({
+        id: product.id,
+        size: product.size || null,
+        quantity: product.quantity || 1,
+      })),
+    };
+
+    // Prevent double-click orders
+    placeOrderBtn.disabled = true;
+    placeOrderBtn.textContent = "Placing Order...";
+
+    try {
+      const response = await fetch("/orders/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok || !result.success) {
+        showToast(result.message || "Unable to place order.");
+
+        placeOrderBtn.disabled = false;
+        placeOrderBtn.textContent = "Place Order";
+
+        return;
+      }
+
+      // Order successfully saved in database
+      showToast(`🎉 Order ${result.order_number} placed successfully!`);
+
+      sessionStorage.setItem("lastOrderNumber", result.order_number);
+
+      if (currentCheckoutType === "buyNow") {
+        // Buy Now should NOT affect the normal cart
+        localStorage.removeItem("buyNowproduct");
+        localStorage.removeItem("checkoutType");
+      } else {
+        // Normal cart checkout
+        localStorage.removeItem("cart");
+        localStorage.removeItem("checkoutType");
+      }
+
+      setTimeout(() => {
+        window.location.href = "/success";
+      }, 700);
+    } catch (error) {
+      console.error("Order creation error:", error);
+
+      showToast(
+        "Something went wrong while placing your order. Please try again.",
+      );
+
+      placeOrderBtn.disabled = false;
+      placeOrderBtn.textContent = "Place Order";
+    }
   });
 }
 
