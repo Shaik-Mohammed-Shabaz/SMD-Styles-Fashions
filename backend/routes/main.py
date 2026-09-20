@@ -1,10 +1,12 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session, jsonify
 from backend.models.contact import Contact
 from backend.models.user import User
 from backend.models.product import Product
 from backend.models.wishlist import Wishlist
 from backend.models.password_reset_token import PasswordResetToken
 from backend.database import db
+from backend.models.order import Order
+from backend.models.order_item import OrderItem
 from functools import wraps
 import os
 import uuid
@@ -175,6 +177,134 @@ def wishlist():
 @login_required
 def checkout():
     return render_template("checkout.html")
+
+@main.route("/orders/create", methods=["POST"])
+@login_required
+def create_order():
+
+    data = request.get_json()
+
+    if not data:
+        return jsonify({
+            "success": False,
+            "message": "Invalid order data."
+        }), 400
+
+    customer_name = data.get("customer_name", "").strip()
+    customer_phone = data.get("customer_phone", "").strip()
+    customer_email = data.get("customer_email", "").strip()
+    delivery_address = data.get("delivery_address", "").strip()
+    items = data.get("items", [])
+
+    if not customer_name or not customer_phone or not customer_email or not delivery_address:
+        return jsonify({
+            "success": False,
+            "message": "Please fill in all customer details."
+        }), 400
+
+    if not items or not isinstance(items, list):
+        return jsonify({
+            "success": False,
+            "message": "Your cart is empty."
+        }), 400
+
+    subtotal = 0
+    order_items = []
+
+    for item in items:
+
+        try:
+            product_id = int(item.get("id"))
+            quantity = int(item.get("quantity", 1))
+        except (TypeError, ValueError):
+            return jsonify({
+                "success": False,
+                "message": "Invalid product information."
+            }), 400
+
+        if quantity < 1:
+            return jsonify({
+                "success": False,
+                "message": "Invalid product quantity."
+            }), 400
+
+        product = Product.query.get(product_id)
+
+        if not product:
+            return jsonify({
+                "success": False,
+                "message": "One of the selected products no longer exists."
+            }), 400
+
+        if product.stock < quantity:
+            return jsonify({
+                "success": False,
+                "message": f"Insufficient stock for {product.name}."
+            }), 400
+
+        unit_price = float(product.price)
+        item_subtotal = unit_price * quantity
+
+        subtotal += item_subtotal
+
+        order_items.append({
+            "product": product,
+            "product_id": product.id,
+            "product_name": product.name,
+            "size": item.get("size"),
+            "quantity": quantity,
+            "unit_price": unit_price,
+            "subtotal": item_subtotal
+        })
+
+    # Keep the current website's 10% discount calculation.
+    discount = int(subtotal * 0.10)
+
+    total_amount = subtotal - discount
+
+    order_number = "SMD-" + uuid.uuid4().hex[:10].upper()
+
+    order = Order(
+        order_number=order_number,
+        user_id=session["user_id"],
+        customer_name=customer_name,
+        customer_email=customer_email,
+        customer_phone=customer_phone,
+        delivery_address=delivery_address,
+        subtotal=subtotal,
+        discount=discount,
+        total_amount=total_amount,
+        order_status="Pending",
+        payment_status="Pending"
+    )
+
+    db.session.add(order)
+
+    for item in order_items:
+
+        order_item = OrderItem(
+            order=order,
+            product_id=item["product_id"],
+            product_name=item["product_name"],
+            size=item["size"],
+            quantity=item["quantity"],
+            unit_price=item["unit_price"],
+            subtotal=item["subtotal"]
+        )
+
+        db.session.add(order_item)
+
+        # Reduce available stock.
+        item["product"].stock -= item["quantity"]
+
+    db.session.commit()
+
+    return jsonify({
+        "success": True,
+        "message": "Order placed successfully.",
+        "order_number": order_number,
+        "total_amount": total_amount
+    })
 
 
 @main.route("/success")
@@ -424,17 +554,23 @@ def reset_password(token):
 @main.route("/account")
 @login_required
 def account():
-
     user = User.query.get_or_404(session["user_id"])
 
     wishlist_count = Wishlist.query.filter_by(
         user_id=session["user_id"]
     ).count()
 
+    orders = Order.query.filter_by(
+        user_id=session["user_id"]
+    ).order_by(
+        Order.created_at.desc()
+    ).all()
+
     return render_template(
         "pages/account.html",
         user=user,
-        wishlist_count=wishlist_count
+        wishlist_count=wishlist_count,
+        orders=orders
     )
 
 # ==========================

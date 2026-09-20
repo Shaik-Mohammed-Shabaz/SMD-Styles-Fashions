@@ -25,6 +25,10 @@
       rel="stylesheet"
       href="{{ url_for('static', filename='css/animations.css') }}"
     />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/account.css') }}"
+    />
   </head>
 
   <body>
@@ -104,6 +108,77 @@
             </p>
           </div>
         </div>
+
+        <!-- ==========================
+     My Orders
+========================== -->
+
+        <section class="orders-section">
+          <h2>My Orders</h2>
+
+          {% if orders %} {% for order in orders %}
+
+          <div class="order-card">
+            <div class="order-card-header">
+              <div>
+                <div class="order-number">{{ order.order_number }}</div>
+
+                <div class="order-date">
+                  {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                </div>
+              </div>
+            </div>
+
+            <div class="order-items">
+              {% for item in order.items %}
+
+              <div class="order-item">
+                <div class="order-item-details">
+                  <strong> {{ item.product_name }} </strong>
+
+                  <span>
+                    Quantity: {{ item.quantity }} {% if item.size %} &nbsp; |
+                    &nbsp; Size: {{ item.size }} {% endif %}
+                  </span>
+                </div>
+
+                <div class="order-item-price">
+                  ₹{{ '%.0f'|format(item.subtotal) }}
+                </div>
+              </div>
+
+              {% endfor %}
+            </div>
+
+            <div class="order-summary">
+              <div class="order-total">
+                Total: ₹{{ '%.0f'|format(order.total_amount) }}
+              </div>
+            </div>
+
+            <div class="order-status-row">
+              <span class="order-status">
+                Order: {{ order.order_status }}
+              </span>
+
+              <span class="payment-status">
+                Payment: {{ order.payment_status }}
+              </span>
+            </div>
+          </div>
+
+          {% endfor %} {% else %}
+
+          <div class="no-orders">
+            <p>You haven't placed any orders yet.</p>
+
+            <a href="{{ url_for('main.shop') }}" class="account-action-btn">
+              🛍 Start Shopping
+            </a>
+          </div>
+
+          {% endif %}
+        </section>
 
         <div class="account-actions">
           <a href="{{ url_for('main.wishlist') }}" class="account-action-btn">

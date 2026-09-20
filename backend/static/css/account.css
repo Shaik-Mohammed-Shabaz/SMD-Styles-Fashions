@@ -1,0 +1,172 @@
+/* ==========================
+   Account Page
+========================== */
+
+.account-page {
+  padding: 60px 20px;
+}
+
+.account-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.account-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.account-header h1 {
+  margin-bottom: 8px;
+}
+
+.account-header p {
+  opacity: 0.8;
+}
+
+/* ==========================
+   My Orders
+========================== */
+
+.orders-section {
+  margin-top: 45px;
+}
+
+.orders-section h2 {
+  margin-bottom: 20px;
+}
+
+.order-card {
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.order-number {
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.order-date {
+  font-size: 14px;
+  opacity: 0.75;
+}
+
+.order-items {
+  margin-top: 18px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.order-item-details strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.order-item-details span {
+  font-size: 13px;
+  opacity: 0.75;
+}
+
+.order-item-price {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.order-summary {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+.order-total {
+  font-size: 18px;
+  color: #d4af37;
+  font-weight: 600;
+}
+
+.order-status-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.order-status,
+.payment-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.order-status {
+  background: rgba(212, 175, 55, 0.12);
+  color: #d4af37;
+}
+
+.payment-status {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.no-orders {
+  text-align: center;
+  padding: 35px 20px;
+  border: 1px dashed rgba(212, 175, 55, 0.35);
+  border-radius: 12px;
+  opacity: 0.8;
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width: 600px) {
+  .account-page {
+    padding: 40px 15px;
+  }
+
+  .order-card {
+    padding: 18px;
+  }
+
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .order-item {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .order-item-price {
+    text-align: left;
+  }
+
+  .order-summary {
+    justify-content: flex-start;
+  }
+}
