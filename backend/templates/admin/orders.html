@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Manage Orders | SMD Styles & Fashions</title>
+
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+
+    <style>
+      body {
+        background: #080808;
+        color: white;
+        font-family: Poppins, sans-serif;
+        margin: 0;
+      }
+
+      .admin-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 40px 20px;
+      }
+
+      .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+      }
+
+      .admin-header h1 {
+        color: var(--secondary-color);
+        margin: 0;
+      }
+
+      .admin-header p {
+        color: #aaa;
+        margin-top: 8px;
+      }
+
+      .admin-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .admin-top-btn {
+        display: inline-block;
+        padding: 12px 20px;
+        border-radius: 6px;
+        text-decoration: none;
+        color: #000;
+        background: #d4af37;
+        border: 1px solid #d4af37;
+        font-weight: 600;
+        transition: 0.25s ease;
+      }
+
+      .admin-top-btn:hover {
+        background: transparent;
+        color: #d4af37;
+      }
+
+      .orders-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .order-card {
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      .order-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: #181818;
+        border-bottom: 1px solid #333;
+      }
+
+      .order-number {
+        color: var(--secondary-color);
+        font-size: 18px;
+        font-weight: 600;
+      }
+
+      .order-date {
+        color: #999;
+        font-size: 13px;
+        margin-top: 5px;
+      }
+
+      .customer-details {
+        padding: 20px;
+        border-bottom: 1px solid #333;
+      }
+
+      .customer-details h3 {
+        margin-top: 0;
+        color: white;
+      }
+
+      .customer-details p {
+        margin: 6px 0;
+        color: #ccc;
+      }
+
+      .customer-details strong {
+        color: #ddd;
+      }
+
+      .order-items {
+        padding: 20px;
+        border-bottom: 1px solid #333;
+      }
+
+      .order-items h3 {
+        margin-top: 0;
+        color: var(--secondary-color);
+      }
+
+      .order-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 12px 0;
+        border-bottom: 1px solid #292929;
+      }
+
+      .order-item:last-child {
+        border-bottom: none;
+      }
+
+      .item-name {
+        color: white;
+        font-weight: 600;
+      }
+
+      .item-info {
+        color: #999;
+        font-size: 13px;
+        margin-top: 5px;
+      }
+
+      .item-price {
+        color: var(--secondary-color);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .order-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+      }
+
+      .order-total {
+        color: var(--secondary-color);
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .order-status-row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .order-status {
+        background: rgba(212, 175, 55, 0.12);
+        color: #d4af37;
+      }
+
+      .payment-status {
+        background: #222;
+        color: #ccc;
+      }
+
+      .empty-orders {
+        text-align: center;
+        color: #999;
+        padding: 50px;
+        background: #111;
+        border: 1px solid #333;
+        border-radius: 8px;
+      }
+
+      @media (max-width: 700px) {
+        .admin-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 20px;
+        }
+
+        .order-header,
+        .order-footer {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .order-item {
+          flex-direction: column;
+          gap: 8px;
+        }
+
+        .item-price {
+          text-align: left;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="admin-container">
+
+      <!-- Header -->
+
+      <div class="admin-header">
+
+        <div>
+          <h1>Manage Orders</h1>
+
+          <p>
+            View customer orders and order details.
+          </p>
+        </div>
+
+        <div class="admin-buttons">
+
+          <a
+            href="{{ url_for('main.admin_dashboard') }}"
+            class="admin-top-btn"
+          >
+            Dashboard
+          </a>
+
+          <a
+            href="{{ url_for('main.admin_products') }}"
+            class="admin-top-btn"
+          >
+            Products
+          </a>
+
+          <a
+            href="{{ url_for('main.admin_logout') }}"
+            class="admin-top-btn"
+          >
+            Logout
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <!-- Orders -->
+
+      {% if orders %}
+
+        <div class="orders-wrapper">
+
+          {% for order in orders %}
+
+            <div class="order-card">
+
+              <!-- Order Header -->
+
+              <div class="order-header">
+
+                <div>
+
+                  <div class="order-number">
+                    {{ order.order_number }}
+                  </div>
+
+                  <div class="order-date">
+                    {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                  </div>
+
+                </div>
+
+              </div>
+
+
+              <!-- Customer -->
+
+              <div class="customer-details">
+
+                <h3>Customer Details</h3>
+
+                <p>
+                  <strong>Name:</strong>
+                  {{ order.customer_name }}
+                </p>
+
+                <p>
+                  <strong>Email:</strong>
+                  {{ order.customer_email }}
+                </p>
+
+                <p>
+                  <strong>Phone:</strong>
+                  {{ order.customer_phone }}
+                </p>
+
+                <p>
+                  <strong>Delivery Address:</strong>
+                  {{ order.delivery_address }}
+                </p>
+
+              </div>
+
+
+              <!-- Items -->
+
+              <div class="order-items">
+
+                <h3>Ordered Items</h3>
+
+                {% for item in order.items %}
+
+                  <div class="order-item">
+
+                    <div>
+
+                      <div class="item-name">
+                        {{ item.product_name }}
+                      </div>
+
+                      <div class="item-info">
+
+                        Quantity:
+                        {{ item.quantity }}
+
+                        {% if item.size %}
+                          &nbsp; | &nbsp;
+                          Size: {{ item.size }}
+                        {% endif %}
+
+                      </div>
+
+                    </div>
+
+                    <div class="item-price">
+                      ₹{{ '%.0f'|format(item.subtotal) }}
+                    </div>
+
+                  </div>
+
+                {% endfor %}
+
+              </div>
+
+
+              <!-- Footer -->
+
+              <div class="order-footer">
+
+                <div>
+
+                  <div class="order-total">
+                    Total: ₹{{ '%.0f'|format(order.total_amount) }}
+                  </div>
+
+                  <div class="order-status-row">
+
+                    <span class="status-badge order-status">
+                      Order: {{ order.order_status }}
+                    </span>
+
+                    <span class="status-badge payment-status">
+                      Payment: {{ order.payment_status }}
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          {% endfor %}
+
+        </div>
+
+      {% else %}
+
+        <div class="empty-orders">
+          No orders found.
+        </div>
+
+      {% endif %}
+
+    </div>
+  </body>
+</html>

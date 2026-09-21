@@ -166,11 +166,17 @@
           <p style="color: #aaa; margin-top: 10px">Manage Products →</p>
         </a>
 
-        <div class="dashboard-card">
+        <a
+          href="{{ url_for('main.admin_orders') }}"
+          class="dashboard-card"
+          style="text-decoration: none; display: block"
+        >
           <h3>Orders</h3>
 
-          <div class="number">0</div>
-        </div>
+          <div class="number">{{ order_count }}</div>
+
+          <p style="color: #aaa; margin-top: 10px">View Orders →</p>
+        </a>
       </div>
 
       <!-- Admin Actions -->

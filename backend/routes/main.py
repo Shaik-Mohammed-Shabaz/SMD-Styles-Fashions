@@ -686,11 +686,13 @@ def admin_dashboard():
 
     message_count = Contact.query.count()
     product_count = Product.query.count()
+    order_count = Order.query.count()
 
     return render_template(
         "admin/dashboard.html",
         message_count=message_count,
-        product_count=product_count
+        product_count=product_count,
+        order_count=order_count
     )
 
 # ==========================
@@ -783,6 +785,24 @@ def admin_add_product():
 
     return render_template("admin/add_product.html")
 
+# ==========================
+# Admin Orders
+# ==========================
+
+@main.route("/admin/orders")
+def admin_orders():
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("main.admin_login"))
+
+    orders = Order.query.order_by(
+        Order.created_at.desc()
+    ).all()
+
+    return render_template(
+        "admin/orders.html",
+        orders=orders
+    )
 
 # ==========================
 # Admin Edit Product

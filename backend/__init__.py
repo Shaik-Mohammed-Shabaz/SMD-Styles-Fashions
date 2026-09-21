@@ -19,6 +19,8 @@ def create_app():
     from .models.product import Product
     from .models.wishlist import Wishlist
     from .models.password_reset_token import PasswordResetToken
+    from .models.order import Order
+    from .models.order_item import OrderItem
 
     from .routes.main import main
     app.register_blueprint(main)
