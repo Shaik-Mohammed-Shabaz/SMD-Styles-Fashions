@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -205,6 +205,76 @@
         border-radius: 8px;
       }
 
+      .order-update-form {
+        display: flex;
+        align-items: flex-end;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-top: 18px;
+        padding-top: 18px;
+        border-top: 1px solid #292929;
+      }
+
+      .status-control {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+      }
+
+      .status-control label {
+        color: #aaa;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .status-control select {
+        min-width: 150px;
+        padding: 10px 12px;
+        background: #181818;
+        color: white;
+        border: 1px solid #444;
+        border-radius: 6px;
+        outline: none;
+        font-family: inherit;
+      }
+
+      .status-control select:focus {
+        border-color: #d4af37;
+      }
+
+      .update-order-btn {
+        padding: 10px 18px;
+        background: #d4af37;
+        color: #000;
+        border: 1px solid #d4af37;
+        border-radius: 6px;
+        font-family: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.25s ease;
+      }
+
+      .update-order-btn:hover {
+        background: transparent;
+        color: #d4af37;
+      }
+
+      @media (max-width: 700px) {
+        .order-update-form {
+          width: 100%;
+          align-items: stretch;
+          flex-direction: column;
+        }
+
+        .status-control select {
+          width: 100%;
+        }
+
+        .update-order-btn {
+          width: 100%;
+        }
+      }
+
       @media (max-width: 700px) {
         .admin-header {
           flex-direction: column;
@@ -232,186 +302,200 @@
 
   <body>
     <div class="admin-container">
-
       <!-- Header -->
 
       <div class="admin-header">
-
         <div>
           <h1>Manage Orders</h1>
 
-          <p>
-            View customer orders and order details.
-          </p>
+          <p>View customer orders and order details.</p>
+
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+          {% endif %} {% endwith %}
         </div>
 
         <div class="admin-buttons">
-
-          <a
-            href="{{ url_for('main.admin_dashboard') }}"
-            class="admin-top-btn"
-          >
+          <a href="{{ url_for('main.admin_dashboard') }}" class="admin-top-btn">
             Dashboard
           </a>
 
-          <a
-            href="{{ url_for('main.admin_products') }}"
-            class="admin-top-btn"
-          >
+          <a href="{{ url_for('main.admin_products') }}" class="admin-top-btn">
             Products
           </a>
 
-          <a
-            href="{{ url_for('main.admin_logout') }}"
-            class="admin-top-btn"
-          >
+          <a href="{{ url_for('main.admin_logout') }}" class="admin-top-btn">
             Logout
           </a>
-
         </div>
-
       </div>
-
 
       <!-- Orders -->
 
       {% if orders %}
 
-        <div class="orders-wrapper">
+      <div class="orders-wrapper">
+        {% for order in orders %}
 
-          {% for order in orders %}
+        <div class="order-card">
+          <!-- Order Header -->
 
-            <div class="order-card">
+          <div class="order-header">
+            <div>
+              <div class="order-number">{{ order.order_number }}</div>
 
-              <!-- Order Header -->
+              <div class="order-date">
+                {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
+              </div>
+            </div>
+          </div>
 
-              <div class="order-header">
+          <!-- Customer -->
 
-                <div>
+          <div class="customer-details">
+            <h3>Customer Details</h3>
 
-                  <div class="order-number">
-                    {{ order.order_number }}
-                  </div>
+            <p>
+              <strong>Name:</strong>
+              {{ order.customer_name }}
+            </p>
 
-                  <div class="order-date">
-                    {{ order.created_at.strftime('%d %b %Y, %I:%M %p') }}
-                  </div>
+            <p>
+              <strong>Email:</strong>
+              {{ order.customer_email }}
+            </p>
 
+            <p>
+              <strong>Phone:</strong>
+              {{ order.customer_phone }}
+            </p>
+
+            <p>
+              <strong>Delivery Address:</strong>
+              {{ order.delivery_address }}
+            </p>
+          </div>
+
+          <!-- Items -->
+
+          <div class="order-items">
+            <h3>Ordered Items</h3>
+
+            {% for item in order.items %}
+
+            <div class="order-item">
+              <div>
+                <div class="item-name">{{ item.product_name }}</div>
+
+                <div class="item-info">
+                  Quantity: {{ item.quantity }} {% if item.size %} &nbsp; |
+                  &nbsp; Size: {{ item.size }} {% endif %}
                 </div>
-
               </div>
 
-
-              <!-- Customer -->
-
-              <div class="customer-details">
-
-                <h3>Customer Details</h3>
-
-                <p>
-                  <strong>Name:</strong>
-                  {{ order.customer_name }}
-                </p>
-
-                <p>
-                  <strong>Email:</strong>
-                  {{ order.customer_email }}
-                </p>
-
-                <p>
-                  <strong>Phone:</strong>
-                  {{ order.customer_phone }}
-                </p>
-
-                <p>
-                  <strong>Delivery Address:</strong>
-                  {{ order.delivery_address }}
-                </p>
-
+              <div class="item-price">
+                &#8377;{{ '%.0f'|format(item.subtotal) }}
               </div>
-
-
-              <!-- Items -->
-
-              <div class="order-items">
-
-                <h3>Ordered Items</h3>
-
-                {% for item in order.items %}
-
-                  <div class="order-item">
-
-                    <div>
-
-                      <div class="item-name">
-                        {{ item.product_name }}
-                      </div>
-
-                      <div class="item-info">
-
-                        Quantity:
-                        {{ item.quantity }}
-
-                        {% if item.size %}
-                          &nbsp; | &nbsp;
-                          Size: {{ item.size }}
-                        {% endif %}
-
-                      </div>
-
-                    </div>
-
-                    <div class="item-price">
-                      ₹{{ '%.0f'|format(item.subtotal) }}
-                    </div>
-
-                  </div>
-
-                {% endfor %}
-
-              </div>
-
-
-              <!-- Footer -->
-
-              <div class="order-footer">
-
-                <div>
-
-                  <div class="order-total">
-                    Total: ₹{{ '%.0f'|format(order.total_amount) }}
-                  </div>
-
-                  <div class="order-status-row">
-
-                    <span class="status-badge order-status">
-                      Order: {{ order.order_status }}
-                    </span>
-
-                    <span class="status-badge payment-status">
-                      Payment: {{ order.payment_status }}
-                    </span>
-
-                  </div>
-
-                </div>
-
-              </div>
-
             </div>
 
-          {% endfor %}
+            {% endfor %}
+          </div>
 
+          <!-- Footer -->
+
+          <div class="order-footer">
+            <div>
+              <div class="order-total">
+                Total: &#8377;{{ '%.0f'|format(order.total_amount) }}
+              </div>
+
+              <div class="order-status-row">
+                <span class="status-badge order-status">
+                  Order: {{ order.order_status }}
+                </span>
+
+                <span class="status-badge payment-status">
+                  Payment: {{ order.payment_status }}
+                </span>
+              </div>
+
+              <form
+                method="POST"
+                action="{{ url_for('main.admin_update_order', order_id=order.id) }}"
+                class="order-update-form"
+              >
+                <div class="status-control">
+                  <label for="order-status-{{ order.id }}">
+                    Order Status
+                  </label>
+
+                  <select
+                    id="order-status-{{ order.id }}"
+                    name="order_status"
+                    class="order-status-select"
+                    data-current="{{ order.order_status }}"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Shipped">Shipped</option>
+                    <option value="Delivered">Delivered</option>
+                    <option value="Cancelled">Cancelled</option>
+                  </select>
+                </div>
+
+                <div class="status-control">
+                  <label for="payment-status-{{ order.id }}">
+                    Payment Status
+                  </label>
+
+                  <select
+                    id="payment-status-{{ order.id }}"
+                    name="payment_status"
+                    class="payment-status-select"
+                    data-current="{{ order.payment_status }}"
+                  >
+                    <option value="Pending">Pending</option>
+                    <option value="Paid">Paid</option>
+                    <option value="Failed">Failed</option>
+                    <option value="Refunded">Refunded</option>
+                  </select>
+                </div>
+
+                <button type="submit" class="update-order-btn">
+                  Update Order
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
+
+        {% endfor %}
+      </div>
 
       {% else %}
 
-        <div class="empty-orders">
-          No orders found.
-        </div>
+      <div class="empty-orders">No orders found.</div>
 
       {% endif %}
-
     </div>
+
+    <script>
+      document
+        .querySelectorAll(".order-status-select")
+        .forEach(function (select) {
+          select.value = select.dataset.current;
+        });
+
+      document
+        .querySelectorAll(".payment-status-select")
+        .forEach(function (select) {
+          select.value = select.dataset.current;
+        });
+    </script>
   </body>
 </html>

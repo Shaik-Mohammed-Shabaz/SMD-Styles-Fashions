@@ -805,6 +805,59 @@ def admin_orders():
     )
 
 # ==========================
+# Admin Update Order Status
+# ==========================
+
+@main.route(
+    "/admin/orders/update/<int:order_id>",
+    methods=["POST"]
+)
+def admin_update_order(order_id):
+
+    if not session.get("admin_logged_in"):
+        return redirect(url_for("main.admin_login"))
+
+    order = Order.query.get_or_404(order_id)
+
+    order_status = request.form.get("order_status")
+    payment_status = request.form.get("payment_status")
+
+    allowed_order_statuses = {
+        "Pending",
+        "Confirmed",
+        "Shipped",
+        "Delivered",
+        "Cancelled"
+    }
+
+    allowed_payment_statuses = {
+        "Pending",
+        "Paid",
+        "Failed",
+        "Refunded"
+    }
+
+    if order_status not in allowed_order_statuses:
+        flash("Invalid order status.", "error")
+        return redirect(url_for("main.admin_orders"))
+
+    if payment_status not in allowed_payment_statuses:
+        flash("Invalid payment status.", "error")
+        return redirect(url_for("main.admin_orders"))
+
+    order.order_status = order_status
+    order.payment_status = payment_status
+
+    db.session.commit()
+
+    flash(
+        f"Order {order.order_number} updated successfully.",
+        "success"
+    )
+
+    return redirect(url_for("main.admin_orders"))
+
+# ==========================
 # Admin Edit Product
 # ==========================
 
