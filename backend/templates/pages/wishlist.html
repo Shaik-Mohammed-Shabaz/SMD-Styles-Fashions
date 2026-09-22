@@ -150,6 +150,7 @@
               <div class="product-buttons">
                 <button
                   class="cart-btn wishlist-cart-btn"
+                  data-product-id="{{ item.product.id }}"
                   data-name="{{ item.product.name }}"
                   data-price="{{ item.product.price }}"
                   data-image="{{ url_for('static', filename=item.product.image) }}"

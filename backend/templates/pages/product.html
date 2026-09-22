@@ -139,11 +139,21 @@
 </div>
 
             <div class="product-actions">
-              <button class="explore-btn" id="addToCartProduct">
-                Add to Cart
-              </button>
+              <button
+    class="explore-btn"
+    id="addToCartProduct"
+    data-product-id="{{ product.id }}"
+>
+    Add to Cart
+</button>
 
-              <button id="buyNowproduct" class="buy-btn">Buy Now</button>
+<button
+    id="buyNowproduct"
+    class="buy-btn"
+    data-product-id="{{ product.id }}"
+>
+    Buy Now
+</button>
             </div>
           </div>
         </div>

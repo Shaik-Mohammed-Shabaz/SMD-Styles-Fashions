@@ -21,13 +21,13 @@
 <body>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="flash-message {{ category }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="flash-message {{ category }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
     {% endwith %}
 
     <div class="loader" id="loader">
@@ -42,7 +42,7 @@
 
     <header>
 
-        <nav class="navbar">            
+        <nav class="navbar">
             <div class="logo">
                 <a href="{{ url_for('main.home') }}">
                     <h1>SMD Styles & Fashions</h1>
@@ -52,67 +52,67 @@
 
             <ul class="nav-links">
 
-    <li>
-        <a href="{{ url_for('main.home') }}">
-            Home
-        </a>
-    </li>
+                <li>
+                    <a href="{{ url_for('main.home') }}">
+                        Home
+                    </a>
+                </li>
 
-    <li>
-        <a href="{{ url_for('main.shop') }}" class="active">
-            Shop
-        </a>
-    </li>
+                <li>
+                    <a href="{{ url_for('main.shop') }}" class="active">
+                        Shop
+                    </a>
+                </li>
 
-    <li>
-        <a href="{{ url_for('main.about') }}">
-            About
-        </a>
-    </li>
+                <li>
+                    <a href="{{ url_for('main.about') }}">
+                        About
+                    </a>
+                </li>
 
-    <li>
-        <a href="#" id="cart-link">
-            🛒 Cart (<span id="cart-count">0</span>)
-        </a>
-    </li>
+                <li>
+                    <a href="#" id="cart-link">
+                        🛒 Cart (<span id="cart-count">0</span>)
+                    </a>
+                </li>
 
-    {% if session.get("user_id") %}
+                {% if session.get("user_id") %}
 
-<li>
-    <a href="{{ url_for('main.wishlist') }}">
-        ♡ Wishlist
-    </a>
-</li>
+                <li>
+                    <a href="{{ url_for('main.wishlist') }}">
+                        ♡ Wishlist
+                    </a>
+                </li>
 
-<li>
-    <a href="{{ url_for('main.account') }}">
-        Account
-    </a>
-</li>
+                <li>
+                    <a href="{{ url_for('main.account') }}">
+                        Account
+                    </a>
+                </li>
 
-{% endif %}
+                {% endif %}
 
-    <li>
-    <a href="{{ url_for('main.contact') }}">
-        Contact
-    </a>
-    </li>
+                <li>
+                    <a href="{{ url_for('main.contact') }}">
+                        Contact
+                    </a>
+                </li>
 
-    {% if session.get("user_id") %}
-    <li>
-    <a href="{{ url_for('main.logout') }}">
-        Logout
-    </a>
-    </li>
-    {% else %}
-    <li>
-    <a href="{{ url_for('main.login') }}">
-        Login
-    </a>
-    </li>
-    {% endif %}
+                {% if session.get("user_id") %}
+                <li>
+                    <a href="{{ url_for('main.logout') }}">
+                        Logout
+                    </a>
+                </li>
+                {% else %}
+                <li>
+                    <a href="{{ url_for('main.login') }}">
+                        Login
+                    </a>
+                </li>
+                {% endif %}
 
-</ul>
+            </ul>
             <div class="menu-toggle">
 
                 ☰
@@ -184,94 +184,76 @@
 
             </div>
 
-            <div class="product-grid">  
+            <div class="product-grid">
 
                 {% for product in products %}
 
-<div class="product-card" data-category="{{ product.category }}">
+                <div class="product-card" data-category="{{ product.category }}">
 
-    <div class="product-image">
+                    <div class="product-image">
 
-        {% if product.is_featured %}
-        <span class="discount-badge">Featured</span>
-        {% endif %}
+                        {% if product.is_featured %}
+                        <span class="discount-badge">Featured</span>
+                        {% endif %}
 
-        <span
-            class="wishlist {% if product.id in wishlist_product_ids %}active{% endif %}"
-            data-product-id="{{ product.id }}"
-        >
-            {% if product.id in wishlist_product_ids %}
-                ♥
-            {% else %}
-                ♡
-            {% endif %}
-        </span>
+                        <span class="wishlist {% if product.id in wishlist_product_ids %}active{% endif %}"
+                            data-product-id="{{ product.id }}">
+                            {% if product.id in wishlist_product_ids %}
+                            ♥
+                            {% else %}
+                            ♡
+                            {% endif %}
+                        </span>
 
-        <img
-            src="{{ url_for('static', filename=product.image) }}"
-            alt="{{ product.name }}"
-        >
+                        <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
 
-        <div class="image-overlay">
+                        <div class="image-overlay">
 
-            <button
-                class="quick-view"
-                data-image="{{ url_for('static', filename=product.image) }}"
-                data-name="{{ product.name }}"
-                data-price="₹{{ product.price }}"
-                data-description="{{ product.description }}"
-            >
-                Quick View
-            </button>
+                            <button class="quick-view" data-product-id="{{ product.id }}"
+                                data-image="{{ url_for('static', filename=product.image) }}"
+                                data-name="{{ product.name }}" data-price="₹{{ product.price }}"
+                                data-description="{{ product.description }}"> Quick View
+                            </button>
 
-        </div>
+                        </div>
 
-    </div>
+                    </div>
 
-    <h3>{{ product.name }}</h3>
+                    <h3>{{ product.name }}</h3>
 
-    <a
-        href="{{ url_for('main.product', product_id=product.id) }}"
-        class="view-details-btn"
-    >
-        View Details
-    </a>
+                    <a href="{{ url_for('main.product', product_id=product.id) }}" class="view-details-btn">
+                        View Details
+                    </a>
 
-    <div class="rating">
-        ★★★★★
-        <span>New</span>
-    </div>
+                    <div class="rating">
+                        ★★★★★
+                        <span>New</span>
+                    </div>
 
-    <p class="price">
-        ₹{{ "%.2f"|format(product.price) }}
-    </p>
+                    <p class="price">
+                        ₹{{ "%.2f"|format(product.price) }}
+                    </p>
 
-    <div class="product-buttons">
+                    <div class="product-buttons">
 
-        <button
-            class="cart-btn"
-            data-name="{{ product.name }}"
-            data-price="{{ product.price }}"
-            data-image="{{ url_for('static', filename=product.image) }}"
-        >
-            Add to Cart
-        </button>
+                        <button class="cart-btn" data-product-id="{{ product.id }}" data-name="{{ product.name }}"
+                            data-price="{{ product.price }}"
+                            data-image="{{ url_for('static', filename=product.image) }}">
+                            Add to Cart
+                        </button>
 
-        <button
-            class="buy-btn card-buy-now"
-            data-name="{{ product.name }}"
-            data-price="{{ product.price }}"
-            data-image="{{ url_for('static', filename=product.image) }}"
-        >
-            Buy Now
-        </button>
+                        <button class="buy-btn card-buy-now" data-name="{{ product.name }}"
+                            data-product-id="{{ product.id }}" data-price="{{ product.price }}"
+                            data-image="{{ url_for('static', filename=product.image) }}">
+                            Buy Now
+                        </button>
 
-    </div>
+                    </div>
 
-</div>
-
-{% endfor %}
                 </div>
+
+                {% endfor %}
+            </div>
 
             </div>
 
@@ -356,7 +338,7 @@
 
         </footer>
 
-       <!-- ==========================
+        <!-- ==========================
               Quick View Modal
          ========================== -->
 
@@ -422,57 +404,54 @@
      Buy Now Selection Modal
 =========================== -->
 
-<div class="modal buy-now-modal" id="buyNowModal">
-    <div class="modal-content buy-now-content">
-        <span class="close-buy-now">&times;</span>
+        <div class="modal buy-now-modal" id="buyNowModal">
+            <div class="modal-content buy-now-content">
+                <span class="close-buy-now">&times;</span>
 
-        <div class="buy-now-layout">
-            <div class="buy-now-image">
-                <img
-                    id="buyNowImage"
-                    src="{{ url_for('static', filename='images/products/Shirt.png') }}"
-                    alt="Product"
-                />
-            </div>
-
-            <div class="buy-now-details">
-                <span class="buy-now-label">QUICK PURCHASE</span>
-
-                <h2 id="buyNowTitle">Premium Oxford Shirt</h2>
-
-                <h3 id="buyNowPrice">₹599</h3>
-
-                <p class="buy-now-subtitle">
-                    Select your size and continue directly to checkout.
-                </p>
-
-                <div class="buy-now-size-section">
-                    <div class="size-heading">
-                        <strong>Select Size</strong>
-                        <span>Required</span>
+                <div class="buy-now-layout">
+                    <div class="buy-now-image">
+                        <img id="buyNowImage" src="{{ url_for('static', filename='images/products/Shirt.png') }}"
+                            alt="Product" />
                     </div>
 
-                    <div class="buy-now-sizes">
-                        <button class="buy-size-btn">S</button>
-                        <button class="buy-size-btn active">M</button>
-                        <button class="buy-size-btn">L</button>
-                        <button class="buy-size-btn">XL</button>
+                    <div class="buy-now-details">
+                        <span class="buy-now-label">QUICK PURCHASE</span>
+
+                        <h2 id="buyNowTitle">Premium Oxford Shirt</h2>
+
+                        <h3 id="buyNowPrice">₹599</h3>
+
+                        <p class="buy-now-subtitle">
+                            Select your size and continue directly to checkout.
+                        </p>
+
+                        <div class="buy-now-size-section">
+                            <div class="size-heading">
+                                <strong>Select Size</strong>
+                                <span>Required</span>
+                            </div>
+
+                            <div class="buy-now-sizes">
+                                <button class="buy-size-btn">S</button>
+                                <button class="buy-size-btn active">M</button>
+                                <button class="buy-size-btn">L</button>
+                                <button class="buy-size-btn">XL</button>
+                            </div>
+                        </div>
+
+                        <div class="buy-now-info">
+                            ✓ Secure checkout
+                            <span>•</span>
+                            ✓ Easy ordering
+                        </div>
+
+                        <button class="buy-now-confirm" id="confirmBuyNow">
+                            ⚡ Continue to Buy
+                        </button>
                     </div>
                 </div>
-
-                <div class="buy-now-info">
-                    ✓ Secure checkout
-                    <span>•</span>
-                    ✓ Easy ordering
-                </div>
-
-                <button class="buy-now-confirm" id="confirmBuyNow">
-                    ⚡ Continue to Buy
-                </button>
             </div>
         </div>
-    </div>
-</div>
 
         <div class="toast" id="toast">
 
